@@ -34,8 +34,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
-    role ENUM('admin', 'pendaftar') NOT NULL DEFAULT 'pendaftar',
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
 );
 
 -- Tabel Pendaftar
@@ -150,3 +149,13 @@ CREATE TABLE prestasi_lembaga (
     deskripsi TEXT NOT NULL,
     foto VARCHAR(255) NOT NULL
 );
+
+
+-- Tabel admin
+CREATE TABLE admin (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
