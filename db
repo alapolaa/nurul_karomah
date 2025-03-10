@@ -1,0 +1,152 @@
+-- Tabel Provinsi 
+CREATE TABLE provinsi (
+    provinsi_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_provinsi VARCHAR(100) NOT NULL UNIQUE
+);
+
+-- Tabel Kabupaten/Kota 
+CREATE TABLE kabupaten_kota (
+    kabupaten_id INT AUTO_INCREMENT PRIMARY KEY,
+    provinsi_id INT NOT NULL,
+    nama_kabupaten VARCHAR(100) NOT NULL UNIQUE,
+    FOREIGN KEY (provinsi_id) REFERENCES provinsi(provinsi_id) ON DELETE CASCADE
+);
+
+-- Tabel Kecamatan 
+CREATE TABLE kecamatan (
+    kecamatan_id INT AUTO_INCREMENT PRIMARY KEY,
+    kabupaten_id INT NOT NULL,
+    nama_kecamatan VARCHAR(100) NOT NULL UNIQUE,
+    FOREIGN KEY (kabupaten_id) REFERENCES kabupaten_kota(kabupaten_id) ON DELETE CASCADE
+);
+
+-- Tabel Kelurahan 
+CREATE TABLE kelurahan (
+    kelurahan_id INT AUTO_INCREMENT PRIMARY KEY,
+    kecamatan_id INT NOT NULL,
+    nama_kelurahan VARCHAR(100) NOT NULL UNIQUE,
+    FOREIGN KEY (kecamatan_id) REFERENCES kecamatan(kecamatan_id) ON DELETE CASCADE
+);
+
+-- Tabel Users
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    role ENUM('admin', 'pendaftar') NOT NULL DEFAULT 'pendaftar',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabel Pendaftar
+CREATE TABLE pendaftar (
+    pendaftar_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    nisn VARCHAR(20) NOT NULL UNIQUE,
+    nik VARCHAR(20) NOT NULL UNIQUE,
+    nama_lengkap VARCHAR(255) NOT NULL,
+    jenis_kelamin ENUM('Laki-laki', 'Perempuan') NOT NULL,
+    tempat_lahir VARCHAR(100) NOT NULL,
+    tanggal_lahir DATE NOT NULL,
+    alamat_lengkap TEXT NOT NULL,
+    provinsi_id INT NOT NULL,
+    kabupaten_id INT NOT NULL,
+    kecamatan_id INT NOT NULL,
+    kelurahan_id INT NOT NULL,
+    agama ENUM('Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu') NOT NULL,
+    no_telp VARCHAR(15) NOT NULL,
+    status ENUM('Pending', 'Diterima', 'Ditolak') DEFAULT 'Pending',
+    FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (provinsi_id) REFERENCES provinsi(provinsi_id) ON DELETE CASCADE,
+    FOREIGN KEY (kabupaten_id) REFERENCES kabupaten_kota(kabupaten_id) ON DELETE CASCADE,
+    FOREIGN KEY (kecamatan_id) REFERENCES kecamatan(kecamatan_id) ON DELETE CASCADE,
+    FOREIGN KEY (kelurahan_id) REFERENCES kelurahan(kelurahan_id) ON DELETE CASCADE
+);
+
+-- Tabel Orang Tua/Wali
+CREATE TABLE orang_tua_wali (
+    orang_tua_wali_id INT AUTO_INCREMENT PRIMARY KEY,
+    pendaftar_id INT NOT NULL,
+    nik_ayah VARCHAR(20) NOT NULL,
+    nama_ayah VARCHAR(255) NOT NULL,
+    pendidikan_ayah VARCHAR(50),
+    pekerjaan_ayah VARCHAR(100),
+    penghasilan_ayah DECIMAL(10,2),
+    no_telp_ayah VARCHAR(15),
+    nik_ibu VARCHAR(20) NOT NULL,
+    nama_ibu VARCHAR(255) NOT NULL,
+    pendidikan_ibu VARCHAR(50),
+    pekerjaan_ibu VARCHAR(100),
+    penghasilan_ibu DECIMAL(10,2),
+    no_telp_ibu VARCHAR(15),
+    nik_wali VARCHAR(20),
+    nama_wali VARCHAR(255),
+    pendidikan_wali VARCHAR(50),
+    pekerjaan_wali VARCHAR(100),
+    penghasilan_wali DECIMAL(10,2),
+    no_telp_wali VARCHAR(15),
+    FOREIGN KEY (pendaftar_id) REFERENCES pendaftar(pendaftar_id) ON DELETE CASCADE
+);
+
+-- Tabel Asal Sekolah
+CREATE TABLE asal_sekolah (
+    asal_sekolah_id INT AUTO_INCREMENT PRIMARY KEY,
+    pendaftar_id INT NOT NULL,
+    npsn VARCHAR(20) NOT NULL,
+    nama_sekolah VARCHAR(255) NOT NULL,
+    FOREIGN KEY (pendaftar_id) REFERENCES pendaftar(pendaftar_id) ON DELETE CASCADE
+);
+
+-- Tabel Berkas Pendaftaran
+CREATE TABLE berkas_pendaftaran (
+    berkas_pendaftaran_id INT AUTO_INCREMENT PRIMARY KEY,
+    pendaftar_id INT NOT NULL,
+    pas_foto VARCHAR(255) NOT NULL,
+    ijazah_depan VARCHAR(255) NOT NULL,
+    ijazah_belakang VARCHAR(255) NOT NULL,
+    FOREIGN KEY (pendaftar_id) REFERENCES pendaftar(pendaftar_id) ON DELETE CASCADE
+);
+
+-- Tabel Jadwal Pendaftaran
+CREATE TABLE jadwal_pendaftaran (
+    jadwal_pendaftaran_id INT AUTO_INCREMENT PRIMARY KEY,
+    jenjang ENUM('MI', 'MTs', 'MA') NOT NULL,
+    tanggal_mulai DATE NOT NULL,
+    tanggal_selesai DATE NOT NULL,
+    jumlah_siswa INT NOT NULL
+);
+
+-- Tabel Guru
+CREATE TABLE guru (
+    guru_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(255) NOT NULL,
+    jabatan VARCHAR(100) NOT NULL,
+    foto VARCHAR(255) NOT NULL
+);
+
+-- Tabel Mata Pelajaran
+CREATE TABLE mata_pelajaran (
+    mata_pelajaran_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_mapel VARCHAR(255) NOT NULL,
+    guru_id INT NOT NULL,
+    FOREIGN KEY (guru_id) REFERENCES guru(guru_id) ON DELETE CASCADE
+);
+
+-- Tabel Kegiatan Lembaga
+CREATE TABLE kegiatan_lembaga (
+    kegiatan_lembaga_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_kegiatan VARCHAR(255) NOT NULL,
+    tanggal DATE NOT NULL,
+    deskripsi TEXT NOT NULL,
+    foto VARCHAR(255) NOT NULL
+);
+
+-- Tabel Prestasi Lembaga
+CREATE TABLE prestasi_lembaga (
+    prestasi_lembaga_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama_prestasi VARCHAR(255) NOT NULL,
+    tingkat ENUM('Kabupaten', 'Provinsi', 'Nasional', 'Internasional') NOT NULL,
+    tahun YEAR NOT NULL,
+    deskripsi TEXT NOT NULL,
+    foto VARCHAR(255) NOT NULL
+);
