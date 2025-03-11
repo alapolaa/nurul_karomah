@@ -70,12 +70,12 @@
         document.getElementById('dashboard').style.display = 'block';
         document.getElementById('menu-dashboard').classList.add('active');
 
-        document.querySelectorAll('#sidebar a[id^="menu-"]').forEach(link => { // Perubahan di sini
+        document.querySelectorAll('#sidebar a[id^="menu-"]').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 document.querySelectorAll('#content > *').forEach(page => page.style.display = 'none');
                 document.getElementById(this.id.replace('menu-', '')).style.display = 'block';
-                document.querySelectorAll('#sidebar a[id^="menu-"]').forEach(a => a.classList.remove('active')); // Perubahan di sini
+                document.querySelectorAll('#sidebar a[id^="menu-"]').forEach(a => a.classList.remove('active'));
                 this.classList.add('active');
             });
         });
