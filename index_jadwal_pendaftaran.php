@@ -3,6 +3,7 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
 include 'config.php';
 
 // Fungsi untuk menentukan status pendaftaran
@@ -29,7 +30,7 @@ if (!$result) {
 <html>
 
 <head>
-    <title>Jadwal Pendaftaran CRUD</title>
+    <title>Jadwal Pendaftaran</title>
 </head>
 
 <body>
@@ -59,7 +60,12 @@ if (!$result) {
                     echo "<td>" . $row["jumlah_siswa"] . "</td>";
                     echo "<td>";
                     if ($status == "Buka") {
-                        echo "<a href='daftar.php?id=" . $row["jadwal_pendaftaran_id"] . "'>" . $status . "</a>";
+                        // Cek apakah user sudah login
+                        if (isset($_SESSION['user_id'])) {
+                            echo "<a href='pendaftaran.php?id=" . $row["jadwal_pendaftaran_id"] . "'>" . $status . "</a>";
+                        } else {
+                            echo $status; // Tampilkan status saja jika belum login
+                        }
                     } else {
                         echo $status;
                     }
@@ -92,11 +98,8 @@ if (!$result) {
         <input type="number" name="jumlah_siswa" required><br>
         <input type="submit" value="Tambah">
     </form>
-
 </body>
 
 </html>
 
-<?php
-$conn->close();
-?>
+<?php $conn->close(); ?>
