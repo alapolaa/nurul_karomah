@@ -1,17 +1,16 @@
 <?php
 session_start();
-include 'config.php';
+include '../../config/config.php';
 
-// Cek apakah pengguna sudah login
+
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect ke halaman login jika belum login
+    header("Location: login.php");
     exit();
 }
 
-// Ambil user_id dari session
+
 $user_id = $_SESSION['user_id'];
 
-// Fetch data provinsi, kabupaten/kota, kecamatan, desa/kelurahan
 $provinceSql = "SELECT id, name FROM provinces";
 $provinceResult = $conn->query($provinceSql);
 
@@ -35,7 +34,7 @@ $villageResult = $conn->query($villageSql);
 
 <body>
     <h2>Form Pendaftaran</h2>
-    <form action="create_pendaftaran.php" method="post">
+    <form action="../../user/pendaftaran/create_pendaftaran.php" method="post">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
 
         <label>NISN:</label>

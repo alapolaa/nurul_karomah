@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+include '../../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST["user_id"];
@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telp, province_id, regency_id, district_id, village_id) VALUES ('$user_id', '$nisn', '$nik', '$nama_lengkap', '$jenis_kelamin', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$agama', '$no_telp', '$province_id', '$regency_id', '$district_id', '$village_id')";
 
     if ($conn->query($sql) === TRUE) {
-        $pendaftar_id = $conn->insert_id; // Mendapatkan pendaftar_id yang baru dibuat
-        $_SESSION['pendaftar_id'] = $pendaftar_id; // Simpan pendaftar_id di session
-        header("Location: index_orang_tua_wali.php");
+        $pendaftar_id = $conn->insert_id;
+        $_SESSION['pendaftar_id'] = $pendaftar_id;
+        header("Location: ../../user/pendaftaran/data_orang_tua/data_orang_tua.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

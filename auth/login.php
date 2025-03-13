@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+include '../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST["email"];
@@ -17,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         $_SESSION['user_id'] = $user_id;
         echo "Login berhasil! Selamat datang.";
-        header("Location: index_jadwal_pendaftaran.php");
+        header("Location: ../user/jadwal/jadwal_pendaftaran.php");
         exit();
     } else {
         echo "Email atau password salah.";
