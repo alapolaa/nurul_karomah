@@ -3,7 +3,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
 include 'config.php';
+
+// Pastikan pendaftar_id ada di session
+if (!isset($_SESSION['pendaftar_id'])) {
+    header("Location: pendaftaran.php"); // Redirect jika pendaftar_id tidak ada
+    exit();
+}
+
+$pendaftar_id = $_SESSION['pendaftar_id'];
 
 // Fetch data from berkas_pendaftaran table
 $sql = "SELECT bp.*, p.nama_lengkap FROM berkas_pendaftaran bp JOIN pendaftar p ON bp.pendaftar_id = p.pendaftar_id";
@@ -56,22 +65,13 @@ if (!$result) {
 
     <h2>Tambah Berkas Pendaftaran</h2>
     <form action="create_berkas_pendaftaran.php" method="post" enctype="multipart/form-data">
-        <label>Pendaftar ID:</label>
-        <select name="pendaftar_id" required>
-            <?php
-            $pendaftarSql = "SELECT pendaftar_id, nama_lengkap FROM pendaftar";
-            $pendaftarResult = $conn->query($pendaftarSql);
-            while ($pendaftarRow = $pendaftarResult->fetch_assoc()) {
-                echo "<option value='" . $pendaftarRow["pendaftar_id"] . "'>" . $pendaftarRow["nama_lengkap"] . "</option>";
-            }
-            ?>
-        </select><br>
         <label>Pas Foto:</label>
         <input type="file" name="pas_foto" accept="image/*" required><br>
         <label>Ijazah Depan:</label>
         <input type="file" name="ijazah_depan" accept="image/*" required><br>
         <label>Ijazah Belakang:</label>
         <input type="file" name="ijazah_belakang" accept="image/*" required><br>
+        <input type="hidden" name="pendaftar_id" value="<?php echo $pendaftar_id; ?>">
         <input type="submit" value="Tambah">
     </form>
 

@@ -3,7 +3,16 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+session_start();
 include 'config.php';
+
+// Pastikan pendaftar_id ada di session
+if (!isset($_SESSION['pendaftar_id'])) {
+    header("Location: pendaftaran.php"); // Redirect jika pendaftar_id tidak ada
+    exit();
+}
+
+$pendaftar_id = $_SESSION['pendaftar_id'];
 
 // Fetch data from asal_sekolah table
 $sql = "SELECT a.*, p.nama_lengkap FROM asal_sekolah a JOIN pendaftar p ON a.pendaftar_id = p.pendaftar_id";
@@ -54,20 +63,11 @@ if (!$result) {
 
     <h2>Tambah Asal Sekolah</h2>
     <form action="create_asal_sekolah.php" method="post">
-        <label>Pendaftar ID:</label>
-        <select name="pendaftar_id" required>
-            <?php
-            $pendaftarSql = "SELECT pendaftar_id, nama_lengkap FROM pendaftar";
-            $pendaftarResult = $conn->query($pendaftarSql);
-            while ($pendaftarRow = $pendaftarResult->fetch_assoc()) {
-                echo "<option value='" . $pendaftarRow["pendaftar_id"] . "'>" . $pendaftarRow["nama_lengkap"] . "</option>";
-            }
-            ?>
-        </select><br>
         <label>NPSN:</label>
         <input type="text" name="npsn" required><br>
         <label>Nama Sekolah:</label>
         <input type="text" name="nama_sekolah" required><br>
+        <input type="hidden" name="pendaftar_id" value="<?php echo $pendaftar_id; ?>">
         <input type="submit" value="Tambah">
     </form>
 

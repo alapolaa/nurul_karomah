@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO berkas_pendaftaran (pendaftar_id, pas_foto, ijazah_depan, ijazah_belakang) VALUES ('$pendaftar_id', '$pas_foto_name', '$ijazah_depan_name', '$ijazah_belakang_name')";
 
     if ($conn->query($sql) === TRUE) {
-        header("Location: index_berkas_pendaftaran.php");
+        header("Location: siswa.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

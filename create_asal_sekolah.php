@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO asal_sekolah (pendaftar_id, npsn, nama_sekolah) VALUES ('$pendaftar_id', '$npsn', '$nama_sekolah')";
 
     if ($conn->query($sql) === TRUE) {
-        header("Location: index_asal_sekolah.php"); // Redirect back to index.php
+        header("Location: index_berkas_pendaftaran.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }

@@ -8,9 +8,8 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Ambil user_id dan jadwal_pendaftaran_id dari session
+// Ambil user_id dari session
 $user_id = $_SESSION['user_id'];
-$jadwal_pendaftaran_id = isset($_GET['id']) ? $_GET['id'] : (isset($_SESSION['jadwal_pendaftaran_id']) ? $_SESSION['jadwal_pendaftaran_id'] : null);
 
 // Fetch data provinsi, kabupaten/kota, kecamatan, desa/kelurahan
 $provinceSql = "SELECT id, name FROM provinces";
@@ -25,10 +24,6 @@ $districtResult = $conn->query($districtSql);
 $villageSql = "SELECT id, name FROM villages";
 $villageResult = $conn->query($villageSql);
 
-// Fetch data jadwal pendaftaran
-$jadwalSql = "SELECT jadwal_pendaftaran_id FROM jadwal_pendaftaran";
-$jadwalResult = $conn->query($jadwalSql);
-
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +37,6 @@ $jadwalResult = $conn->query($jadwalSql);
     <h2>Form Pendaftaran</h2>
     <form action="create_pendaftaran.php" method="post">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
-        <input type="hidden" name="jadwal_pendaftaran_id" value="<?php echo $jadwal_pendaftaran_id; ?>">
 
         <label>NISN:</label>
         <input type="text" name="nisn" required><br>
