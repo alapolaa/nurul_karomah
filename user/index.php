@@ -2,82 +2,122 @@
 session_start();
 include '../config/config.php';
 
-// Pastikan pendaftar_id ada di session
-if (!isset($_SESSION['pendaftar_id'])) {
-    header("Location: pendaftaran.php"); // Redirect jika pendaftar_id tidak ada
+// Cek apakah pengguna sudah login
+if (!isset($_SESSION['user_id'])) {
+    // Jika belum login, arahkan ke halaman login
+    header("Location: ../auth/login.php");
     exit();
 }
 
-$pendaftar_id = $_SESSION['pendaftar_id'];
+$user_id = $_SESSION['user_id'];
 
-// Ambil data pendaftar
-$pendaftarSql = "SELECT * FROM pendaftar WHERE pendaftar_id = '$pendaftar_id'";
-$pendaftarResult = $conn->query($pendaftarSql);
-$pendaftar = $pendaftarResult->fetch_assoc();
+// Ambil status pendaftaran dari database
+$sql = "SELECT status FROM pendaftar WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-// Ambil data orang tua/wali
-$ortuSql = "SELECT * FROM orang_tua_wali WHERE pendaftar_id = '$pendaftar_id'";
-$ortuResult = $conn->query($ortuSql);
-$ortu = $ortuResult->fetch_assoc();
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $status = $row['status'];
+} else {
+    $status = ''; // Status kosong jika tidak ditemukan
+}
 
-// Ambil data asal sekolah
-$asalSekolahSql = "SELECT * FROM asal_sekolah WHERE pendaftar_id = '$pendaftar_id'";
-$asalSekolahResult = $conn->query($asalSekolahSql);
-$asalSekolah = $asalSekolahResult->fetch_assoc();
-
-// Ambil data berkas pendaftaran
-$berkasSql = "SELECT * FROM berkas_pendaftaran WHERE pendaftar_id = '$pendaftar_id'";
-$berkasResult = $conn->query($berkasSql);
-$berkas = $berkasResult->fetch_assoc();
+$stmt->close();
+$conn->close();
 ?>
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    <title>Data Siswa</title>
+    <title>Halaman Utama - Pendaftaran Sekolah</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #007bff;
+        }
+
+        .status-message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .pending {
+            background-color: #f0f8ff;
+            border: 1px solid #add8e6;
+            color: #00008b;
+        }
+
+        .diterima {
+            background-color: #e6ffe6;
+            border: 1px solid #aaffaa;
+            color: #006400;
+        }
+
+        .ditolak {
+            background-color: #ffe6e6;
+            border: 1px solid #ffaaaa;
+            color: #8b0000;
+        }
+
+        .download-button {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .logout-link {
+            margin-top: 30px;
+        }
+    </style>
 </head>
 
 <body>
-    <h2>Data Pendaftar</h2>
-    <p>Nama: <?php echo $pendaftar['nama_lengkap']; ?></p>
-    <p>NISN: <?php echo $pendaftar['nisn']; ?></p>
-    <p>NIK: <?php echo $pendaftar['nik']; ?></p>
-    <p>Jenis Kelamin: <?php echo $pendaftar['jenis_kelamin']; ?></p>
-    <p>Tempat Lahir: <?php echo $pendaftar['tempat_lahir']; ?></p>
-    <p>Tanggal Lahir: <?php echo $pendaftar['tanggal_lahir']; ?></p>
-    <p>Alamat: <?php echo $pendaftar['alamat_lengkap']; ?></p>
-    <p>Agama: <?php echo $pendaftar['agama']; ?></p>
-    <p>Nomor Telpon: <?php echo $pendaftar['no_telp']; ?></p>
-    <p>Status: <?php echo $pendaftar['status']; ?></p>
-    <p>NIK: <?php echo $pendaftar['nik']; ?></p>
-    <p>Provinsi: <?php echo $pendaftar['province_id']; ?></p>
-    <p>Kabupaten/Kota: <?php echo $pendaftar['regency_id']; ?></p>
-    <p>Kecamatan: <?php echo $pendaftar['district_id']; ?></p>
-    <p>Keluarah/Desa: <?php echo $pendaftar['village_id']; ?></p>
-    <p>...</p>
+    <h1>Selamat Datang di Lembaga Sekolah</h1>
+    <a href="../user/jadwal/jadwal_pendaftaran.php">Lihat jadwal pendaftaran</a>
+    <?php if ($status == 'Pending') : ?>
+        <div class="status-message pending">
+            <p>Pendaftaran Anda sedang kami proses.</p>
+        </div>
+    <?php elseif ($status == 'Diterima') : ?>
+        <div class="status-message diterima">
+            <p>Selamat! Pendaftaran Anda telah diterima.</p>
+        </div>
+        <div class="download-button">
+            <a href="../download.php?status=<?php echo urlencode($status); ?>" target="_blank">
+                <button>Unduh Biodata PDF</button>
+            </a>
+        </div>
+    <?php elseif ($status == 'Ditolak') : ?>
+        <div class="status-message ditolak">
+            <p>Maaf, pendaftaran Anda ditolak.</p>
+        </div>
 
-    <h2>Data Orang Tua/Wali</h2>
-    <p>Nama Ayah: <?php echo $ortu['nama_ayah']; ?></p>
-    <p>NIK Ayah: <?php echo $ortu['nik_ayah']; ?></p>
-    <p>Nama Ibu: <?php echo $ortu['nama_ibu']; ?></p>
-    <p>NIK Ibu: <?php echo $ortu['nik_ibu']; ?></p>
-    <p>...</p>
+    <?php endif; ?>
 
-    <h2>Data Asal Sekolah</h2>
-    <p>NPSN: <?php echo $asalSekolah['npsn']; ?></p>
-    <p>Nama Sekolah: <?php echo $asalSekolah['nama_sekolah']; ?></p>
-    <p>...</p>
-
-    <h2>Data Berkas Pendaftaran</h2>
-    <p>Pas Foto: <a href="../user/pendaftaran/berkas/<?php echo $berkas['pas_foto']; ?>" target="_blank">Lihat</a></p>
-    <p>Ijazah Depan: <a href="../user/pendaftaran/berkas/<?php echo $berkas['ijazah_depan']; ?>" target="_blank">Lihat</a></p>
-    <p>Ijazah Belakang: <a href="../user/pendaftaran/berkas/<?php echo $berkas['ijazah_belakang']; ?>" target="_blank">Lihat</a></p>
-    <p>...</p>
-    <a href="../auth/login.php">logout</a>
-
+    <div class="logout-link">
+        <a href="../auth/login.php">Logout</a>
+    </div>
 </body>
 
 </html>
-
-<?php $conn->close(); ?>
