@@ -5,14 +5,13 @@ session_start();
 include 'config/config.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: auth/login.php");
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
-// Ambil data pendaftar dari database
 $sql = "SELECT * FROM pendaftar WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
@@ -42,6 +41,10 @@ if ($result->num_rows > 0) {
         <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
         <p>NISN: ' . $pendaftar['nisn'] . '</p>
         <p>NIK: ' . $pendaftar['nik'] . '</p>
+        <p>Tempat, Tanggal Lahir: ' . $pendaftar['tempat_lahir'] . ', ' . $pendaftar['tanggal_lahir'] . '</p>
+        <p>Alamat: ' . $pendaftar['alamat_lengkap'] . '</p>
+        <p>Agama: ' . $pendaftar['agama'] . '</p>
+        <p>No. Telp: ' . $pendaftar['no_telp'] . '</p>
         <p>Status: Diterima</p>
         ';
     } elseif ($status == 'Ditolak') {
@@ -51,6 +54,10 @@ if ($result->num_rows > 0) {
         <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
         <p>NISN: ' . $pendaftar['nisn'] . '</p>
         <p>NIK: ' . $pendaftar['nik'] . '</p>
+        <p>Tempat, Tanggal Lahir: ' . $pendaftar['tempat_lahir'] . ', ' . $pendaftar['tanggal_lahir'] . '</p>
+        <p>Alamat: ' . $pendaftar['alamat_lengkap'] . '</p>
+        <p>Agama: ' . $pendaftar['agama'] . '</p>
+        <p>No. Telp: ' . $pendaftar['no_telp'] . '</p>
         <p>Status: Ditolak</p>
         <p>Alasan: [Alasan Penolakan]</p>
         ';
@@ -60,7 +67,7 @@ if ($result->num_rows > 0) {
     }
 
     $pdf->writeHTML($html, true, false, true, false, '');
-    $pdf->Output('pendaftaran.pdf', 'D');
+    $pdf->Output('biodata_pendaftaran.pdf', 'D');
 } else {
     echo "Data pendaftar tidak ditemukan.";
 }

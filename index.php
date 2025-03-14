@@ -3,13 +3,13 @@ session_start();
 include 'config/config.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: auth/login.php");
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
 
-// Ambil status pendaftaran dari database
+
 $sql = "SELECT status FROM pendaftar WHERE user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
@@ -20,7 +20,7 @@ if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $status = $row['status'];
 } else {
-    $status = 'Pending'; // Status default jika tidak ditemukan
+    $status = 'Pending';
 }
 
 $stmt->close();
