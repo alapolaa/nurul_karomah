@@ -2,14 +2,13 @@
 session_start();
 include '../../config/config.php';
 
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-
 $user_id = $_SESSION['user_id'];
+$jadwal_id = isset($_GET['jadwal_id']) ? $_GET['jadwal_id'] : null; // Ambil jadwal_id dari URL
 
 $provinceSql = "SELECT id, name FROM provinces";
 $provinceResult = $conn->query($provinceSql);
@@ -36,6 +35,7 @@ $villageResult = $conn->query($villageSql);
     <h2>Form Pendaftaran</h2>
     <form action="../../user/pendaftaran/create_pendaftaran.php" method="post">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <input type="hidden" name="jadwal_id" value="<?php echo $jadwal_id; ?>">
 
         <label>NISN:</label>
         <input type="text" name="nisn" required><br>

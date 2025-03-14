@@ -10,7 +10,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-
 function getStatusPendaftaran($tanggal_selesai)
 {
     $tanggal_sekarang = date("Y-m-d");
@@ -20,7 +19,6 @@ function getStatusPendaftaran($tanggal_selesai)
         return "Tutup";
     }
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $jenjang = $_POST["jenjang"];
@@ -37,7 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
 }
-
 
 $sql = "SELECT * FROM jadwal_pendaftaran";
 $result = $conn->query($sql);
@@ -81,9 +78,8 @@ if (!$result) {
                     echo "<td>" . $row["jumlah_siswa"] . "</td>";
                     echo "<td>";
                     if ($status == "Buka") {
-
                         if (isset($_SESSION['user_id'])) {
-                            echo "<a href='../../user/pendaftaran/pendaftaran.php?id=" . $row["jadwal_pendaftaran_id"] . "'>" . $status . "</a>";
+                            echo "<a href='../../user/pendaftaran/pendaftaran.php?jadwal_id=" . $row["jadwal_pendaftaran_id"] . "'>" . $status . "</a>";
                         } else {
                             echo $status;
                         }
@@ -102,7 +98,6 @@ if (!$result) {
             ?>
         </tbody>
     </table>
-
 </body>
 
 </html>

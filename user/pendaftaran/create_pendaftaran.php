@@ -4,6 +4,7 @@ include '../../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST["user_id"];
+    $jadwal_id = $_POST["jadwal_id"]; // Ambil jadwal_id dari POST data
 
     // Periksa apakah pendaftar dengan user_id ini sudah ada
     $checkSql = "SELECT pendaftar_id FROM pendaftar WHERE user_id = ?";
@@ -35,9 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $district_id = $_POST["district_id"];
     $village_id = $_POST["village_id"];
 
-    $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telp, province_id, regency_id, district_id, village_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Tambahkan jadwal_id ke query INSERT
+    $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telp, province_id, regency_id, district_id, village_id, jadwal_pendaftaran_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isssssssssiiii", $user_id, $nisn, $nik, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $alamat_lengkap, $agama, $no_telp, $province_id, $regency_id, $district_id, $village_id);
+    $stmt->bind_param("isssssssssiiiii", $user_id, $nisn, $nik, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $alamat_lengkap, $agama, $no_telp, $province_id, $regency_id, $district_id, $village_id, $jadwal_id);
 
     if ($stmt->execute()) {
         $pendaftar_id = $stmt->insert_id;
