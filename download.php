@@ -1,38 +1,69 @@
 <?php
 require_once('vendor/autoload.php');
 
+session_start();
+include 'config/config.php';
 
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
 
+$user_id = $_SESSION['user_id'];
+$status = isset($_GET['status']) ? $_GET['status'] : '';
 
-$pdf->SetCreator(PDF_CREATOR);
-$pdf->SetAuthor('Nama Anda');
-$pdf->SetTitle('Biodata Pendaftaran Sekolah');
-$pdf->SetSubject('Biodata Pendaftaran');
-$pdf->SetKeywords('Biodata, Pendaftaran, Sekolah');
+// Ambil data pendaftar dari database
+$sql = "SELECT * FROM pendaftar WHERE user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
-$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+if ($result->num_rows > 0) {
+    $pendaftar = $result->fetch_assoc();
 
+    $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+    $pdf->SetCreator(PDF_CREATOR);
+    $pdf->SetAuthor('Nama Anda');
+    $pdf->SetTitle('Biodata Pendaftaran Sekolah');
+    $pdf->SetSubject('Biodata Pendaftaran');
+    $pdf->SetKeywords('Biodata, Pendaftaran, Sekolah');
+    $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+    $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+    $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+    $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+    $pdf->AddPage();
 
-$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+    if ($status == 'Diterima') {
+        $html = '
+        <h1>Biodata Pendaftaran Sekolah - Diterima</h1>
+        <p>Selamat, pendaftaran Anda diterima!</p>
+        <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
+        <p>NISN: ' . $pendaftar['nisn'] . '</p>
+        <p>NIK: ' . $pendaftar['nik'] . '</p>
+        <p>Status: Diterima</p>
+        ';
+    } elseif ($status == 'Ditolak') {
+        $html = '
+        <h1>Biodata Pendaftaran Sekolah - Ditolak</h1>
+        <p>Mohon maaf, pendaftaran Anda ditolak.</p>
+        <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
+        <p>NISN: ' . $pendaftar['nisn'] . '</p>
+        <p>NIK: ' . $pendaftar['nik'] . '</p>
+        <p>Status: Ditolak</p>
+        <p>Alasan: [Alasan Penolakan]</p>
+        ';
+    } else {
+        echo "Status tidak valid.";
+        exit();
+    }
 
+    $pdf->writeHTML($html, true, false, true, false, '');
+    $pdf->Output('pendaftaran.pdf', 'D');
+} else {
+    echo "Data pendaftar tidak ditemukan.";
+}
 
-$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-
-$pdf->AddPage();
-
-$html = '
-<h1>Biodata Pendaftaran Sekolah</h1>
-<p>Nama Lengkap: John Doe</p>
-<p>Tempat, Tanggal Lahir: Jakarta, 1 Januari 2000</p>
-<p>Alamat: Jl. Contoh No. 123</p>
-<p>Nomor Telepon: 081234567890</p>
-<p>Asal Sekolah: SMA Contoh</p>
-';
-
-$pdf->writeHTML($html, true, false, true, false, '');
-
-$pdf->Output('biodata_pendaftaran.pdf', 'D');
+$stmt->close();
+$conn->close();
