@@ -1,131 +1,312 @@
 <?php
-session_start();
 include 'config/config.php';
 
-// Cek apakah pengguna sudah login
-if (!isset($_SESSION['user_id'])) {
-    // Jika belum login, arahkan ke halaman login
-    header("Location: ../auth/login.php");
-    exit();
-}
+$sql_sejarah = "SELECT * FROM sejarah";
+$result_sejarah = $conn->query($sql_sejarah);
 
-$user_id = $_SESSION['user_id'];
+$sql_fasilitas = "SELECT * FROM fasilitas";
+$result_fasilitas = $conn->query($sql_fasilitas);
 
-// Ambil status pendaftaran dari database
-$sql = "SELECT status FROM pendaftar WHERE user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$sql_galeri = "SELECT * FROM galeri";
+$result_galeri = $conn->query($sql_galeri);
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $status = $row['status'];
-} else {
-    $status = 'Pending'; // Default status jika tidak ditemukan
-}
+$sql_visi = "SELECT * FROM visi";
+$result_visi = $conn->query($sql_visi);
 
-$stmt->close();
-$conn->close();
+$sql_misi = "SELECT * FROM misi";
+$result_misi = $conn->query($sql_misi);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Halaman Utama - Pendaftaran Sekolah</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            text-align: center;
-        }
+    <meta charset="utf-8">
+    <title>Nurul Karomah</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
 
-        h1 {
-            color: #007bff;
-        }
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-        .status-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-        }
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Nunito&display=swap" rel="stylesheet">
 
-        .pending {
-            background-color: #f0f8ff;
-            border: 1px solid #add8e6;
-            color: #00008b;
-        }
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-        .diterima {
-            background-color: #e6ffe6;
-            border: 1px solid #aaffaa;
-            color: #006400;
-        }
+    <!-- Flaticon Font -->
+    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
 
-        .ditolak {
-            background-color: #ffe6e6;
-            border: 1px solid #ffaaaa;
-            color: #8b0000;
-        }
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-        .download-button {
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .logout-link {
-            margin-top: 30px;
-        }
-    </style>
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
 </head>
 
+
 <body>
-    <h1>Selamat Datang di Lembaga Sekolah</h1>
-
-    <?php if ($status == 'Pending') : ?>
-        <div class="status-message pending">
-            <p>Pendaftaran Anda sedang kami proses.</p>
-        </div>
-    <?php elseif ($status == 'Diterima') : ?>
-        <div class="status-message diterima">
-            <p>Selamat! Pendaftaran Anda telah diterima.</p>
-        </div>
-        <div class="download-button">
-            <a href="download.php?status=<?php echo urlencode($status); ?>" target="_blank">
-                <button>Unduh Biodata PDF</button>
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-light position-relative shadow">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
+            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px;">
+                <i class="flaticon-043-teddy-bear"></i>
+                <span class="text-primary">Nurul Karomah</span>
             </a>
-        </div>
-    <?php elseif ($status == 'Ditolak') : ?>
-        <div class="status-message ditolak">
-            <p>Maaf, pendaftaran Anda ditolak.</p>
-        </div>
-        <div class="download-button">
-            <a href="download.php?status=<?php echo urlencode($status); ?>" target="_blank">
-                <button>Unduh Biodata PDF</button>
-            </a>
-        </div>
-    <?php else : ?>
-        <div class="status-message">
-            <p>Status pendaftaran Anda: <?php echo $status; ?></p>
-        </div>
-    <?php endif; ?>
-
-    <div class="logout-link">
-        <a href="../auth/login.php">Logout</a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav font-weight-bold mx-auto py-0">
+                    <a href="index.php" class="nav-item nav-link active">Home</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Akademik</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="jadwal.php" class="dropdown-item">Jadwal Pendaftaran</a>
+                            <a href="mapel.php" class="dropdown-item">Mata Pelajaran</a>
+                            <a href="guru.php" class="dropdown-item">Guru</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informasi</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="kegiatan.php" class="dropdown-item">Kegiatan</a>
+                            <a href="prestasi.php" class="dropdown-item">Prestasi</a>
+                        </div>
+                    </div>
+                    <a href="kontak.php" class="nav-item nav-link">Contact</a>
+                </div>
+                <a href="auth/login.php" class="btn btn-primary px-4">Login</a>
+            </div>
+        </nav>
     </div>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary px-0 px-md-5 mb-5">
+        <div class="row align-items-center px-3">
+            <div class="col-lg-6 text-center text-lg-left">
+                <h1 class="display-3 font-weight-bold text-white">New Approach to Kids Education</h1>
+                <p class="text-white mb-4">"Sea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit.
+                    Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
+                    lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est
+                    amet sed sit.
+                    Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
+                    lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est
+                    amet sed sit.
+                    Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
+                    lorem dolore sed stet et est justo dolore."</p>
+            </div>
+            <div class="col-lg-6 text-center text-lg-right">
+                <img class="img-fluid mt-5" src="img/about-1.jpg" alt=""
+                    style="border-radius: 50%; width: 550px; height: 550px; object-fit: cover; margin-bottom: 40px;">
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <div class="container-fluid pt-5">
+        <div class="container pb-3">
+            <div class="text-center pb-2">
+                <h1>Sejarah</h1>
+            </div>
+            <div class="row">
+                <?php
+                if ($result_sejarah->num_rows > 0) {
+                    while ($row = $result_sejarah->fetch_assoc()) {
+                        echo "<div class='col-md-4 mb-4'>";
+                        echo "<img src='" . $row["gambar"] . "' class='img-fluid mb-2'>";
+                        echo "<p>" . $row["keterangan"] . "</p>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>Tidak ada data sejarah.</p>";
+                }
+                ?>
+            </div>
+
+            <div class="text-center pb-2 mt-5">
+                <h1>Visi</h1>
+            </div>
+            <div class="row">
+                <?php
+                if ($result_visi->num_rows > 0) {
+                    while ($row = $result_visi->fetch_assoc()) {
+                        echo "<div class='col-12 mb-4'>";
+                        echo "<p>" . $row["deskripsi"] . "</p>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>Tidak ada data visi.</p>";
+                }
+                ?>
+            </div>
+
+            <div class="text-center pb-2 mt-5">
+                <h1>Misi</h1>
+            </div>
+            <div class="row">
+                <?php
+                if ($result_misi->num_rows > 0) {
+                    while ($row = $result_misi->fetch_assoc()) {
+                        echo "<div class='col-12 mb-4'>";
+                        echo "<p>" . $row["deskripsi"] . "</p>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>Tidak ada data misi.</p>";
+                }
+                ?>
+            </div>
+
+            <div class="text-center pb-2 mt-5">
+                <h1>Fasilitas</h1>
+            </div>
+            <div class="row">
+                <?php
+                if ($result_fasilitas->num_rows > 0) {
+                    while ($row = $result_fasilitas->fetch_assoc()) {
+                        echo "<div class='col-md-4 mb-4'>";
+                        echo "<img src='" . $row["gambar"] . "' class='img-fluid mb-2'>";
+                        echo "<h3>" . $row["nama_fasilitas"] . "</h3>";
+                        echo "<p>" . $row["keterangan"] . "</p>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>Tidak ada data fasilitas.</p>";
+                }
+                ?>
+            </div>
+
+            <div class="text-center pb-2 mt-5">
+                <h1>Galeri</h1>
+            </div>
+            <div class="row">
+                <?php
+                if ($result_galeri->num_rows > 0) {
+                    while ($row = $result_galeri->fetch_assoc()) {
+                        echo "<div class='col-md-3 mb-4'>";
+                        echo "<img src='" . $row["gambar"] . "' class='img-fluid'>";
+                        echo "</div>";
+                    }
+                } else {
+                    echo "<p>Tidak ada data galeri.</p>";
+                }
+                ?>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-secondary text-white mt-5 py-5 px-sm-3 px-md-5">
+        <div class="row pt-5">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <a href="" class="navbar-brand font-weight-bold text-primary m-0 mb-4 p-0"
+                    style="font-size: 40px; line-height: 40px;">
+                    <i class="flaticon-043-teddy-bear"></i>
+                    <span class="text-white">KidKinder</span>
+                </a>
+                <p>Labore dolor amet ipsum ea, erat sit ipsum duo eos. Volup amet ea dolor et magna dolor, elitr rebum
+                    duo est sed diam elitr. Stet elitr stet diam duo eos rebum ipsum diam ipsum elitr.</p>
+                <div class="d-flex justify-content-start mt-4">
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-outline-primary rounded-circle text-center mr-2 px-0"
+                        style="width: 38px; height: 38px;" href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h3 class="text-primary mb-4">Get In Touch</h3>
+                <div class="d-flex">
+                    <h4 class="fa fa-map-marker-alt text-primary"></h4>
+                    <div class="pl-3">
+                        <h5 class="text-white">Address</h5>
+                        <p>123 Street, New York, USA</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <h4 class="fa fa-envelope text-primary"></h4>
+                    <div class="pl-3">
+                        <h5 class="text-white">Email</h5>
+                        <p>info@example.com</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <h4 class="fa fa-phone-alt text-primary"></h4>
+                    <div class="pl-3">
+                        <h5 class="text-white">Phone</h5>
+                        <p>+012 345 67890</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h3 class="text-primary mb-4">Quick Links</h3>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Home</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>About Us</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Classes</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Teachers</a>
+                    <a class="text-white mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Our Blog</a>
+                    <a class="text-white" href="#"><i class="fa fa-angle-right mr-2"></i>Contact Us</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h3 class="text-primary mb-4">Newsletter</h3>
+                <form action="">
+                    <div class="form-group">
+                        <input type="text" class="form-control border-0 py-4" placeholder="Your Name"
+                            required="required" />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control border-0 py-4" placeholder="Your Email"
+                            required="required" />
+                    </div>
+                    <div>
+                        <button class="btn btn-primary btn-block border-0 py-3" type="submit">Submit Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="container-fluid pt-5" style="border-top: 1px solid rgba(23, 162, 184, .2);;">
+            <p class="m-0 text-center text-white">
+                &copy; <a class="text-primary font-weight-bold" href="#">Your Site Name</a>. All Rights Reserved.
+                Designed
+                by
+                <a class="text-primary font-weight-bold" href="https://htmlcodex.com">HTML Codex</a>
+            </p>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>

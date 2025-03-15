@@ -120,46 +120,105 @@ CREATE TABLE `pendaftar` (
     FOREIGN KEY (jadwal_pendaftaran_id) REFERENCES jadwal_pendaftaran(jadwal_pendaftaran_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Tabel Guru
+
+
+CREATE TABLE admin (
+    admin_id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+
 CREATE TABLE guru (
     guru_id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(255) NOT NULL,
     jabatan VARCHAR(100) NOT NULL,
-    foto VARCHAR(255) NOT NULL
+    foto VARCHAR(255) NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
--- Tabel Mata Pelajaran
+
 CREATE TABLE mata_pelajaran (
     mata_pelajaran_id INT AUTO_INCREMENT PRIMARY KEY,
     nama_mapel VARCHAR(255) NOT NULL,
     guru_id INT NOT NULL,
-    FOREIGN KEY (guru_id) REFERENCES guru(guru_id) ON DELETE CASCADE
+    admin_id INT,
+    FOREIGN KEY (guru_id) REFERENCES guru(guru_id) ON DELETE CASCADE,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
--- Tabel Kegiatan Lembaga
+
 CREATE TABLE kegiatan_lembaga (
     kegiatan_lembaga_id INT AUTO_INCREMENT PRIMARY KEY,
     nama_kegiatan VARCHAR(255) NOT NULL,
     tanggal DATE NOT NULL,
     deskripsi TEXT NOT NULL,
-    foto VARCHAR(255) NOT NULL
+    foto VARCHAR(255) NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
--- Tabel Prestasi Lembaga
+
 CREATE TABLE prestasi_lembaga (
     prestasi_lembaga_id INT AUTO_INCREMENT PRIMARY KEY,
     nama_prestasi VARCHAR(255) NOT NULL,
     tingkat ENUM('Kabupaten', 'Provinsi', 'Nasional', 'Internasional') NOT NULL,
     tahun YEAR NOT NULL,
     deskripsi TEXT NOT NULL,
-    foto VARCHAR(255) NOT NULL
+    foto VARCHAR(255) NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
 
--- Tabel admin
-CREATE TABLE admin (
-    admin_id INT AUTO_INCREMENT PRIMARY KEY,
-    nama VARCHAR(100) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL
+CREATE TABLE sejarah (
+    sejarah_id INT AUTO_INCREMENT PRIMARY KEY,
+    gambar VARCHAR(255) NOT NULL,
+    keterangan TEXT NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE fasilitas (
+    fasilitas_id INT AUTO_INCREMENT PRIMARY KEY,
+    gambar VARCHAR(255) NOT NULL,
+    nama_fasilitas VARCHAR(255) NOT NULL,
+    keterangan TEXT NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE galeri (
+    galeri_gambar_id INT AUTO_INCREMENT PRIMARY KEY,
+    gambar VARCHAR(255) NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE visi (
+    visi_id INT AUTO_INCREMENT PRIMARY KEY,
+    deskripsi TEXT NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
+);
+
+
+CREATE TABLE misi (
+    misi_id INT AUTO_INCREMENT PRIMARY KEY,
+    deskripsi TEXT NOT NULL,
+    admin_id INT,
+    FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
+);
+
+CREATE TABLE kontak (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nama VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    subjek VARCHAR(255) NOT NULL,
+    pesan TEXT NOT NULL
 );

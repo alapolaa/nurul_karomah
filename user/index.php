@@ -34,67 +34,60 @@ $conn->close();
 
 <head>
     <title>Halaman Utama - Pendaftaran Sekolah</title>
-    <style>
-        body {
-            font-family: sans-serif;
-            margin: 20px;
-            text-align: center;
-        }
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-        h1 {
-            color: #007bff;
-        }
-
-        .status-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-        }
-
-        .pending {
-            background-color: #f0f8ff;
-            border: 1px solid #add8e6;
-            color: #00008b;
-        }
-
-        .diterima {
-            background-color: #e6ffe6;
-            border: 1px solid #aaffaa;
-            color: #006400;
-        }
-
-        .ditolak {
-            background-color: #ffe6e6;
-            border: 1px solid #ffaaaa;
-            color: #8b0000;
-        }
-
-        .download-button {
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .logout-link {
-            margin-top: 30px;
-        }
-    </style>
 </head>
 
 <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="../user/dashboard.php">Dashboard</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+
+
+
+                    <!-- Akademik -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="akademikDropdown" role="button" data-bs-toggle="dropdown">
+                            Akademik
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../user/jadwal/jadwal_pendaftaran.php">Jadwal</a></li>
+                            <li><a class="dropdown-item" href="../user/guru/guru.php">Guru</a></li>
+                            <li><a class="dropdown-item" href="../user/mapel/mapel.php">Mapel</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Kegiatan & Prestasi -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="kegiatanDropdown" role="button" data-bs-toggle="dropdown">
+                            Kegiatan & Prestasi
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="../user/kegiatan/kegiatan.php">Kegiatan</a></li>
+                            <li><a class="dropdown-item" href="../user/prestasi/prestasi.php">Prestasi</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Kontak -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="../user/kontak/kontak.php">Kontak</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../auth/login.php">Profile</a>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <h1>Selamat Datang di Lembaga Sekolah</h1>
-    <a href="../user/jadwal/jadwal_pendaftaran.php">Lihat jadwal pendaftaran</a>
+
     <?php if ($status == 'Pending') : ?>
         <div class="status-message pending">
             <p>Pendaftaran Anda sedang kami proses.</p>
@@ -115,9 +108,7 @@ $conn->close();
 
     <?php endif; ?>
 
-    <div class="logout-link">
-        <a href="../auth/login.php">Logout</a>
-    </div>
 </body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </html>
