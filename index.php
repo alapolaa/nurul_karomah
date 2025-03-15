@@ -119,8 +119,8 @@ $result_misi = $conn->query($sql_misi);
                 <?php
                 if ($result_sejarah->num_rows > 0) {
                     while ($row = $result_sejarah->fetch_assoc()) {
-                        echo "<div class='col-md-4 mb-4'>";
-                        echo "<img src='" . $row["gambar"] . "' class='img-fluid mb-2'>";
+                        echo "<div class='col-md-4 mb-4 text-center'>";
+                        echo "<img src='uploads/" . $row["gambar"] . "' class='img-fluid mb-2' style='width: 200px; height: 200px; object-fit: cover; border-radius: 10px;'>";
                         echo "<p>" . $row["keterangan"] . "</p>";
                         echo "</div>";
                     }
@@ -128,6 +128,8 @@ $result_misi = $conn->query($sql_misi);
                     echo "<p>Tidak ada data sejarah.</p>";
                 }
                 ?>
+
+
             </div>
 
             <div class="text-center pb-2 mt-5">
