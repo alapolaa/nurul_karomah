@@ -47,7 +47,53 @@ $result_misi = $conn->query($sql_misi);
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+<style>
+    .gallery-image {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        cursor: pointer;
+    }
 
+    #fullscreen-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        z-index: 1000;
+    }
+
+    #fullscreen-image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    #close-fullscreen {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    #image-details {
+        position: absolute;
+        bottom: 20px;
+        width: 100%;
+        text-align: center;
+        color: white;
+    }
+</style>
 
 <body>
     <!-- Navbar Start -->
@@ -197,13 +243,19 @@ $result_misi = $conn->query($sql_misi);
                 if ($result_galeri->num_rows > 0) {
                     while ($row = $result_galeri->fetch_assoc()) {
                         echo "<div class='col-md-3 mb-4'>";
-                        echo "<img src='" . $row["gambar"] . "' class='img-fluid'>";
+                        echo "<img src='uploads/" . $row["gambar"] . "' class='img-fluid gallery-image' data-gambar='" . $row["gambar"] . "'>";
                         echo "</div>";
                     }
                 } else {
                     echo "<p>Tidak ada data galeri.</p>";
                 }
                 ?>
+            </div>
+
+            <div id="fullscreen-overlay">
+                <img id="fullscreen-image" src="">
+                <button id="close-fullscreen">&times;</button>
+                <div id="image-details"></div>
             </div>
         </div>
     </div>
@@ -219,6 +271,26 @@ $result_misi = $conn->query($sql_misi);
 
 
     <!-- JavaScript Libraries -->
+    <script>
+        const galleryImages = document.querySelectorAll('.gallery-image');
+        const fullscreenOverlay = document.getElementById('fullscreen-overlay');
+        const fullscreenImage = document.getElementById('fullscreen-image');
+        const closeFullscreen = document.getElementById('close-fullscreen');
+        const imageDetails = document.getElementById('image-details');
+
+        galleryImages.forEach(image => {
+            image.addEventListener('click', () => {
+                const imageName = image.getAttribute('data-gambar');
+                fullscreenImage.src = 'uploads/' + imageName;
+                imageDetails.textContent = imageName;
+                fullscreenOverlay.style.display = 'block';
+            });
+        });
+
+        closeFullscreen.addEventListener('click', () => {
+            fullscreenOverlay.style.display = 'none';
+        });
+    </script>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
