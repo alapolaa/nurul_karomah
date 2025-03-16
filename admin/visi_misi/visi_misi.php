@@ -1,6 +1,7 @@
 <?php
-include 'koneksi.php';
+include '../../koneksi.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="id">
@@ -17,7 +18,7 @@ include 'koneksi.php';
     <div class="container mt-5">
         <h2 class="mb-4">Data Visi & Misi</h2>
 
-        <a href="tambah_visi.php" class="btn btn-primary">Tambah Visi</a>
+        <a href="../../admin/visi_misi/tambah_visi.php" class="btn btn-primary">Tambah Visi</a>
         <a href="tambah_misi.php" class="btn btn-primary">Tambah Misi</a>
 
         <h3 class="mt-4">Visi</h3>
