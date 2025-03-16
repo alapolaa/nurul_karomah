@@ -19,7 +19,7 @@ include '../../koneksi.php';
         <h2 class="mb-4">Data Visi & Misi</h2>
 
         <a href="../../admin/visi_misi/tambah_visi.php" class="btn btn-primary">Tambah Visi</a>
-        <a href="tambah_misi.php" class="btn btn-primary">Tambah Misi</a>
+        <a href="../../admin/visi_misi/tambah_misi.php" class="btn btn-primary">Tambah Misi</a>
 
         <h3 class="mt-4">Visi</h3>
         <table class="table table-bordered">

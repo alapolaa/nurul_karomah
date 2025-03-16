@@ -1,10 +1,10 @@
 <?php
-include 'koneksi.php';
+include '../../koneksi.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $deskripsi = $_POST['deskripsi'];
     $conn->query("INSERT INTO misi (deskripsi) VALUES ('$deskripsi')");
-    header("Location: visi_misi.php");
+    header("Location: ../../admin/visi_misi/visi_misi.php");
 }
 
 ?>

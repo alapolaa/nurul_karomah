@@ -115,23 +115,21 @@ $result_misi = $conn->query($sql_misi);
             <div class="text-center pb-2">
                 <h1>Sejarah</h1>
             </div>
-            <div class="row">
+
+            <div class="row justify-content-center">
                 <?php
                 if ($result_sejarah->num_rows > 0) {
                     while ($row = $result_sejarah->fetch_assoc()) {
-                        echo "<div class='col-md-4 mb-4 text-center'>";
-                        echo "<img src='uploads/" . $row["gambar"] . "' class='img-fluid mb-2' style='width: 200px; height: 200px; object-fit: cover; border-radius: 10px;'>";
-                        echo "<p>" . $row["keterangan"] . "</p>";
+                        echo "<div class='col-md-8 mb-4 text-center'>";
+                        echo "<img src='uploads/" . $row["gambar"] . "' class='img-fluid mb-2' style='max-width: 100%; height: auto; border-radius: 10px; width: 700px; height: 400px; object-fit: cover;'>";
+                        echo "<p class='mb-0'>" . $row["keterangan"] . "</p>";
                         echo "</div>";
                     }
                 } else {
                     echo "<p>Tidak ada data sejarah.</p>";
                 }
                 ?>
-
-
             </div>
-
             <div class="text-center pb-2 mt-5">
                 <h1>Visi</h1>
             </div>

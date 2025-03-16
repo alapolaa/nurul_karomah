@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['user_id'] = $user_id;
         echo "Login berhasil! Selamat datang.";
         //header("Location: ../user/jadwal/jadwal_pendaftaran.php");
-        header("Location: ../user/index.php");
+        header("Location: ../user/dashboard.php");
         exit();
     } else {
         echo "Email atau password salah.";
