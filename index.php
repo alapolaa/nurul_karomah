@@ -133,16 +133,16 @@ $result_misi = $conn->query($sql_misi);
             <div class="text-center pb-2 mt-5">
                 <h1>Visi</h1>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 <?php
                 if ($result_visi->num_rows > 0) {
                     while ($row = $result_visi->fetch_assoc()) {
-                        echo "<div class='col-12 mb-4'>";
+                        echo "<div class='col-md-8 mb-4 text-center'>";
                         echo "<p>" . $row["deskripsi"] . "</p>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>Tidak ada data visi.</p>";
+                    echo "<div class='col-12 text-center'><p>Tidak ada data visi.</p></div>";
                 }
                 ?>
             </div>
@@ -150,16 +150,16 @@ $result_misi = $conn->query($sql_misi);
             <div class="text-center pb-2 mt-5">
                 <h1>Misi</h1>
             </div>
-            <div class="row">
+            <div class="row justify-content-center">
                 <?php
                 if ($result_misi->num_rows > 0) {
                     while ($row = $result_misi->fetch_assoc()) {
-                        echo "<div class='col-12 mb-4'>";
+                        echo "<div class='col-md-8 mb-4 text-center'>";
                         echo "<p>" . $row["deskripsi"] . "</p>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>Tidak ada data misi.</p>";
+                    echo "<div class='col-12 text-center'><p>Tidak ada data misi.</p></div>";
                 }
                 ?>
             </div>
@@ -170,15 +170,21 @@ $result_misi = $conn->query($sql_misi);
             <div class="row">
                 <?php
                 if ($result_fasilitas->num_rows > 0) {
+                    $count = 0;
                     while ($row = $result_fasilitas->fetch_assoc()) {
-                        echo "<div class='col-md-4 mb-4'>";
-                        echo "<img src='" . $row["gambar"] . "' class='img-fluid mb-2'>";
-                        echo "<h3>" . $row["nama_fasilitas"] . "</h3>";
+                        if ($count % 2 == 0) {
+
+                            echo '<div class="w-100"></div>';
+                        }
+                        echo "<div class='col-md-6 mb-4 text-center'>";
+                        echo "<img src='uploads" . $row["gambar"] . "' class='img-fluid mb-2' style='max-width: 100%; height: auto; border-radius: 10px; width: 450px; height: 300px; object-fit: cover;'>";
+                        echo "<h4>" . $row["nama_fasilitas"] . "</h4>";
                         echo "<p>" . $row["keterangan"] . "</p>";
                         echo "</div>";
+                        $count++;
                     }
                 } else {
-                    echo "<p>Tidak ada data fasilitas.</p>";
+                    echo "<div class='col-12 text-center'><p>Tidak ada data fasilitas.</p></div>";
                 }
                 ?>
             </div>
