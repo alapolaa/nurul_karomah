@@ -36,6 +36,14 @@ $result = $conn->query($sql);
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+<style>
+    .card-img-top {
+        height: 200px;
+        /* Sesuaikan tinggi gambar */
+        object-fit: cover;
+        /* Memastikan gambar memenuhi kotak tanpa terdistorsi */
+    }
+</style>
 
 <body>
     <!-- Navbar Start -->
@@ -95,17 +103,22 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<div class='col-md-4 mb-4'>";
-                        echo "<img src='" . $row["foto"] . "' class='img-fluid mb-2'>";
-                        echo "<h3>" . $row["nama_kegiatan"] . "</h3>";
-                        echo "<p>Tanggal: " . date("d-m-Y", strtotime($row["tanggal"])) . "</p>"; // Format tanggal
-                        echo "<p>" . $row["deskripsi"] . "</p>";
-                        echo "</div>";
+                        echo "<div class='card'>";
+                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top' alt='" . $row["nama_kegiatan"] . "'>";
+                        echo "<div class='card-body text-center'>"; // Pusatkan teks
+                        echo "<h5 class='card-title font-weight-bold'>" . $row["nama_kegiatan"] . "</h5>";
+                        echo "<p class='card-text'>" . $row["tanggal"] . "</p>";
+                        echo "<h6 class='card-text'>" . $row["deskripsi"] . "</h6>";
+                        echo "</div>"; // card-body
+                        echo "</div>"; // card
+                        echo "</div>"; // col-md-4
                     }
                 } else {
-                    echo "<div class='col-12'><p>Tidak ada data kegiatan lembaga.</p></div>";
+                    echo "<div class='col-12'><p class='text-center'>Tidak ada data kegiatan lembaga.</p></div>";
                 }
                 ?>
             </div>
+
         </div>
     </div>
     </div>
