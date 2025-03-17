@@ -48,6 +48,18 @@ $result_misi = $conn->query($sql_misi);
     <link href="css/style.css" rel="stylesheet">
 </head>
 <style>
+    .fixed-image {
+        width: 100%;
+        /* Agar gambar menyesuaikan dengan lebar kartu */
+        height: 250px;
+        /* Tinggi tetap agar semua gambar seragam */
+        object-fit: cover;
+        /* Pangkas gambar agar tetap proporsional */
+        border-top-left-radius: 8px;
+        /* Sudut atas melengkung */
+        border-top-right-radius: 8px;
+    }
+
     .gallery-image {
         width: 100%;
         height: 200px;
@@ -92,6 +104,18 @@ $result_misi = $conn->query($sql_misi);
         width: 100%;
         text-align: center;
         color: white;
+    }
+
+    .fixed-sejarah {
+        width: 100%;
+        /* Agar gambar menyesuaikan dengan lebar kartu */
+        height: 400px;
+        /* Tinggi tetap agar semua gambar seragam */
+        object-fit: cover;
+        /* Pangkas gambar agar tetap proporsional */
+        border-top-left-radius: 8px;
+        /* Sudut atas melengkung */
+        border-top-right-radius: 8px;
     }
 </style>
 
@@ -161,21 +185,25 @@ $result_misi = $conn->query($sql_misi);
             <div class="text-center pb-2">
                 <h1>Sejarah</h1>
             </div>
-
             <div class="row justify-content-center">
                 <?php
                 if ($result_sejarah->num_rows > 0) {
                     while ($row = $result_sejarah->fetch_assoc()) {
-                        echo "<div class='col-md-8 mb-4 text-center'>";
-                        echo "<img src='uploads/" . $row["gambar"] . "' class='img-fluid mb-2' style='max-width: 100%; height: auto; border-radius: 10px; width: 700px; height: 400px; object-fit: cover;'>";
-                        echo "<p class='mb-0'>" . $row["keterangan"] . "</p>";
+                        echo "<div class='col-md-8 mb-4'>";
+                        echo "<div class='card shadow-sm text-center'>"; // Tambahkan card untuk tampilan lebih rapi
+                        echo "<img src='uploads/" . $row["gambar"] . "' class='card-img-top fixed-sejarah' alt='Sejarah'>";
+                        echo "<div class='card-body'>";
+                        echo "<p class='card-text'>" . $row["keterangan"] . "</p>";
+                        echo "</div>";
+                        echo "</div>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>Tidak ada data sejarah.</p>";
+                    echo "<div class='col-12 text-center'><p>Tidak ada data sejarah.</p></div>";
                 }
                 ?>
             </div>
+
             <div class="text-center pb-2 mt-5">
                 <h1>Visi</h1>
             </div>
@@ -216,24 +244,23 @@ $result_misi = $conn->query($sql_misi);
             <div class="row">
                 <?php
                 if ($result_fasilitas->num_rows > 0) {
-                    $count = 0;
                     while ($row = $result_fasilitas->fetch_assoc()) {
-                        if ($count % 2 == 0) {
-
-                            echo '<div class="w-100"></div>';
-                        }
-                        echo "<div class='col-md-6 mb-4 text-center'>";
-                        echo "<img src='uploads" . $row["gambar"] . "' class='img-fluid mb-2' style='max-width: 100%; height: auto; border-radius: 10px; width: 450px; height: 300px; object-fit: cover;'>";
-                        echo "<h4>" . $row["nama_fasilitas"] . "</h4>";
-                        echo "<p>" . $row["keterangan"] . "</p>";
+                        echo "<div class='col-md-6 mb-4'>";
+                        echo "<div class='card shadow-sm text-center'>"; // Tambahkan card Bootstrap
+                        echo "<img src='uploads" . $row["gambar"] . "' class='card-img-top fixed-image' alt='Fasilitas'>";
+                        echo "<div class='card-body'>";
+                        echo "<h4 class='card-title'>" . $row["nama_fasilitas"] . "</h4>";
+                        echo "<p class='card-text'>" . $row["keterangan"] . "</p>";
                         echo "</div>";
-                        $count++;
+                        echo "</div>";
+                        echo "</div>";
                     }
                 } else {
                     echo "<div class='col-12 text-center'><p>Tidak ada data fasilitas.</p></div>";
                 }
                 ?>
             </div>
+
 
             <div class="text-center pb-2 mt-5">
                 <h1>Galeri</h1>

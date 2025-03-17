@@ -36,6 +36,19 @@ $result = $conn->query($sql);
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+<style>
+    .fixed-image {
+        width: 100%;
+        /* Sesuaikan dengan lebar card */
+        height: 250px;
+        /* Atur tinggi gambar agar seragam */
+        object-fit: cover;
+        /* Pangkas gambar agar tetap proporsional */
+        border-top-left-radius: 8px;
+        /* Bikin sudut atas gambar melengkung sesuai card */
+        border-top-right-radius: 8px;
+    }
+</style>
 
 <body>
     <!-- Navbar Start -->
@@ -95,16 +108,23 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<div class='col-md-4 mb-4'>";
-                        echo "<img src='" . $row["foto"] . "' class='img-fluid mb-2'>";
-                        echo "<h3>" . $row["nama"] . "</h3>";
-                        echo "<p>Jabatan: " . $row["jabatan"] . "</p>";
+                        echo "<div class='card shadow-sm text-center'>";
+                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top fixed-image' alt='Foto'>";
+                        echo "<div class='card-body'>";
+                        echo "<h5 class='card-title'>" . $row["nama"] . "</h5>";
+                        echo "<p class='card-text'>" . $row["jabatan"] . "</p>";
+                        echo "</div>";
+                        echo "</div>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<div class='col-12'><p>Tidak ada data guru.</p></div>";
+                    echo "<div class='col-12'><p class='text-center'>Tidak ada data guru.</p></div>";
                 }
                 ?>
             </div>
+
+
+
         </div>
     </div>
     </div>
