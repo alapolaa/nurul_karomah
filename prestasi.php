@@ -35,6 +35,27 @@ $result = $conn->query($sql);
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+<style>
+    .img-prestasi {
+        height: 200px;
+        /* Atur tinggi gambar */
+        object-fit: cover;
+        /* Memastikan gambar tetap proporsional */
+        border-top-left-radius: 10px;
+        /* Menghaluskan sudut atas */
+        border-top-right-radius: 10px;
+    }
+
+    .card {
+        transition: transform 0.3s ease-in-out;
+        border-radius: 10px;
+    }
+
+    .card:hover {
+        transform: scale(1.15);
+        /* Efek membesar saat hover */
+    }
+</style>
 
 <body>
     <!-- Navbar Start -->
@@ -94,15 +115,19 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<div class='col-md-4 mb-4'>";
-                        echo "<img src='" . $row["foto"] . "' class='img-fluid mb-2'>";
-                        echo "<h3>" . $row["nama_prestasi"] . "</h3>";
-                        echo "<p>Tingkat: " . $row["tingkat"] . "</p>";
-                        echo "<p>Tahun: " . $row["tahun"] . "</p>";
-                        echo "<p>" . $row["deskripsi"] . "</p>";
+                        echo "<div class='card shadow-sm border-0 h-100'>"; // Card dengan shadow
+                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top img-prestasi' alt='Foto Prestasi'>";
+                        echo "<div class='card-body'>";
+                        echo "<h5 class='card-title'>" . $row["nama_prestasi"] . "</h5>";
+                        echo "<p class='card-text'><strong>Tingkat :</strong> " . $row["tingkat"] . "</p>";
+                        echo "<p class='card-text'><strong>Tahun :</strong> " . $row["tahun"] . "</p>";
+                        echo "<p class='card-text'>" . $row["deskripsi"] . "</p>";
+                        echo "</div>";
+                        echo "</div>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<div class='col-12'><p>Tidak ada data prestasi lembaga.</p></div>";
+                    echo "<div class='col-12'><p class='text-center'>Tidak ada data prestasi lembaga.</p></div>";
                 }
                 ?>
             </div>

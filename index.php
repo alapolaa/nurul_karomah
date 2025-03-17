@@ -246,20 +246,45 @@ $result_misi = $conn->query($sql_misi);
                 if ($result_fasilitas->num_rows > 0) {
                     while ($row = $result_fasilitas->fetch_assoc()) {
                         echo "<div class='col-md-6 mb-4'>";
-                        echo "<div class='card shadow-sm text-center'>"; // Tambahkan card Bootstrap
-                        echo "<img src='uploads" . $row["gambar"] . "' class='card-img-top fixed-image' alt='Fasilitas'>";
+                        echo "<div class='card shadow-sm border-0 h-100 text-center'>"; // Card dengan shadow dan tinggi seragam
+                        echo "<img src='uploads" . $row["gambar"] . "' class='card-img-top img-fasilitas' alt='Fasilitas'>";
                         echo "<div class='card-body'>";
-                        echo "<h4 class='card-title'>" . $row["nama_fasilitas"] . "</h4>";
-                        echo "<p class='card-text'>" . $row["keterangan"] . "</p>";
-                        echo "</div>";
-                        echo "</div>";
-                        echo "</div>";
+                        echo "<h4 class='card-title fw-bold'>" . $row["nama_fasilitas"] . "</h4>"; // Nama lebih tegas
+                        echo "<p class='card-text text-muted'>" . $row["keterangan"] . "</p>"; // Keterangan lebih soft
+                        echo "</div>"; // card-body
+                        echo "</div>"; // card
+                        echo "</div>"; // col-md-6
                     }
                 } else {
-                    echo "<div class='col-12 text-center'><p>Tidak ada data fasilitas.</p></div>";
+                    echo "<div class='col-12 text-center'><p class='text-muted'>Tidak ada data fasilitas.</p></div>";
                 }
                 ?>
             </div>
+
+            <style>
+                .img-fasilitas {
+                    height: 300px;
+                    /* Ukuran gambar seragam */
+                    object-fit: cover;
+                    /* Gambar tidak terdistorsi */
+                    border-top-left-radius: 10px;
+                    /* Membuat sudut lebih halus */
+                    border-top-right-radius: 10px;
+                }
+
+                .card {
+                    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+                    border-radius: 10px;
+                }
+
+                .card:hover {
+                    transform: scale(1.10);
+                    /* Efek membesar saat hover */
+                    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+                    /* Bayangan lebih jelas */
+                }
+            </style>
+
 
 
             <div class="text-center pb-2 mt-5">

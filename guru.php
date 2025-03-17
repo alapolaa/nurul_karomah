@@ -108,20 +108,45 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<div class='col-md-4 mb-4'>";
-                        echo "<div class='card shadow-sm text-center'>";
-                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top fixed-image' alt='Foto'>";
+                        echo "<div class='card shadow-sm text-center border-0 h-100'>"; // Menambahkan shadow dan border-0
+                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top img-guru' alt='Foto Guru'>";
                         echo "<div class='card-body'>";
-                        echo "<h5 class='card-title'>" . $row["nama"] . "</h5>";
-                        echo "<p class='card-text'>" . $row["jabatan"] . "</p>";
-                        echo "</div>";
-                        echo "</div>";
-                        echo "</div>";
+                        echo "<h5 class='card-title fw-bold'>" . $row["nama"] . "</h5>"; // Nama lebih tegas
+                        echo "<p class='card-text text-muted'>" . $row["jabatan"] . "</p>"; // Jabatan lebih soft
+                        echo "</div>"; // card-body
+                        echo "</div>"; // card
+                        echo "</div>"; // col-md-4
                     }
                 } else {
                     echo "<div class='col-12'><p class='text-center'>Tidak ada data guru.</p></div>";
                 }
                 ?>
             </div>
+
+            <style>
+                .img-guru {
+                    height: 250px;
+                    /* Ukuran gambar seragam */
+                    object-fit: cover;
+                    /* Memastikan gambar tidak terdistorsi */
+                    border-top-left-radius: 10px;
+                    /* Menghaluskan sudut atas */
+                    border-top-right-radius: 10px;
+                }
+
+                .card {
+                    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+                    border-radius: 10px;
+                }
+
+                .card:hover {
+                    transform: scale(1.15);
+                    /* Efek membesar saat hover */
+                    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+                    /* Bayangan lebih jelas */
+                }
+            </style>
+
 
 
 

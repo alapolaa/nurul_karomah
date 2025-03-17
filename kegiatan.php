@@ -103,21 +103,46 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) {
                         echo "<div class='col-md-4 mb-4'>";
-                        echo "<div class='card'>";
-                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top' alt='" . $row["nama_kegiatan"] . "'>";
-                        echo "<div class='card-body text-center'>"; // Pusatkan teks
-                        echo "<h5 class='card-title font-weight-bold'>" . $row["nama_kegiatan"] . "</h5>";
-                        echo "<p class='card-text'>" . $row["tanggal"] . "</p>";
+                        echo "<div class='card shadow-sm border-0 h-100'>";
+                        echo "<img src='uploads/" . $row["foto"] . "' class='card-img-top img-kegiatan' alt='" . $row["nama_kegiatan"] . "'>";
+                        echo "<div class='card-body text-center'>";
+                        echo "<h5 class='card-title fw-bold'>" . $row["nama_kegiatan"] . "</h5>";
+                        echo "<p class='card-text text-muted'>" . $row["tanggal"] . "</p>";
                         echo "<h6 class='card-text'>" . $row["deskripsi"] . "</h6>";
-                        echo "</div>"; // card-body
-                        echo "</div>"; // card
-                        echo "</div>"; // col-md-4
+                        echo "</div>";
+                        echo "</div>";
+                        echo "</div>";
                     }
                 } else {
                     echo "<div class='col-12'><p class='text-center'>Tidak ada data kegiatan lembaga.</p></div>";
                 }
                 ?>
             </div>
+
+            <style>
+                .img-kegiatan {
+                    height: 200px;
+                    /* Atur tinggi gambar */
+                    object-fit: cover;
+                    /* Pastikan gambar tetap proporsional */
+                    border-top-left-radius: 10px;
+                    /* Haluskan sudut atas */
+                    border-top-right-radius: 10px;
+                }
+
+                .card {
+                    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+                    border-radius: 10px;
+                }
+
+                .card:hover {
+                    transform: scale(1.15);
+                    /* Efek membesar saat hover */
+                    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+                    /* Bayangan lebih jelas */
+                }
+            </style>
+
 
         </div>
     </div>
