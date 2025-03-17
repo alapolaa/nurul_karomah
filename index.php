@@ -190,19 +190,18 @@ $result_misi = $conn->query($sql_misi);
                 if ($result_sejarah->num_rows > 0) {
                     while ($row = $result_sejarah->fetch_assoc()) {
                         echo "<div class='col-md-8 mb-4'>";
-                        echo "<div class='card shadow-sm text-center'>"; // Tambahkan card untuk tampilan lebih rapi
-                        echo "<img src='uploads/" . $row["gambar"] . "' class='card-img-top fixed-sejarah' alt='Sejarah'>";
-                        echo "<div class='card-body'>";
-                        echo "<p class='card-text'>" . $row["keterangan"] . "</p>";
-                        echo "</div>";
+                        echo "<div class='p-3 border rounded shadow-sm text-center'>"; // Border & shadow ringan agar tetap rapi
+                        echo "<img src='uploads/" . $row["gambar"] . "' class='img-fluid fixed-sejarah mb-3' alt='Sejarah'>"; // Gambar tetap responsif
+                        echo "<p class='text-muted'>" . $row["keterangan"] . "</p>"; // Keterangan dengan warna lebih soft
                         echo "</div>";
                         echo "</div>";
                     }
                 } else {
-                    echo "<div class='col-12 text-center'><p>Tidak ada data sejarah.</p></div>";
+                    echo "<div class='col-12 text-center'><p class='text-muted'>Tidak ada data sejarah.</p></div>";
                 }
                 ?>
             </div>
+
 
             <div class="text-center pb-2 mt-5">
                 <h1>Visi</h1>
