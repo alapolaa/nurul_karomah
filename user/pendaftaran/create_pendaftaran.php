@@ -4,7 +4,7 @@ include '../../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $user_id = $_POST["user_id"];
-    $jadwal_id = $_POST["jadwal_id"]; // Ambil jadwal_id dari POST data
+    $jadwal_id = $_POST["jadwal_id"];
 
     // Periksa apakah pendaftar dengan user_id ini sudah ada
     $checkSql = "SELECT pendaftar_id FROM pendaftar WHERE user_id = ?";
@@ -36,7 +36,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $district_id = $_POST["district_id"];
     $village_id = $_POST["village_id"];
 
-    // Tambahkan jadwal_id ke query INSERT
     $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telp, province_id, regency_id, district_id, village_id, jadwal_pendaftaran_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("isssssssssiiiii", $user_id, $nisn, $nik, $nama_lengkap, $jenis_kelamin, $tempat_lahir, $tanggal_lahir, $alamat_lengkap, $agama, $no_telp, $province_id, $regency_id, $district_id, $village_id, $jadwal_id);
@@ -44,6 +43,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($stmt->execute()) {
         $pendaftar_id = $stmt->insert_id;
         $_SESSION['pendaftar_id'] = $pendaftar_id;
+
+        // Update jumlah pendaftar di tabel jadwal_pendaftaran
+        $updateSql = "UPDATE jadwal_pendaftaran SET jumlah_pendaftar = jumlah_pendaftar + 1 WHERE jadwal_pendaftaran_id = ?";
+        $updateStmt = $conn->prepare($updateSql);
+        $updateStmt->bind_param("i", $jadwal_id);
+        $updateStmt->execute();
+        $updateStmt->close();
+
         header("Location: ../../user/pendaftaran/data_orang_tua/data_orang_tua.php");
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;

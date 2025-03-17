@@ -128,7 +128,7 @@ $conn->close();
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="../user/dashboard.php">
-                <img src="../assets/images/karomah.png" alt="Logo Nurul Karomah" width="200px" height="350px">
+
                 Nurul Karomah
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
