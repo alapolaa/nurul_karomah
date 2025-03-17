@@ -123,8 +123,8 @@ $result_misi = $conn->query($sql_misi);
     <!-- Navbar Start -->
     <div class="container-fluid bg-light position-relative shadow">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
-            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px;">
-                <i class="flaticon-043-teddy-bear"></i>
+            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px; display: inline-flex; align-items: center;">
+                <img src="img/nurul.png" alt="Logo" style="height: 60px; margin-right: 10px;">
                 <span class="text-primary">Nurul Karomah</span>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -161,19 +161,11 @@ $result_misi = $conn->query($sql_misi);
     <div class="container-fluid bg-primary px-0 px-md-5 mb-5">
         <div class="row align-items-center px-3">
             <div class="col-lg-6 text-center text-lg-left">
-                <h1 class="display-3 font-weight-bold text-white">New Approach to Kids Education</h1>
-                <p class="text-white mb-4">"Sea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit.
-                    Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
-                    lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est
-                    amet sed sit.
-                    Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
-                    lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est
-                    amet sed sit.
-                    Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita
-                    lorem dolore sed stet et est justo dolore."</p>
+                <h1 class="display-3 font-weight-bold text-white">Pendekatan Baru dalam Pendidikan Anak</h1>
+                <p class="text-white mb-4">"Selamat datang di Lembaga Nurul Karomah. Kami berkomitmen untuk memberikan pendidikan terbaik bagi anak-anak dengan pendekatan yang inovatif dan berbasis nilai-nilai moral. Dengan lingkungan yang nyaman dan metode pembelajaran yang menyenangkan, kami berharap dapat membentuk generasi yang cerdas, berakhlak, dan siap menghadapi masa depan."</p>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
-                <img class="img-fluid mt-5" src="img/about-1.jpg" alt=""
+                <img class="img-fluid mt-5" src="img/kepala.png" alt=""
                     style="border-radius: 50%; width: 550px; height: 550px; object-fit: cover; margin-bottom: 40px;">
             </div>
         </div>
