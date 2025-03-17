@@ -303,6 +303,23 @@ $result_misi = $conn->query($sql_misi);
                 }
                 ?>
             </div>
+            <style>
+                .gallery-image {
+                    width: 100%;
+                    height: 200px;
+                    /* Menyamakan ukuran gambar */
+                    object-fit: cover;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+                }
+
+                .gallery-image:hover {
+                    transform: scale(1.15);
+                    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+                }
+            </style>
+
 
             <div id="fullscreen-overlay">
                 <img id="fullscreen-image" src="">
