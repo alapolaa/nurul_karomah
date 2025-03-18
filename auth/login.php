@@ -127,7 +127,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <button type="submit" class="btn btn-primary">Masuk</button>
         </form>
-        <button class="btn btn-info">Daftar</button>
+        <a href="../auth/register.php" class="btn btn-info">Daftar</a>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
