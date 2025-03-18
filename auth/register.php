@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-container">
         <img src="../img/nurul.png" alt="Logo MTS Nurul Karomah">
         <h2>Selamat Datang di Lembaga Nurul Karomah</h2>
-        <p>Silakan daftar untuk mengakses sistem</p>
+        <p>Silahkan daftar untuk mengakses sistem</p>
         <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
             <div class="mb-3">
                 <label for="username" class="form-label">Username:</label>

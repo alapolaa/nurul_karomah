@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['admin_id'] = $row['admin_id'];
         $_SESSION['nama'] = $row['nama'];
         $_SESSION['role'] = 'admin';
-        header("Location: ../admin.php");
+        header("Location: ../admin/dashboard.php");
         exit();
     }
 
@@ -110,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="form-container">
         <img src="../img/nurul.png" alt="Logo MTS Nurul Karomah">
         <h2>Selamat Datang di Lembaga Nurul Karomah</h2>
-        <p>Silakan login untuk mengakses sistem</p>
+        <p>Silahkan login untuk mengakses sistem</p>
 
         <?php if ($error): ?>
             <div class="alert alert-danger"><?php echo $error; ?></div>
