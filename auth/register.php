@@ -9,8 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Registrasi berhasil!";
-        header("Location: ../auth/login.php");
+        header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
@@ -19,6 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $conn->close();
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 
@@ -75,18 +75,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         .login-link a {
             color: #007bff;
-            /* Warna tautan */
             text-decoration: none;
-            /* Menghilangkan garis bawah */
         }
 
         .login-link a:hover {
             text-decoration: underline;
-            /* Garis bawah saat hover */
         }
     </style>
 </head>
-
 
 <body>
     <div class="form-container">
@@ -114,7 +110,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img src="../img/sukses.png" alt="Sukses" style="max-width: 100px; margin-bottom: 20px;">
+                    <h2>Pendaftaran Akun Berhasil</h2>
+                    <p>Silahkan login.</p>
+                    <a href="login.php" class="btn btn-primary">LOGIN</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        var success = getParameterByName('success');
+        if (success === '1') {
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+        }
+    </script>
 </body>
 
 </html>
