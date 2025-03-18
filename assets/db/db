@@ -28,13 +28,15 @@ CREATE TABLE `villages` (
     FOREIGN KEY (`district_id`) REFERENCES `districts`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- Tabel Users (Sebagai Referensi)
+-- Tabel Users
 CREATE TABLE `users` (
     `user_id` INT AUTO_INCREMENT PRIMARY KEY,
     `username` VARCHAR(100) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
     `email` VARCHAR(255) NOT NULL UNIQUE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- Tabel Admin
 CREATE TABLE admin (
     admin_id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(100) NOT NULL,
@@ -127,10 +129,7 @@ CREATE TABLE `pendaftar` (
     FOREIGN KEY (jadwal_pendaftaran_id) REFERENCES jadwal_pendaftaran(jadwal_pendaftaran_id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-
-
-
-
+-- Tabel Guru
 CREATE TABLE guru (
     guru_id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(255) NOT NULL,
@@ -140,7 +139,7 @@ CREATE TABLE guru (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Mata Pelajaran
 CREATE TABLE mata_pelajaran (
     mata_pelajaran_id INT AUTO_INCREMENT PRIMARY KEY,
     nama_mapel VARCHAR(255) NOT NULL,
@@ -150,7 +149,7 @@ CREATE TABLE mata_pelajaran (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Kegiatan Lembaga
 CREATE TABLE kegiatan_lembaga (
     kegiatan_lembaga_id INT AUTO_INCREMENT PRIMARY KEY,
     nama_kegiatan VARCHAR(255) NOT NULL,
@@ -161,7 +160,7 @@ CREATE TABLE kegiatan_lembaga (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Prestasi Lembaga
 CREATE TABLE prestasi_lembaga (
     prestasi_lembaga_id INT AUTO_INCREMENT PRIMARY KEY,
     nama_prestasi VARCHAR(255) NOT NULL,
@@ -173,7 +172,7 @@ CREATE TABLE prestasi_lembaga (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Sejarah
 CREATE TABLE sejarah (
     sejarah_id INT AUTO_INCREMENT PRIMARY KEY,
     gambar VARCHAR(255) NOT NULL,
@@ -183,6 +182,7 @@ CREATE TABLE sejarah (
 );
 
 
+-- Tabel Fasilitas
 CREATE TABLE fasilitas (
     fasilitas_id INT AUTO_INCREMENT PRIMARY KEY,
     gambar VARCHAR(255) NOT NULL,
@@ -192,7 +192,7 @@ CREATE TABLE fasilitas (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Galeri
 CREATE TABLE galeri (
     galeri_gambar_id INT AUTO_INCREMENT PRIMARY KEY,
     gambar VARCHAR(255) NOT NULL,
@@ -200,7 +200,7 @@ CREATE TABLE galeri (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Visi
 CREATE TABLE visi (
     visi_id INT AUTO_INCREMENT PRIMARY KEY,
     deskripsi TEXT NOT NULL,
@@ -208,7 +208,7 @@ CREATE TABLE visi (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
-
+-- Tabel Misi
 CREATE TABLE misi (
     misi_id INT AUTO_INCREMENT PRIMARY KEY,
     deskripsi TEXT NOT NULL,
@@ -216,6 +216,7 @@ CREATE TABLE misi (
     FOREIGN KEY (admin_id) REFERENCES admin(admin_id) ON DELETE SET NULL
 );
 
+-- Tabel Kontak
 CREATE TABLE kontak (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nama VARCHAR(255) NOT NULL,

@@ -28,6 +28,47 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
+<style>
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+        width: calc(100% - 12px);
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    .btun {
+        background-color: #00bcd4;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        width: 100%;
+    }
+
+    .btun:hover {
+        background-color: #0097a7;
+    }
+</style>
 
 <body>
     <!-- Navbar Start -->
@@ -78,56 +119,44 @@
     <!-- Header End -->
 
 
-    <!-- Contact Start -->
     <div class="container-fluid pt-5">
         <div class="container">
             <div class="text-center pb-2">
-                <p class="section-title px-5"><span class="px-2">Get In Touch</span></p>
-                <h1 class="mb-4">Contact Us For Any Query</h1>
+                <h1 class="mb-4">Hubungi Kami Untuk Pertanyaan Apapun</h1>
             </div>
             <div class="row">
                 <div class="col-lg-7 mb-5">
                     <div class="contact-form">
                         <div id="success"></div>
-                        <form name="sentMessage" id="contactForm" novalidate="novalidate">
-                            <div class="control-group">
-                                <input type="text" class="form-control" id="name" placeholder="Your Name"
-                                    required="required" data-validation-required-message="Please enter your name" />
-                                <p class="help-block text-danger"></p>
+                        <form action="proses_kontak.php" method="post">
+                            <div class="form-group">
+                                <label for="nama">Nama Anda</label>
+                                <input type="text" id="nama" name="nama" required>
                             </div>
-                            <div class="control-group">
-                                <input type="email" class="form-control" id="email" placeholder="Your Email"
-                                    required="required" data-validation-required-message="Please enter your email" />
-                                <p class="help-block text-danger"></p>
+                            <div class="form-group">
+                                <label for="email">Email Anda</label>
+                                <input type="email" id="email" name="email" required>
                             </div>
-                            <div class="control-group">
-                                <input type="text" class="form-control" id="subject" placeholder="Subject"
-                                    required="required" data-validation-required-message="Please enter a subject" />
-                                <p class="help-block text-danger"></p>
+                            <div class="form-group">
+                                <label for="subjek">Subjek</label>
+                                <input type="text" id="subjek" name="subjek" required>
                             </div>
-                            <div class="control-group">
-                                <textarea class="form-control" rows="6" id="message" placeholder="Message"
-                                    required="required"
-                                    data-validation-required-message="Please enter your message"></textarea>
-                                <p class="help-block text-danger"></p>
+                            <div class="form-group">
+                                <label for="pesan">Pesan</label>
+                                <textarea id="pesan" name="pesan" rows="4" required></textarea>
                             </div>
-                            <div>
-                                <button class="btn btn-primary py-2 px-4" type="submit" id="sendMessageButton">Send
-                                    Message</button>
-                            </div>
+                            <button type="submit" class="btun">Kirim Pesan</button>
                         </form>
                     </div>
                 </div>
                 <div class="col-lg-5 mb-5">
-                    <p>Labore sea amet kasd diam justo amet ut vero justo. Ipsum ut et kasd duo sit, ipsum sea et erat
-                        est dolore, magna ipsum et magna elitr. Accusam accusam lorem magna, eos et sed eirmod dolor est
-                        eirmod eirmod amet.</p>
+                    <p>Kami di Nurul Karomah siap melayani Anda dengan sepenuh hati. Jangan ragu untuk menghubungi kami jika ada pertanyaan atau kebutuhan yang Anda miliki.</p>
                     <div class="d-flex">
                         <i class="fa fa-map-marker-alt d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle"
                             style="width: 45px; height: 45px;"></i>
                         <div class="pl-3">
-                            <h5>Address</h5>
-                            <p>123 Street, New York, USA</p>
+                            <h5>Alamat</h5>
+                            <p>Nandelem Kajan, Blega, Bangkalan.</p>
                         </div>
                     </div>
                     <div class="d-flex">
@@ -135,31 +164,30 @@
                             style="width: 45px; height: 45px;"></i>
                         <div class="pl-3">
                             <h5>Email</h5>
-                            <p>info@example.com</p>
+                            <p>info@nurulkaromah.com</p>
                         </div>
                     </div>
                     <div class="d-flex">
                         <i class="fa fa-phone-alt d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle"
                             style="width: 45px; height: 45px;"></i>
                         <div class="pl-3">
-                            <h5>Phone</h5>
-                            <p>+012 345 67890</p>
+                            <h5>Telepon</h5>
+                            <p>+62 878 8294 7247</p>
                         </div>
                     </div>
                     <div class="d-flex">
                         <i class="far fa-clock d-inline-flex align-items-center justify-content-center bg-primary text-secondary rounded-circle"
                             style="width: 45px; height: 45px;"></i>
                         <div class="pl-3">
-                            <h5>Opening Hours</h5>
-                            <strong>Sunday - Friday:</strong>
-                            <p class="m-0">08:00 AM - 05:00 PM </p>
+                            <h5>Jam Buka</h5>
+                            <strong>Minggu - Jumat:</strong>
+                            <p class="m-0">08:00 - 17:00</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Contact End -->
 
 
     <!-- Footer Start -->
