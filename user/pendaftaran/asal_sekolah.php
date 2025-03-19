@@ -40,21 +40,36 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 ?>
-
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Asal Sekolah</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h2>Form Asal Sekolah</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?pendaftar_id=" . $pendaftar_id; ?>">
-        NPSN: <input type="text" name="npsn" required><br>
-        Nama Sekolah: <input type="text" name="nama_sekolah" required><br>
-        <input type="submit" value="Simpan">
-    </form>
+    <div class="container mt-5" style="max-width: 500px;">
+        <h2 class="text-center">Asal Sekolah</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?pendaftar_id=" . $pendaftar_id; ?>">
+            <div class="card p-3 mb-3">
+                <div class="mb-2">
+                    <label class="form-label">NPSN</label>
+                    <input type="text" name="npsn" class="form-control" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Nama Sekolah</label>
+                    <input type="text" name="nama_sekolah" class="form-control" required>
+                </div>
+            </div>
+            <div class="text-center d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Selanjutnya</button>
+                <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Kembali</a>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>

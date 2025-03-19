@@ -60,44 +60,114 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Orang Tua/Wali</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
-    <h2>Form Orang Tua/Wali</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?pendaftar_id=" . $pendaftar_id; ?>">
-        <h3>Data Ayah</h3>
-        NIK Ayah: <input type="text" name="nik_ayah" required><br>
-        Nama Ayah: <input type="text" name="nama_ayah" required><br>
-        Pendidikan Ayah: <input type="text" name="pendidikan_ayah"><br>
-        Pekerjaan Ayah: <input type="text" name="pekerjaan_ayah"><br>
-        Penghasilan Ayah: <input type="number" name="penghasilan_ayah" step="0.01"><br>
-        No. Telp Ayah: <input type="text" name="no_telp_ayah"><br>
+    <div class="container mt-5" style="max-width: 500px;">
+        <h2 class="text-center">Form Orang Tua/Wali</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?pendaftar_id=" . $pendaftar_id; ?>">
+            <div class="card p-3 mb-3">
+                <h4>Data Ayah</h4>
+                <div class="mb-2">
+                    <label class="form-label">NIK Ayah</label>
+                    <input type="text" name="nik_ayah" class="form-control" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Nama Ayah</label>
+                    <input type="text" name="nama_ayah" class="form-control" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pendidikan Ayah</label>
+                    <input type="text" name="pendidikan_ayah" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pekerjaan Ayah</label>
+                    <input type="text" name="pekerjaan_ayah" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Penghasilan Ayah</label>
+                    <input type="text" name="penghasilan_ayah" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">No. Telp Ayah</label>
+                    <input type="text" name="no_telp_ayah" class="form-control">
+                </div>
+            </div>
 
-        <h3>Data Ibu</h3>
-        NIK Ibu: <input type="text" name="nik_ibu" required><br>
-        Nama Ibu: <input type="text" name="nama_ibu" required><br>
-        Pendidikan Ibu: <input type="text" name="pendidikan_ibu"><br>
-        Pekerjaan Ibu: <input type="text" name="pekerjaan_ibu"><br>
-        Penghasilan Ibu: <input type="number" name="penghasilan_ibu" step="0.01"><br>
-        No. Telp Ibu: <input type="text" name="no_telp_ibu"><br>
+            <div class="card p-3 mb-3">
+                <h4>Data Ibu</h4>
+                <div class="mb-2">
+                    <label class="form-label">NIK Ibu</label>
+                    <input type="text" name="nik_ibu" class="form-control" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Nama Ibu</label>
+                    <input type="text" name="nama_ibu" class="form-control" required>
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pendidikan Ibu</label>
+                    <input type="text" name="pendidikan_ibu" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pekerjaan Ibu</label>
+                    <input type="text" name="pekerjaan_ibu" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Penghasilan Ibu</label>
+                    <input type="text" name="penghasilan_ibu" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">No. Telp Ibu</label>
+                    <input type="text" name="no_telp_ibu" class="form-control">
+                </div>
+            </div>
 
-        <h3>Data Wali (Opsional)</h3>
-        NIK Wali: <input type="text" name="nik_wali"><br>
-        Nama Wali: <input type="text" name="nama_wali"><br>
-        Pendidikan Wali: <input type="text" name="pendidikan_wali"><br>
-        Pekerjaan Wali: <input type="text" name="pekerjaan_wali"><br>
-        Penghasilan Wali: <input type="number" name="penghasilan_wali" step="0.01"><br>
-        No. Telp Wali: <input type="text" name="no_telp_wali"><br>
+            <div class="card p-3 mb-3">
+                <h4>Data Wali (Opsional)</h4>
+                <div class="mb-2">
+                    <label class="form-label">NIK Wali</label>
+                    <input type="text" name="nik_wali" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Nama Wali</label>
+                    <input type="text" name="nama_wali" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pendidikan Wali</label>
+                    <input type="text" name="pendidikan_wali" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Pekerjaan Wali</label>
+                    <input type="text" name="pekerjaan_wali" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">Penghasilan Wali</label>
+                    <input type="text" name="penghasilan_wali" class="form-control">
+                </div>
+                <div class="mb-2">
+                    <label class="form-label">No. Telp Wali</label>
+                    <input type="text" name="no_telp_wali" class="form-control">
+                </div>
+            </div>
 
-        <input type="submit" value="Simpan">
-    </form>
+            <div class="text-center d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Selanjutnya</button>
+                <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Kembali</a>
+                <br>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
+
 
 <?php
 $conn->close();

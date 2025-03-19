@@ -89,78 +89,110 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="container mt-5">
-        <h2 class="mb-4">Form Pendaftaran</h2>
-        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?jadwal_id=" . $jadwal_id; ?>">
-            <div class="mb-3">
-                <label for="nisn" class="form-label">NISN:</label>
-                <input type="text" class="form-control" id="nisn" name="nisn" required>
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-lg">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h3 class="mb-0">Form Pendaftaran</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?jadwal_id=" . $jadwal_id; ?>">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="nisn" class="form-label">NISN:</label>
+                                    <input type="text" class="form-control" id="nisn" name="nisn" placeholder="Masukkan NISN" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="nik" class="form-label">NIK:</label>
+                                    <input type="text" class="form-control" id="nik" name="nik" placeholder="Masukkan NIK" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nama_lengkap" class="form-label">Nama Lengkap:</label>
+                                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" placeholder="Masukkan Nama Lengkap" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="jenis_kelamin" class="form-label">Jenis Kelamin:</label>
+                                    <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="agama" class="form-label">Agama:</label>
+                                    <select class="form-select" id="agama" name="agama">
+                                        <option value="Islam">Islam</option>
+                                        <option value="Kristen">Kristen</option>
+                                        <option value="Katolik">Katolik</option>
+                                        <option value="Hindu">Hindu</option>
+                                        <option value="Buddha">Buddha</option>
+                                        <option value="Konghucu">Konghucu</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="tempat_lahir" class="form-label">Tempat Lahir:</label>
+                                    <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" placeholder="Masukkan Tempat Lahir" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="tanggal_lahir" class="form-label">Tanggal Lahir:</label>
+                                    <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="alamat_lengkap" class="form-label">Alamat Lengkap:</label>
+                                <textarea class="form-control" id="alamat_lengkap" name="alamat_lengkap" placeholder="Masukkan Alamat Lengkap" rows="3" required></textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="no_telp" class="form-label">No. Telp:</label>
+                                <input type="text" class="form-control" id="no_telp" name="no_telp" placeholder="Masukkan No. Telepon" required>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="province" class="form-label">Provinsi:</label>
+                                    <select class="form-select" id="province" name="province_id">
+                                        <option value="">Pilih Provinsi</option>
+                                        <?php foreach ($provinces as $province) : ?>
+                                            <option value="<?php echo $province['id']; ?>"><?php echo $province['name']; ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="regency" class="form-label">Kabupaten:</label>
+                                    <select class="form-select" id="regency" name="regency_id"></select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="district" class="form-label">Kecamatan:</label>
+                                    <select class="form-select" id="district" name="district_id"></select>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="village" class="form-label">Desa:</label>
+                                    <select class="form-select" id="village" name="village_id"></select>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-send"></i> Selanjutnya
+                                </button>
+                                <a href="../../user/jadwal/jadwal_pendaftaran.php" class="btn btn-secondary">
+                                    <i class="bi bi-arrow-left"></i> Kembali
+                                </a>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="nik" class="form-label">NIK:</label>
-                <input type="text" class="form-control" id="nik" name="nik" required>
-            </div>
-            <div class="mb-3">
-                <label for="nama_lengkap" class="form-label">Nama Lengkap:</label>
-                <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" required>
-            </div>
-            <div class="mb-3">
-                <label for="jenis_kelamin" class="form-label">Jenis Kelamin:</label>
-                <select class="form-select" id="jenis_kelamin" name="jenis_kelamin">
-                    <option value="Laki-laki">Laki-laki</option>
-                    <option value="Perempuan">Perempuan</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="tempat_lahir" class="form-label">Tempat Lahir:</label>
-                <input type="text" class="form-control" id="tempat_lahir" name="tempat_lahir" required>
-            </div>
-            <div class="mb-3">
-                <label for="tanggal_lahir" class="form-label">Tanggal Lahir:</label>
-                <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" required>
-            </div>
-            <div class="mb-3">
-                <label for="alamat_lengkap" class="form-label">Alamat Lengkap:</label>
-                <textarea class="form-control" id="alamat_lengkap" name="alamat_lengkap" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label for="agama" class="form-label">Agama:</label>
-                <select class="form-select" id="agama" name="agama">
-                    <option value="Islam">Islam</option>
-                    <option value="Kristen">Kristen</option>
-                    <option value="Katolik">Katolik</option>
-                    <option value="Hindu">Hindu</option>
-                    <option value="Buddha">Buddha</option>
-                    <option value="Konghucu">Konghucu</option>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="no_telp" class="form-label">No. Telp:</label>
-                <input type="text" class="form-control" id="no_telp" name="no_telp" required>
-            </div>
-            <div class="mb-3">
-                <label for="province" class="form-label">Provinsi:</label>
-                <select class="form-select" id="province" name="province_id">
-                    <option value="">Pilih Provinsi</option>
-                    <?php foreach ($provinces as $province) : ?>
-                        <option value="<?php echo $province['id']; ?>"><?php echo $province['name']; ?></option>
-                    <?php endforeach; ?>
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="regency" class="form-label">Kabupaten:</label>
-                <select class="form-select" id="regency" name="regency_id"></select>
-            </div>
-            <div class="mb-3">
-                <label for="district" class="form-label">Kecamatan:</label>
-                <select class="form-select" id="district" name="district_id"></select>
-            </div>
-            <div class="mb-3">
-                <label for="village" class="form-label">Desa:</label>
-                <select class="form-select" id="village" name="village_id"></select>
-            </div>
-            <button type="submit" class="btn btn-primary">Daftar</button>
-        </form>
+        </div>
     </div>
+
+    <!-- Tambahkan Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

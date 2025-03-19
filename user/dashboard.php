@@ -149,7 +149,7 @@ $conn->close();
                 </h4>
             </div>
             <?php if ($status == 'Diterima') : ?>
-                <a href="../download.php?status=<?php echo urlencode($status); ?>" class="btn btn-success">Unduh Biodata PDF</a>
+                <a href="../download.php?status=<?php echo urlencode($status); ?>" class="btn btn-success">Unduh Pendaftaran</a>
             <?php endif; ?>
         <?php endif; ?>
     </section>

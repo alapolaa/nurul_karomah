@@ -56,23 +56,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="id">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Form Berkas Pendaftaran</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function showAccountUsedAlert(event) {
+            event.preventDefault();
+            Swal.fire({
+                icon: 'success',
+                title: 'Pendaftaran berhasil',
+                confirmButtonText: 'Okey'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    event.target.submit();
+                }
+            });
+        }
+    </script>
 </head>
 
 <body>
-    <h2>Form Berkas Pendaftaran</h2>
-    <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?pendaftar_id=" . $pendaftar_id; ?>" enctype="multipart/form-data">
-        Pas Foto: <input type="file" name="pas_foto" required><br>
-        Ijazah Depan: <input type="file" name="ijazah_depan" required><br>
-        Ijazah Belakang: <input type="file" name="ijazah_belakang" required><br>
-        <input type="submit" value="Simpan">
-    </form>
+    <div class="container mt-5" style="max-width: 500px;">
+        <h2 class="text-center">Berkas Pendaftaran</h2>
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) . "?pendaftar_id=" . $pendaftar_id; ?>" enctype="multipart/form-data" onsubmit="showAccountUsedAlert(event)">
+            <div class="mb-3">
+                <label class="form-label">Pas Foto</label>
+                <input type="file" name="pas_foto" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ijazah Depan</label>
+                <input type="file" name="ijazah_depan" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Ijazah Belakang</label>
+                <input type="file" name="ijazah_belakang" class="form-control" required>
+            </div>
+            <div class="text-center d-grid gap-2">
+                <button type="submit" class="btn btn-primary btn-lg">Simpan</button>
+                <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Kembali</a>
+            </div>
+        </form>
+    </div>
 </body>
 
 </html>
+
+
+
 
 <?php
 $conn->close();
