@@ -29,176 +29,153 @@ $stmt->close();
 $conn->close();
 ?>
 
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
-    <title>Halaman Utama - Pendaftaran Sekolah Nurul Karomah</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-        }
+    <meta charset="utf-8">
+    <title>Jadwal Pendaftaran</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
 
-        .navbar {
-            background-color: #007bff;
-        }
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
 
-        .navbar-brand {
-            display: flex;
-            align-items: center;
-            color: white !important;
-        }
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Nunito&display=swap" rel="stylesheet">
 
-        .navbar-brand img {
-            height: 40px;
-            margin-right: 10px;
-        }
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-        .navbar-nav .nav-link {
-            color: white !important;
-        }
+    <!-- Flaticon Font -->
+    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
 
-        .navbar-nav .nav-link:hover {
-            color: #add8e6 !important;
-        }
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-        .container {
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #007bff;
-            margin-top: 30px;
-        }
-
-        .status-message {
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 5px;
-            font-weight: bold;
-        }
-
-        .pending {
-            background-color: #f0f8ff;
-            border: 1px solid #add8e6;
-            color: #00008b;
-        }
-
-        .diterima {
-            background-color: #e6ffe6;
-            border: 1px solid #aaffaa;
-            color: #006400;
-        }
-
-        .ditolak {
-            background-color: #ffe6e6;
-            border: 1px solid #ffaaaa;
-            color: #8b0000;
-        }
-
-        .download-button {
-            margin-top: 20px;
-        }
-
-        button {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .logout-link {
-            margin-top: 30px;
-        }
-    </style>
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="../css/style.css" rel="stylesheet">
 </head>
+<style>
+    .fixed-image {
+        width: 100%;
+        /* Sesuaikan dengan lebar card */
+        height: 250px;
+        /* Atur tinggi gambar agar seragam */
+        object-fit: cover;
+        /* Pangkas gambar agar tetap proporsional */
+        border-top-left-radius: 8px;
+        /* Bikin sudut atas gambar melengkung sesuai card */
+        border-top-right-radius: 8px;
+    }
+</style>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="../user/dashboard.php">
-
-                Nurul Karomah
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-light position-relative shadow">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
+            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px; display: inline-flex; align-items: center;">
+                <img src="../img/nurul.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+                <span class="text-primary">Nurul Karomah</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="profilDropdown" role="button" data-bs-toggle="dropdown">
-                            Profile Sekolah
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../user/sejarah/sejarah.php">Sejarah</a></li>
-                            <li><a class="dropdown-item" href="../user/visimisi/visimisi.php">Visi Misi</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="akademikDropdown" role="button" data-bs-toggle="dropdown">
-                            Akademik
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../user/jadwal/jadwal_pendaftaran.php">Jadwal</a></li>
-                            <li><a class="dropdown-item" href="../user/guru/guru.php">Guru</a></li>
-                            <li><a class="dropdown-item" href="../user/mapel/mapel.php">Mapel</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="kegiatanDropdown" role="button" data-bs-toggle="dropdown">
-                            Kegiatan & Prestasi
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../user/kegiatan/kegiatan.php">Kegiatan</a></li>
-                            <li><a class="dropdown-item" href="../user/prestasi/prestasi.php">Prestasi</a></li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../user/kontak/kontak.php">Kontak</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../auth/login.php">Profile</a>
-                    </li>
-                </ul>
+            <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                <div class="navbar-nav font-weight-bold mx-auto py-0">
+                    <a href="../user/dashboard.php" class="nav-item nav-link active">Home</a>
+
+                    <a href="../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link">Pendaftaran</a>
+                    <a href="../auth/login.php" class="nav-item nav-link">Profile</a>
+                </div>
+
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="container-fluid bg-primary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+
+
+            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
+
+                <span class="text-white">Selamat Datang di PPDB Online</span>
+            </a>
+            <h4>Sistem Informasi Penerimaan Peserta Didik Baru Lembaga Nurul Karomah</h4>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- About Start -->
+    <div class="container-fluid pt-5">
+        <div class="container pb-3">
+            <div class="text-center pb-2">
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white">
+                                <h3 class="mb-0">Panduan Pendaftaran</h3>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">1. Klik menu <strong>Pendaftaran</strong></li>
+                                    <li class="list-group-item">2. Isi seluruh formulir, pastikan tidak ada data yang salah.</li>
+                                    <li class="list-group-item">3. Klik <strong>Submit</strong>, lalu klik <strong>Confirm</strong>. Setelah confirm, data tidak bisa diubah.</li>
+                                    <li class="list-group-item">4. Hasil pendaftaran akan ditampilkan di website dan bisa diunduh dalam format PDF.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
-    </nav>
-
-    <div class="container">
-        <h1>Selamat Datang di Lembaga Sekolah Nurul Karomah</h1>
-
-        <?php if ($status == 'Pending') : ?>
-            <div class="status-message pending">
-                <p>Pendaftaran Anda sedang kami proses.</p>
-            </div>
-        <?php elseif ($status == 'Diterima') : ?>
-            <div class="status-message diterima">
-                <p>Selamat! Pendaftaran Anda telah diterima.</p>
-            </div>
-            <div class="download-button">
-                <a href="../download.php?status=<?php echo urlencode($status); ?>" target="_blank">
-                    <button>Unduh Biodata PDF</button>
-                </a>
-            </div>
-        <?php elseif ($status == 'Ditolak') : ?>
-            <div class="status-message ditolak">
-                <p>Maaf, pendaftaran Anda ditolak.</p>
-            </div>
-        <?php endif; ?>
     </div>
+    <!-- About End -->
+    <section class="container text-center my-5">
+        <?php if (isset($status)) : ?>
+            <div class="alert <?php echo ($status == 'Diterima') ? 'alert-success' : (($status == 'Ditolak') ? 'alert-danger' : 'alert-warning'); ?>">
+                <h4 class="mb-0">
+                    <?php echo ($status == 'Diterima') ? 'Selamat! Pendaftaran Anda diterima.' : (($status == 'Ditolak') ? 'Maaf, pendaftaran Anda ditolak.' : 'Pendaftaran Anda sedang kami proses.'); ?>
+                </h4>
+            </div>
+            <?php if ($status == 'Diterima') : ?>
+                <a href="../download.php?status=<?php echo urlencode($status); ?>" class="btn btn-success">Unduh Biodata PDF</a>
+            <?php endif; ?>
+        <?php endif; ?>
+    </section>
+    <!-- Footer Start -->
+    <?php include '../footer.html'; ?>
+    <!-- Footer End -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
 </body>
 
 </html>
