@@ -290,7 +290,7 @@ $result_misi = $conn->query($sql_misi);
                         echo "</div>";
                     }
                 } else {
-                    echo "<p>Tidak ada data galeri.</p>";
+                    echo "<div class='col-12 text-center'><p class='text-muted'>Tidak ada data galeri.</p></div>";
                 }
                 ?>
             </div>

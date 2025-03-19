@@ -48,34 +48,9 @@ $conn->close();
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
 
-
-
-                    <!-- Akademik -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="akademikDropdown" role="button" data-bs-toggle="dropdown">
-                            Akademik
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../user/jadwal/jadwal_pendaftaran.php">Jadwal</a></li>
-                            <li><a class="dropdown-item" href="../user/guru/guru.php">Guru</a></li>
-                            <li><a class="dropdown-item" href="../user/mapel/mapel.php">Mapel</a></li>
-                        </ul>
-                    </li>
-
-                    <!-- Kegiatan & Prestasi -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="kegiatanDropdown" role="button" data-bs-toggle="dropdown">
-                            Kegiatan & Prestasi
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="../user/kegiatan/kegiatan.php">Kegiatan</a></li>
-                            <li><a class="dropdown-item" href="../user/prestasi/prestasi.php">Prestasi</a></li>
-                        </ul>
-                    </li>
-
                     <!-- Kontak -->
                     <li class="nav-item">
-                        <a class="nav-link" href="../user/kontak/kontak.php">Kontak</a>
+                        <a class="nav-link" href="../user/jadwal/jadwal_pendaftaran.php">Pendaftaran</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../auth/login.php">Profile</a>
@@ -86,7 +61,7 @@ $conn->close();
         </div>
     </nav>
 
-    <h1>Selamat Datang di Lembaga Sekolah</h1>
+    <h1>Selamat Datang di Lembaga Nurul Karomah</h1>
 
     <?php if ($status == 'Pending') : ?>
         <div class="status-message pending">

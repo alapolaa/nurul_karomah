@@ -45,9 +45,10 @@ function updateJadwalPendaftaran($conn, $jadwal_id)
 $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telp, province_id, regency_id, district_id, village_id, jadwal_pendaftaran_id) VALUES ('$user_id', '$nisn', '$nik', '$nama_lengkap', '$jenis_kelamin', '$tempat_lahir', '$tanggal_lahir', '$alamat_lengkap', '$agama', '$no_telp', '$province_id', '$regency_id', '$district_id', '$village_id', '$jadwal_id')";
 
 if ($conn->query($sql) === TRUE) {
-    updateJadwalPendaftaran($conn, $jadwal_id); // Panggil fungsi update
+    $pendaftar_id = $conn->insert_id;
+    updateJadwalPendaftaran($conn, $jadwal_id);
 
-    header("Location: ../../user/pendaftaran/pendaftaran_success.php");
+    header("Location: orang_tua.php?pendaftar_id=" . $pendaftar_id);
     exit();
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;

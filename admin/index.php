@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['role'] !== 'admin') {
     exit();
 }
 
-include 'config/config.php'; // Sesuaikan dengan path config.php Anda
+include '../config/config.php'; // Sesuaikan dengan path config.php Anda
 
 // Ambil data pendaftaran yang statusnya 'Pending'
 $sql = "SELECT p.*, u.username AS nama_user FROM pendaftar p JOIN users u ON p.user_id = u.user_id WHERE p.status = 'Pending'";

@@ -51,6 +51,8 @@ if (!$result) {
 
 <head>
     <title>Jadwal Pendaftaran</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
 
 <body>
@@ -64,11 +66,7 @@ if (!$result) {
                 <th>Tanggal Mulai</th>
                 <th>Tanggal Selesai</th>
                 <th>Tahun Ajaran</th>
-                <th>Jumlah Pendaftar</th>
-                <th>Jumlah Diterima</th>
-                <th>Jumlah Ditolak</th>
                 <th>Status</th>
-                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
@@ -78,9 +76,7 @@ if (!$result) {
                     $status = getStatusPendaftaran($row["tanggal_selesai"]);
                     $jadwal_id = $row["jadwal_pendaftaran_id"];
 
-                    updateJadwalPendaftaran($conn, $jadwal_id); // Panggil fungsi update
-
-                    // Query untuk menghitung jumlah pendaftar, diterima, dan ditolak
+                    updateJadwalPendaftaran($conn, $jadwal_id);
                     $jumlah_pendaftar_sql = "SELECT COUNT(*) as total FROM pendaftar WHERE jadwal_pendaftaran_id = $jadwal_id";
                     $jumlah_diterima_sql = "SELECT COUNT(*) as total FROM pendaftar WHERE jadwal_pendaftaran_id = $jadwal_id AND status = 'Diterima'";
                     $jumlah_ditolak_sql = "SELECT COUNT(*) as total FROM pendaftar WHERE jadwal_pendaftaran_id = $jadwal_id AND status = 'Ditolak'";
@@ -99,22 +95,27 @@ if (!$result) {
                     echo "<td>" . $row["tanggal_mulai"] . "</td>";
                     echo "<td>" . $row["tanggal_selesai"] . "</td>";
                     echo "<td>" . $row["tahun_ajaran"] . "</td>";
-                    echo "<td>" . $jumlah_pendaftar . "</td>";
-                    echo "<td>" . $jumlah_diterima . "</td>";
-                    echo "<td>" . $jumlah_ditolak . "</td>";
+
                     echo "<td>";
                     if ($status == "Buka") {
-                        if (isset($_SESSION['user_id'])) {
-                            echo "<a href='../../user/pendaftaran/pendaftaran.php?jadwal_id=" . $row["jadwal_pendaftaran_id"] . "'>" . $status . "</a>";
+                        $user_id = $_SESSION['user_id'];
+                        $cek_pendaftaran_sql = "SELECT COUNT(*) as total FROM pendaftar WHERE user_id = $user_id AND jadwal_pendaftaran_id = $jadwal_id";
+                        $cek_pendaftaran_result = $conn->query($cek_pendaftaran_sql);
+                        $cek_pendaftaran = $cek_pendaftaran_result->fetch_assoc()['total'];
+                        $cek_pendaftaran_lain_sql = "SELECT COUNT(*) as total FROM pendaftar WHERE user_id = $user_id";
+                        $cek_pendaftaran_lain_result = $conn->query($cek_pendaftaran_lain_sql);
+                        $cek_pendaftaran_lain = $cek_pendaftaran_lain_result->fetch_assoc()['total'];
+
+                        if ($cek_pendaftaran == 0 && $cek_pendaftaran_lain == 0) {
+
+                            echo "<a href='../../daftar.php?jadwal_id=" . $row["jadwal_pendaftaran_id"] . "'>" . $status . "</a>";
                         } else {
-                            echo $status;
+
+                            echo "<a href='#' onclick=\"showAccountUsedAlert(); return false;\">" . $status . "</a>";
                         }
                     } else {
                         echo $status;
                     }
-                    echo "</td>";
-                    echo "<td>";
-                    echo "<a href='edit_jadwal_pendaftaran.php?id=" . $row["jadwal_pendaftaran_id"] . "'>Edit</a> | <a href='delete_jadwal_pendaftaran.php?id=" . $row["jadwal_pendaftaran_id"] . "'>Delete</a>";
                     echo "</td>";
                     echo "</tr>";
                 }
@@ -125,6 +126,15 @@ if (!$result) {
         </tbody>
     </table>
 
+    <script>
+        function showAccountUsedAlert() {
+            Swal.fire({
+                icon: 'error',
+                title: 'Akun anda sudah digunakan',
+                confirmButtonText: 'Tutup'
+            });
+        }
+    </script>
 </body>
 
 </html>
