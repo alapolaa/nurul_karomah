@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+session_start();
 include '../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -6,13 +10,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST['password'];
     $email = $_POST['email'];
 
-    $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
+    // Cek apakah email sudah terdaftar
+    $check_email_sql = "SELECT email FROM users WHERE email = '$email'";
+    $check_email_result = $conn->query($check_email_sql);
 
-    if ($conn->query($sql) === TRUE) {
-        header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+    if ($check_email_result->num_rows > 0) {
+        // Email sudah terdaftar
+        header("Location: " . $_SERVER['PHP_SELF'] . "?email_exists=1");
         exit();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        // Email belum terdaftar, lanjutkan pendaftaran
+        $sql = "INSERT INTO users (username, password, email) VALUES ('$username', '$password', '$email')";
+
+        if ($conn->query($sql) === TRUE) {
+            header("Location: " . $_SERVER['PHP_SELF'] . "?success=1");
+            exit();
+        } else {
+            echo "Error: " . $sql . "<br>" . $conn->error;
+        }
     }
 
     $conn->close();
@@ -123,6 +138,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
+    <div class="modal fade" id="emailExistsModal" tabindex="-1" aria-labelledby="emailExistsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img src="../img/sedih.png" alt="Warning" style="max-width: 200px; ">
+                    <h2>Email Sudah Terdaftar</h2>
+                    <p>Gunakan email lain.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function getParameterByName(name, url = window.location.href) {
@@ -138,6 +165,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (success === '1') {
             var successModal = new bootstrap.Modal(document.getElementById('successModal'));
             successModal.show();
+        }
+
+        var emailExists = getParameterByName('email_exists');
+        if (emailExists === '1') {
+            var emailExistsModal = new bootstrap.Modal(document.getElementById('emailExistsModal'));
+            emailExistsModal.show();
         }
     </script>
 </body>
