@@ -100,13 +100,13 @@ if (!$result) {
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
                     <a href="../../user/dashboard.php" class="nav-item nav-link">Home</a>
                     <a href="../../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link active">Pendaftaran</a>
-                    <a href="../../auth/login.php" class="nav-item nav-link">Profile</a>
+                    <a href="../../user/profile.php" class="nav-item nav-link ">Profile</a>
                 </div>
             </div>
         </nav>
     </div>
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
                 <span class="text-white">Jadwal Pendaftaran</span>
             </a>

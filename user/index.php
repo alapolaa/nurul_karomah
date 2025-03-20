@@ -90,7 +90,7 @@ $conn->close();
                     <a href="../user/dashboard.php" class="nav-item nav-link active">Home</a>
 
                     <a href="../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link">Pendaftaran</a>
-                    <a href="../auth/login.php" class="nav-item nav-link">Profile</a>
+                    <a href="../user/profile.php" class="nav-item nav-link">Profile</a>
                 </div>
 
             </div>
@@ -128,7 +128,7 @@ $conn->close();
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">1. Klik menu <strong>Pendaftaran</strong></li>
                                     <li class="list-group-item">2. Isi seluruh formulir, pastikan tidak ada data yang salah.</li>
-                                    <li class="list-group-item">3. Klik <strong>Submit</strong>, lalu klik <strong>Confirm</strong>. Setelah confirm, data tidak bisa diubah.</li>
+                                    <li class="list-group-item">3. Klik <strong>Selanjutnya</strong>, untuk mengisi form berikutnya.</li>
                                     <li class="list-group-item">4. Hasil pendaftaran akan ditampilkan di website dan bisa diunduh dalam format PDF.</li>
                                 </ul>
                             </div>
@@ -149,7 +149,7 @@ $conn->close();
                 </h4>
             </div>
             <?php if ($status == 'Diterima') : ?>
-                <a href="../download.php?status=<?php echo urlencode($status); ?>" class="btn btn-success">Unduh Biodata PDF</a>
+                <a href="../download.php?status=<?php echo urlencode($status); ?>" class="btn btn-success">Unduh Pendaftaran</a>
             <?php endif; ?>
         <?php endif; ?>
     </section>

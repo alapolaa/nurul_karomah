@@ -101,13 +101,14 @@ $conn->close();
 
     <!-- Header Start -->
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
 
 
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
 
                 <span class="text-white">Selamat Datang di PPDB Online</span>
             </a>
+            <br>
             <h4>Sistem Informasi Penerimaan Peserta Didik Baru Lembaga Nurul Karomah</h4>
         </div>
     </div>
@@ -128,7 +129,7 @@ $conn->close();
                                 <ul class="list-group list-group-flush">
                                     <li class="list-group-item">1. Klik menu <strong>Pendaftaran</strong></li>
                                     <li class="list-group-item">2. Isi seluruh formulir, pastikan tidak ada data yang salah.</li>
-                                    <li class="list-group-item">3. Klik <strong>Submit</strong>, lalu klik <strong>Confirm</strong>. Setelah confirm, data tidak bisa diubah.</li>
+                                    <li class="list-group-item">3. Klik <strong>Selanjutnya</strong>, lalu klik <strong>Confirm</strong>. Setelah confirm, data tidak bisa diubah.</li>
                                     <li class="list-group-item">4. Hasil pendaftaran akan ditampilkan di website dan bisa diunduh dalam format PDF.</li>
                                 </ul>
                             </div>
