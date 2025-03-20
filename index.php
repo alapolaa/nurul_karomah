@@ -165,7 +165,7 @@ $result_misi = $conn->query($sql_misi);
                 <p class="text-white mb-4">"Selamat datang di Lembaga Nurul Karomah. Kami berkomitmen untuk memberikan pendidikan terbaik bagi anak-anak dengan pendekatan yang inovatif dan berbasis nilai-nilai moral. Dengan lingkungan yang nyaman dan metode pembelajaran yang menyenangkan, kami berharap dapat membentuk generasi yang cerdas, berakhlak, dan siap menghadapi masa depan."</p>
             </div>
             <div class="col-lg-6 text-center text-lg-right">
-                <img class="img-fluid mt-5" src="img/kepala.png" alt=""
+                <img class="img-fluid mt-5" src="uploads/WhatsApp-Image-2023-05-05-at-10.19.03-2.jpeg" alt=""
                     style="border-radius: 50%; width: 550px; height: 550px; object-fit: cover; margin-bottom: 40px;">
             </div>
         </div>

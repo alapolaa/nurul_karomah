@@ -6,9 +6,12 @@ if (!isset($_SESSION['admin_id']) || $_SESSION['role'] !== 'admin') {
 }
 
 include '../config/config.php'; // Sesuaikan dengan path config.php Anda
+$sql = "SELECT p.*, u.username AS nama_user, a.nama_sekolah 
+        FROM pendaftar p 
+        JOIN users u ON p.user_id = u.user_id 
+        JOIN asal_sekolah a ON p.asal_sekolah_id = a.asal_sekolah_id 
+        WHERE p.status = 'Pending'";
 
-// Ambil data pendaftaran yang statusnya 'Pending'
-$sql = "SELECT p.*, u.username AS nama_user FROM pendaftar p JOIN users u ON p.user_id = u.user_id WHERE p.status = 'Pending'";
 $result = $conn->query($sql);
 ?>
 
@@ -119,12 +122,11 @@ $result = $conn->query($sql);
     </div>
     <!-- Navbar End -->
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Halaaman admin</span>
+                <span class="text-white">Halaman admin</span>
             </a>
-            <br>
-            <h4>ini adalah halaman admin</h4>
+
         </div>
     </div>
     <div class="container-fluid pt-5">
@@ -138,6 +140,7 @@ $result = $conn->query($sql);
                             <th>No.</th>
                             <th>Nama Pendaftar</th>
                             <th>NISN</th>
+                            <th>Asal Sekolah</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -150,16 +153,15 @@ $result = $conn->query($sql);
                                 echo "<td>" . $no . "</td>";
                                 echo "<td>" . $row['nama_user'] . "</td>";
                                 echo "<td>" . $row['nisn'] . "</td>";
+                                echo "<td>" . $row['nama_sekolah'] . "</td>";
                                 echo "<td>
-                        <a href='detail_pendaftar.php?id=" . $row['pendaftar_id'] . "'>Detail</a> |
-                        <button onclick='terimaPendaftaran(" . $row['pendaftar_id'] . ")'>Terima</button> |
-                        <button onclick='tolakPendaftaran(" . $row['pendaftar_id'] . ")'>Tolak</button>
-                      </td>";
+                                <a href='detail_pendaftar.php?id=" . $row['pendaftar_id'] . "' class='btn btn-info btn-sm'>Detail</a>
+                                <button onclick='terimaPendaftaran(" . $row['pendaftar_id'] . ")' class='btn btn-success btn-sm'>Terima</button>
+                                <button onclick='tolakPendaftaran(" . $row['pendaftar_id'] . ")' class='btn btn-danger btn-sm'>Tolak</button>
+                              </td>";
                                 echo "</tr>";
                                 $no++;
                             }
-                        } else {
-                            echo "<tr><td colspan='4'>Tidak ada data pendaftaran.</td></tr>";
                         }
                         ?>
                     </tbody>
