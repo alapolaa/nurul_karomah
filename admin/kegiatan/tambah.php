@@ -1,24 +1,29 @@
 <?php
+session_start(); // Pastikan sesi dimulai
 include '../../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_kegiatan = $_POST['nama_kegiatan'];
     $tanggal = $_POST['tanggal'];
     $deskripsi = $_POST['deskripsi'];
+    $admin_id = $_SESSION['admin_id'] ?? NULL; // Ambil admin_id dari sesi
 
     // Upload foto
     $foto = $_FILES['foto']['name'];
     $target = "../../uploads/" . basename($foto);
     move_uploaded_file($_FILES['foto']['tmp_name'], $target);
 
-    $query = "INSERT INTO kegiatan_lembaga (nama_kegiatan, tanggal, deskripsi, foto) VALUES ('$nama_kegiatan', '$tanggal', '$deskripsi', '$foto')";
+    // Gunakan prepared statements untuk mencegah SQL injection
+    $stmt = $conn->prepare("INSERT INTO kegiatan_lembaga (nama_kegiatan, tanggal, deskripsi, foto, admin_id) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssi", $nama_kegiatan, $tanggal, $deskripsi, $foto, $admin_id); // "ssssi" berarti string, string, string, string, integer
 
-    if ($conn->query($query)) {
+    if ($stmt->execute()) {
         header("Location: ../../admin/kegiatan/kegiatan.php");
         exit();
     } else {
-        echo "Gagal menambah data: " . $conn->error;
+        echo "Gagal menambah data: " . $stmt->error;
     }
+    $stmt->close();
 }
 ?>
 

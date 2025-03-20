@@ -13,7 +13,7 @@
             <th>ID</th>
             <th>Nama Mata Pelajaran</th>
             <th>Guru ID</th>
-            <th>Admin ID</th>
+
             <th>Aksi</th>
         </tr>
         <?php
@@ -27,7 +27,7 @@
                 echo "<td>" . $row["mata_pelajaran_id"] . "</td>";
                 echo "<td>" . $row["nama_mapel"] . "</td>";
                 echo "<td>" . $row["guru_id"] . "</td>";
-                echo "<td>" . $row["admin_id"] . "</td>";
+
                 echo "<td><a href='edit.php?id=" . $row["mata_pelajaran_id"] . "'>Edit</a> | <a href='hapus.php?id=" . $row["mata_pelajaran_id"] . "'>Hapus</a></td>";
                 echo "</tr>";
             }

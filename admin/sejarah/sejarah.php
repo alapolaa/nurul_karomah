@@ -25,7 +25,7 @@ $result = $conn->query($sql);
                     <th>No</th>
                     <th>Gambar</th>
                     <th>Keterangan</th>
-                    <th>Admin ID</th>
+
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -38,11 +38,11 @@ $result = $conn->query($sql);
                         echo "<td>" . $no++ . "</td>";
                         echo "<td><img src='../../uploads/" . $row['gambar'] . "' width='100'></td>";
                         echo "<td>" . $row['keterangan'] . "</td>";
-                        echo "<td>" . ($row['admin_id'] ?? '-') . "</td>";
+
                         echo "<td>
-                            <a href='../../admin/sejarah/edit.php?id=" . $row['sejarah_id'] . "' class='btn btn-warning btn-sm'>Edit</a>
-                            <a href='../../admin/sejarah/delete.php?id=" . $row['sejarah_id'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin hapus?\")'>Hapus</a>
-                        </td>";
+                                <a href='../../admin/sejarah/edit.php?id=" . $row['sejarah_id'] . "' class='btn btn-warning btn-sm'>Edit</a>
+                                <a href='../../admin/sejarah/delete.php?id=" . $row['sejarah_id'] . "' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin hapus?\")'>Hapus</a>
+                            </td>";
                         echo "</tr>";
                     }
                 } else {

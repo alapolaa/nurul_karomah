@@ -14,7 +14,7 @@
             <th>Gambar</th>
             <th>Nama Fasilitas</th>
             <th>Keterangan</th>
-            <th>Admin ID</th>
+
             <th>Aksi</th>
         </tr>
         <?php
@@ -29,7 +29,7 @@
                 echo "<td><img src='" . $row['gambar'] . "' width='100'></td>";
                 echo "<td>" . $row['nama_fasilitas'] . "</td>";
                 echo "<td>" . $row['keterangan'] . "</td>";
-                echo "<td>" . $row['admin_id'] . "</td>";
+
                 echo "<td>
                         <a href='../../admin/fasilitas/edit.php?id=" . $row['fasilitas_id'] . "'>Edit</a> | 
                         <a href='../../admin/fasilitas/hapus.php?id=" . $row['fasilitas_id'] . "' onclick='return confirm(\"Apakah Anda yakin?\")'>Hapus</a>

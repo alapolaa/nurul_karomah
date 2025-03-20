@@ -1,3 +1,6 @@
+<?php
+session_start(); // Pastikan sesi dimulai
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -19,10 +22,6 @@
             <div class="mb-3">
                 <label>Keterangan:</label>
                 <textarea name="keterangan" class="form-control" required></textarea>
-            </div>
-            <div class="mb-3">
-                <label>Admin ID:</label>
-                <input type="number" name="admin_id" class="form-control">
             </div>
             <button type="submit" class="btn btn-primary">Simpan</button>
             <a href="../../admin/sejarah/sejarah.php" class="btn btn-secondary">Kembali</a>

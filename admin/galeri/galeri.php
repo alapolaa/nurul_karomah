@@ -19,7 +19,7 @@ $result = $conn->query($sql);
         <tr>
             <th>ID</th>
             <th>Gambar</th>
-            <th>Admin ID</th>
+
             <th>Aksi</th>
         </tr>
         <?php
@@ -28,7 +28,7 @@ $result = $conn->query($sql);
                 echo "<tr>";
                 echo "<td>" . $row['galeri_gambar_id'] . "</td>";
                 echo "<td><img src='../../uploads/" . $row['gambar'] . "' width='100'></td>";
-                echo "<td>" . $row['admin_id'] . "</td>";
+
                 echo "<td><a href='edit_galeri.php?id=" . $row['galeri_gambar_id'] . "'>Edit</a> | <a href='hapus_galeri.php?id=" . $row['galeri_gambar_id'] . "'>Hapus</a></td>";
                 echo "</tr>";
             }

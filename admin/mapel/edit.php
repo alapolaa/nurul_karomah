@@ -20,7 +20,7 @@
             <input type="hidden" name="id" value="<?php echo $row['mata_pelajaran_id']; ?>">
             Nama Mata Pelajaran: <input type="text" name="nama_mapel" value="<?php echo $row['nama_mapel']; ?>"><br>
             Guru ID: <input type="number" name="guru_id" value="<?php echo $row['guru_id']; ?>"><br>
-            Admin ID: <input type="number" name="admin_id" value="<?php echo $row['admin_id']; ?>"><br>
+
             <input type="submit" value="Simpan Perubahan">
         </form>
     <?php

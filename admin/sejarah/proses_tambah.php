@@ -1,10 +1,13 @@
 <?php
+session_start();
 include '../../config/config.php';
 
 $gambar = $_FILES['gambar']['name'];
 $tmp = $_FILES['gambar']['tmp_name'];
 $keterangan = $_POST['keterangan'];
-$admin_id = $_POST['admin_id'] ?? NULL;
+
+// Ambil admin_id dari session, pastikan session sudah dimulai
+$admin_id = $_SESSION['admin_id'] ?? NULL;
 
 // Pindahkan file ke folder uploads
 move_uploaded_file($tmp, "../../uploads/" . $gambar);

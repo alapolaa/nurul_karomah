@@ -1,4 +1,5 @@
 <?php
+session_start(); // Pastikan sesi dimulai
 include '../../config/config.php';
 
 $gambar = $_FILES['gambar']['name'];
@@ -9,14 +10,18 @@ move_uploaded_file($tmp, $path);
 
 $nama_fasilitas = $_POST['nama_fasilitas'];
 $keterangan = $_POST['keterangan'];
-$admin_id = $_POST['admin_id'];
+$admin_id = $_SESSION['admin_id'] ?? NULL; // Ambil admin_id dari sesi
 
-$sql = "INSERT INTO fasilitas (gambar, nama_fasilitas, keterangan, admin_id) VALUES ('$path', '$nama_fasilitas', '$keterangan', '$admin_id')";
+// Gunakan prepared statements untuk mencegah SQL injection
+$stmt = $conn->prepare("INSERT INTO fasilitas (gambar, nama_fasilitas, keterangan, admin_id) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("sssi", $path, $nama_fasilitas, $keterangan, $admin_id); // "sssi" berarti string, string, string, integer
 
-if ($conn->query($sql) === TRUE) {
+if ($stmt->execute()) {
     header("Location: ../../admin/fasilitas/fasilitas.php");
+    exit(); // Penting untuk menghentikan eksekusi skrip setelah pengalihan
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $stmt->error;
 }
 
+$stmt->close();
 $conn->close();

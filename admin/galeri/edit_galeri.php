@@ -1,12 +1,12 @@
 <?php
+session_start(); // Pastikan sesi dimulai
 include '../../config/config.php';
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $admin_id = $_POST['admin_id'];
-
+        $admin_id = $_SESSION['admin_id'] ?? NULL; // Ambil admin_id dari sesi
 
         if ($_FILES["gambar"]["name"] != "") {
             $target_dir = "../../uploads/";
@@ -33,7 +33,6 @@ if (isset($_GET['id'])) {
                 if (move_uploaded_file($_FILES["gambar"]["tmp_name"], $target_file)) {
                     $gambar = basename($_FILES["gambar"]["name"]);
 
-
                     $sql_old_file = "SELECT gambar FROM galeri WHERE galeri_gambar_id=$id";
                     $result_old_file = $conn->query($sql_old_file);
                     if ($result_old_file->num_rows == 1) {
@@ -44,36 +43,43 @@ if (isset($_GET['id'])) {
                         }
                     }
 
-                    $sql = "UPDATE galeri SET gambar='$gambar', admin_id=$admin_id WHERE galeri_gambar_id=$id";
+                    // Gunakan prepared statements untuk mencegah SQL injection
+                    $stmt = $conn->prepare("UPDATE galeri SET gambar=?, admin_id=? WHERE galeri_gambar_id=?");
+                    $stmt->bind_param("sii", $gambar, $admin_id, $id); // "sii" berarti string, integer, integer
 
-                    if ($conn->query($sql) === TRUE) {
+                    if ($stmt->execute()) {
                         header("Location: ../../admin/galeri/galeri.php");
+                        exit();
                     } else {
-                        echo "Error: " . $sql . "<br>" . $conn->error;
+                        echo "Error: " . $stmt->error;
                     }
+                    $stmt->close();
                 } else {
                     echo "Maaf, terjadi kesalahan saat mengunggah file Anda.";
                 }
             }
         } else {
             $gambar = $_POST['gambar_lama'];
-            $sql = "UPDATE galeri SET gambar='$gambar', admin_id=$admin_id WHERE galeri_gambar_id=$id";
+            // Gunakan prepared statements untuk mencegah SQL injection
+            $stmt = $conn->prepare("UPDATE galeri SET gambar=?, admin_id=? WHERE galeri_gambar_id=?");
+            $stmt->bind_param("sii", $gambar, $admin_id, $id); // "sii" berarti string, integer, integer
 
-            if ($conn->query($sql) === TRUE) {
+            if ($stmt->execute()) {
                 header("Location: ../../admin/galeri/galeri.php");
+                exit();
             } else {
-                echo "Error: " . $sql . "<br>" . $conn->error;
+                echo "Error: " . $stmt->error;
             }
+            $stmt->close();
         }
     }
 
-    $sql = "SELECT gambar, admin_id FROM galeri WHERE galeri_gambar_id=$id";
+    $sql = "SELECT gambar FROM galeri WHERE galeri_gambar_id=$id";
     $result = $conn->query($sql);
 
     if ($result->num_rows == 1) {
         $row = $result->fetch_assoc();
         $gambar = $row['gambar'];
-        $admin_id = $row['admin_id'];
     } else {
         echo "Gambar tidak ditemukan.";
         exit;
@@ -98,8 +104,6 @@ if (isset($_GET['id'])) {
         <label>Pilih Gambar Baru:</label><br>
         <input type="file" name="gambar"><br><br>
         <input type="hidden" name="gambar_lama" value="<?php echo $gambar; ?>">
-        <label>Admin ID:</label><br>
-        <input type="number" name="admin_id" value="<?php echo $admin_id; ?>"><br><br>
         <input type="submit" value="Simpan">
     </form>
 </body>

@@ -14,8 +14,7 @@
         <input type="text" name="nama_fasilitas" required><br><br>
         <label>Keterangan:</label><br>
         <textarea name="keterangan" required></textarea><br><br>
-        <label>Admin ID:</label><br>
-        <input type="number" name="admin_id"><br><br>
+
         <input type="submit" value="Simpan">
     </form>
 </body>

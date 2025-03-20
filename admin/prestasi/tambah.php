@@ -1,4 +1,5 @@
 <?php
+session_start(); // Pastikan sesi dimulai
 include '../../config/config.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -6,20 +7,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tingkat = $_POST['tingkat'];
     $tahun = $_POST['tahun'];
     $deskripsi = $_POST['deskripsi'];
+    $admin_id = $_SESSION['admin_id'] ?? NULL; // Ambil admin_id dari sesi
 
     // Upload foto
     $foto = $_FILES['foto']['name'];
     $target = "../../uploads/" . basename($foto);
 
     if (move_uploaded_file($_FILES['foto']['tmp_name'], $target)) {
-        $sql = "INSERT INTO prestasi_lembaga (nama_prestasi, tingkat, tahun, deskripsi, foto) 
-                VALUES ('$nama', '$tingkat', '$tahun', '$deskripsi', '$foto')";
-        if ($conn->query($sql) === TRUE) {
+        // Gunakan prepared statements untuk mencegah SQL injection
+        $stmt = $conn->prepare("INSERT INTO prestasi_lembaga (nama_prestasi, tingkat, tahun, deskripsi, foto, admin_id) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssissi", $nama, $tingkat, $tahun, $deskripsi, $foto, $admin_id); // "ssissi" berarti string, string, integer, string, string, integer
+
+        if ($stmt->execute()) {
             header("Location: ../../admin/prestasi/prestasi.php");
-            exit();
+            exit(); // Penting untuk menghentikan eksekusi skrip setelah pengalihan
         } else {
-            echo "Error: " . $conn->error;
+            echo "Error: " . $stmt->error;
         }
+        $stmt->close();
     } else {
         echo "Gagal mengupload gambar!";
     }

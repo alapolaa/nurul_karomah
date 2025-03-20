@@ -1,4 +1,5 @@
 <?php
+session_start(); // Pastikan sesi dimulai
 include '../../koneksi.php'; // Pastikan path ini benar
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -9,15 +10,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $target = "../../uploads/" . basename($foto);
 
     if (move_uploaded_file($_FILES['foto']['tmp_name'], $target)) {
-        // Gunakan $conn, bukan $koneksi
-        $query = "INSERT INTO guru (nama, jabatan, foto) VALUES ('$nama', '$jabatan', '$foto')";
+        $admin_id = $_SESSION['admin_id'] ?? NULL; // Ambil admin_id dari sesi
 
-        if ($conn->query($query)) {
+        // Gunakan prepared statements untuk mencegah SQL injection
+        $stmt = $conn->prepare("INSERT INTO guru (nama, jabatan, foto, admin_id) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("sssi", $nama, $jabatan, $foto, $admin_id); // "sssi" berarti string, string, string, integer
+
+        if ($stmt->execute()) {
             header("Location: ../../admin/guru/guru.php");
             exit(); // Tambahkan exit() agar redirect berjalan dengan baik
         } else {
-            echo "Gagal menambahkan data! Error: " . $conn->error;
+            echo "Gagal menambahkan data! Error: " . $stmt->error;
         }
+        $stmt->close();
     } else {
         echo "Gagal mengupload foto!";
     }
