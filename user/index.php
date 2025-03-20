@@ -4,28 +4,41 @@ include '../config/config.php';
 
 // Cek apakah pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
-    // Jika belum login, arahkan ke halaman login
     header("Location: ../auth/login.php");
     exit();
 }
 
 $user_id = $_SESSION['user_id'];
 
-// Ambil status pendaftaran dari database
-$sql = "SELECT status FROM pendaftar WHERE user_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+// Cek apakah pengguna sudah mendaftar
+$sql_check = "SELECT COUNT(*) FROM pendaftar WHERE user_id = ?";
+$stmt_check = $conn->prepare($sql_check);
+$stmt_check->bind_param("i", $user_id);
+$stmt_check->execute();
+$stmt_check->bind_result($count);
+$stmt_check->fetch();
+$stmt_check->close();
 
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    $status = $row['status'];
-} else {
-    $status = ''; // Status kosong jika tidak ditemukan
+$sudah_daftar = ($count > 0);
+
+if ($sudah_daftar) {
+    // Ambil status pendaftaran dari database
+    $sql = "SELECT status FROM pendaftar WHERE user_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $status = $row['status'];
+    } else {
+        $status = ''; // Status kosong jika tidak ditemukan
+    }
+
+    $stmt->close();
 }
 
-$stmt->close();
 $conn->close();
 ?>
 
@@ -142,7 +155,7 @@ $conn->close();
     </div>
     <!-- About End -->
     <section class="container text-center my-5">
-        <?php if (isset($status)) : ?>
+        <?php if (isset($status) && $sudah_daftar) : ?>
             <div class="alert <?php echo ($status == 'Diterima') ? 'alert-success' : (($status == 'Ditolak') ? 'alert-danger' : 'alert-warning'); ?>">
                 <h4 class="mb-0">
                     <?php echo ($status == 'Diterima') ? 'Selamat! Pendaftaran Anda diterima.' : (($status == 'Ditolak') ? 'Maaf, pendaftaran Anda ditolak.' : 'Pendaftaran Anda sedang kami proses.'); ?>
