@@ -98,7 +98,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="text-center d-grid gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">Simpan</button>
-                <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Kembali</a>
+                <!-- <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Kembali</a> -->
             </div>
         </form>
     </div>

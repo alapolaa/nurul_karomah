@@ -33,6 +33,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $updateJadwalStmt->execute();
             $updateJadwalStmt->close();
         }
+
+        // Hitung jumlah_diterima + jumlah_ditolak dan update jumlah_pendaftar
+        $hitungSql = "UPDATE jadwal_pendaftaran SET jumlah_pendaftar = jumlah_diterima + jumlah_ditolak WHERE jadwal_pendaftaran_id = ?";
+        $hitungStmt = $conn->prepare($hitungSql);
+        $hitungStmt->bind_param("i", $jadwalId);
+        $hitungStmt->execute();
+        $hitungStmt->close();
+
         echo 'success';
     } else {
         echo 'error';

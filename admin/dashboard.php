@@ -1,9 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
-    exit();
-}
+// if (!isset($_SESSION['admin_id']) || $_SESSION['role'] !== 'admin') {
+//     header("Location: ../auth/login.php");
+//     exit();
+// }
 
 include '../config/config.php'; // Sesuaikan dengan path config.php Anda
 $sql = "SELECT p.*, u.username AS nama_user, a.nama_sekolah 
