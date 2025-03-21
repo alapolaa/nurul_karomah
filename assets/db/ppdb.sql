@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Mar 19, 2025 at 06:36 AM
+-- Generation Time: Mar 21, 2025 at 12:54 AM
 -- Server version: 5.7.24
 -- PHP Version: 8.3.1
 
@@ -39,7 +39,8 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`admin_id`, `nama`, `email`, `password`) VALUES
-(1, 'aku', 'aku@gmail.com', 'aku');
+(1, 'aku', 'aku@gmail.com', 'aku'),
+(2, 'admin', 'admin@gmail.com', 'admin');
 
 -- --------------------------------------------------------
 
@@ -7324,9 +7325,7 @@ CREATE TABLE `fasilitas` (
 --
 
 INSERT INTO `fasilitas` (`fasilitas_id`, `gambar`, `nama_fasilitas`, `keterangan`, `admin_id`) VALUES
-(3, '../../uploads/sawi.jpg', 'fasilitas', 'dsfsdf sdjfsad dsijf dsfsdf sdjfsad dsijf dsfsdf sdjfsad dsijf dsfsdf sdjfsad dsijf dsfsdf sdjfsad dsijf dsfsdf sdjfsad dsijf dsfsdf sdjfsad dsijf ', 1),
-(4, '../../uploads/panjang.jpg', 'panjang', 'panjang', 1),
-(5, '../../uploads/kedelai.jpg', 'sdfds', 'dfsd', 1);
+(6, '../../uploads/pngtree-green-check-mark-icon-flat-style-png-image_1986021-removebg-preview.png', 'fasilitasrt', 'sdfjkdgfudsgfsdfsdfdfsdfsdfd', 2);
 
 -- --------------------------------------------------------
 
@@ -7345,11 +7344,8 @@ CREATE TABLE `galeri` (
 --
 
 INSERT INTO `galeri` (`galeri_gambar_id`, `gambar`, `admin_id`) VALUES
-(1, 'timun.jpg', 1),
-(3, 'pisang.jpg', 1),
-(4, 'bawang.jpg', 1),
-(5, 'bayam.jpeg', 1),
-(6, 'terong.jpg', 1);
+(8, 'kangkung.jpg', 2),
+(9, 'kunyot.jpg', 2);
 
 -- --------------------------------------------------------
 
@@ -7370,11 +7366,7 @@ CREATE TABLE `guru` (
 --
 
 INSERT INTO `guru` (`guru_id`, `nama`, `jabatan`, `foto`, `admin_id`) VALUES
-(2, 'zakkyuh', 'sasasas', 'ubi.jpg', NULL),
-(3, 'fauzan', 'ir', 'sejarah.png', NULL),
-(4, 'ewrew', 'rsdf', 'kedelai.jpg', NULL),
-(5, 'dsfdf', 'sdf', 'kangkung.jpg', NULL),
-(7, 'Dita', 'Kepala Desa', 'kunyot.jpg', NULL);
+(9, 'Ditagfhgfhgf', 'anisftertertert', 'nurul.jpeg', 2);
 
 -- --------------------------------------------------------
 
@@ -7398,7 +7390,8 @@ CREATE TABLE `jadwal_pendaftaran` (
 --
 
 INSERT INTO `jadwal_pendaftaran` (`jadwal_pendaftaran_id`, `jenjang`, `tanggal_mulai`, `tanggal_selesai`, `tahun_ajaran`, `jumlah_pendaftar`, `jumlah_diterima`, `jumlah_ditolak`) VALUES
-(1, 'MA', '2025-03-12', '2025-04-03', '2025', 0, 0, 0);
+(2, 'MTs', '2025-03-21', '2025-02-06', '2025/2026', 0, 0, 0),
+(5, 'MA', '2025-03-12', '2025-04-03', '2025', 1, 1, 0);
 
 -- --------------------------------------------------------
 
@@ -7415,16 +7408,6 @@ CREATE TABLE `kegiatan_lembaga` (
   `admin_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `kegiatan_lembaga`
---
-
-INSERT INTO `kegiatan_lembaga` (`kegiatan_lembaga_id`, `nama_kegiatan`, `tanggal`, `deskripsi`, `foto`, `admin_id`) VALUES
-(1, 'dadewdwed', '2025-03-19', 'ereedwe', 'sawi.jpg', 1),
-(3, 'sdsad', '2025-03-16', 'wadwqd', 'zain.jpg', NULL),
-(4, 'rgrgrfgdf', '2025-03-16', 'dfgdfgfdg', 'tomat.jpg', NULL),
-(5, 'dfgdfg', '2025-03-16', 'dfgdfgdfg', 'kunyot.jpg', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -7438,14 +7421,6 @@ CREATE TABLE `kontak` (
   `subjek` varchar(255) NOT NULL,
   `pesan` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `kontak`
---
-
-INSERT INTO `kontak` (`id`, `nama`, `email`, `subjek`, `pesan`) VALUES
-(37, 'ZAINULLAHsdffdfdfd', 'zain.alapolaa@gmail.com', 'zxcsd', 'as'),
-(38, 'zakky', 'a@gmail.com', 'zxcsd', 'dfsdfdf');
 
 -- --------------------------------------------------------
 
@@ -7465,7 +7440,7 @@ CREATE TABLE `mata_pelajaran` (
 --
 
 INSERT INTO `mata_pelajaran` (`mata_pelajaran_id`, `nama_mapel`, `guru_id`, `admin_id`) VALUES
-(4, 'Indonesia', 2, 1);
+(6, 'Indonesia', 9, 2);
 
 -- --------------------------------------------------------
 
@@ -7484,7 +7459,7 @@ CREATE TABLE `misi` (
 --
 
 INSERT INTO `misi` (`misi_id`, `deskripsi`, `admin_id`) VALUES
-(1, 'Zainullah', NULL);
+(5, 'sdfdfdsfdsf', 2);
 
 -- --------------------------------------------------------
 
@@ -7538,15 +7513,11 @@ CREATE TABLE `pendaftar` (
   `regency_id` char(4) COLLATE utf8_unicode_ci NOT NULL,
   `district_id` char(7) COLLATE utf8_unicode_ci NOT NULL,
   `village_id` char(10) COLLATE utf8_unicode_ci NOT NULL,
-  `jadwal_pendaftaran_id` int(11) DEFAULT NULL
+  `jadwal_pendaftaran_id` int(11) DEFAULT NULL,
+  `orang_tua_wali_id` int(11) DEFAULT NULL,
+  `asal_sekolah_id` int(11) DEFAULT NULL,
+  `berkas_pendaftaran_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
---
--- Dumping data for table `pendaftar`
---
-
-INSERT INTO `pendaftar` (`pendaftar_id`, `user_id`, `nisn`, `nik`, `nama_lengkap`, `jenis_kelamin`, `tempat_lahir`, `tanggal_lahir`, `alamat_lengkap`, `agama`, `no_telp`, `status`, `province_id`, `regency_id`, `district_id`, `village_id`, `jadwal_pendaftaran_id`) VALUES
-(64, 23, '232323232311', '3528061303980007', 'Zain Alapola', 'Laki-laki', 'Pamekasan', '2025-03-18', 'Palengaan Daya, Palengaan\r\nPamekasan', 'Islam', '087882947999', 'Pending', '15', '1505', '1505020', '1505020023', 1);
 
 -- --------------------------------------------------------
 
@@ -7569,8 +7540,7 @@ CREATE TABLE `prestasi_lembaga` (
 --
 
 INSERT INTO `prestasi_lembaga` (`prestasi_lembaga_id`, `nama_prestasi`, `tingkat`, `tahun`, `deskripsi`, `foto`, `admin_id`) VALUES
-(1, 'asdwqede', 'Internasional', 2025, 'dfdfd', 'talas.jpg', 1),
-(3, 'sdfss', 'Kabupaten', 2020, 'werwerewr', 'zain.jpg', NULL);
+(4, 'aerewwear jahe', 'Provinsi', 2020, 'ewrwew', 'jahe.png', 2);
 
 -- --------------------------------------------------------
 
@@ -8173,7 +8143,7 @@ CREATE TABLE `sejarah` (
 --
 
 INSERT INTO `sejarah` (`sejarah_id`, `gambar`, `keterangan`, `admin_id`) VALUES
-(1, 'timun.jpg', '\"Sea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo dolore.\"\"Sea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo dolore.\"\"Sea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo doloreSea ipsum kasd eirmod kasd magna, est sea et diam ipsum est amet sed sit. Ipsum dolor no justo dolor et, lorem ut dolor erat dolore sed ipsum at ipsum nonumy amet. Clita lorem dolore sed stet et est justo dolore.\"dalah cerita', 1);
+(3, 'zain.jpg', 'Zainullah', 2);
 
 -- --------------------------------------------------------
 
@@ -8193,7 +8163,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `username`, `password`, `email`) VALUES
-(23, 'Zainullah', 'a', 'a@gmail.com');
+(36, 'Zainullah', 'a', 'a@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -40732,7 +40702,7 @@ CREATE TABLE `visi` (
 --
 
 INSERT INTO `visi` (`visi_id`, `deskripsi`, `admin_id`) VALUES
-(1, 'zainullah', NULL);
+(5, 'zain', 2);
 
 --
 -- Indexes for dumped tables
@@ -40840,7 +40810,10 @@ ALTER TABLE `pendaftar`
   ADD KEY `regency_id` (`regency_id`),
   ADD KEY `district_id` (`district_id`),
   ADD KEY `village_id` (`village_id`),
-  ADD KEY `jadwal_pendaftaran_id` (`jadwal_pendaftaran_id`);
+  ADD KEY `jadwal_pendaftaran_id` (`jadwal_pendaftaran_id`),
+  ADD KEY `orang_tua_wali_id` (`orang_tua_wali_id`),
+  ADD KEY `asal_sekolah_id` (`asal_sekolah_id`),
+  ADD KEY `berkas_pendaftaran_id` (`berkas_pendaftaran_id`);
 
 --
 -- Indexes for table `prestasi_lembaga`
@@ -40873,8 +40846,7 @@ ALTER TABLE `sejarah`
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD PRIMARY KEY (`user_id`);
 
 --
 -- Indexes for table `villages`
@@ -40898,49 +40870,49 @@ ALTER TABLE `visi`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `asal_sekolah`
 --
 ALTER TABLE `asal_sekolah`
-  MODIFY `asal_sekolah_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `asal_sekolah_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `berkas_pendaftaran`
 --
 ALTER TABLE `berkas_pendaftaran`
-  MODIFY `berkas_pendaftaran_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `berkas_pendaftaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `fasilitas`
 --
 ALTER TABLE `fasilitas`
-  MODIFY `fasilitas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `fasilitas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `galeri`
 --
 ALTER TABLE `galeri`
-  MODIFY `galeri_gambar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `galeri_gambar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `guru`
 --
 ALTER TABLE `guru`
-  MODIFY `guru_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `guru_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `jadwal_pendaftaran`
 --
 ALTER TABLE `jadwal_pendaftaran`
-  MODIFY `jadwal_pendaftaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `jadwal_pendaftaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `kegiatan_lembaga`
 --
 ALTER TABLE `kegiatan_lembaga`
-  MODIFY `kegiatan_lembaga_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `kegiatan_lembaga_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `kontak`
@@ -40952,49 +40924,49 @@ ALTER TABLE `kontak`
 -- AUTO_INCREMENT for table `mata_pelajaran`
 --
 ALTER TABLE `mata_pelajaran`
-  MODIFY `mata_pelajaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `mata_pelajaran_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `misi`
 --
 ALTER TABLE `misi`
-  MODIFY `misi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `misi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `orang_tua_wali`
 --
 ALTER TABLE `orang_tua_wali`
-  MODIFY `orang_tua_wali_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `orang_tua_wali_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `pendaftar`
 --
 ALTER TABLE `pendaftar`
-  MODIFY `pendaftar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `pendaftar_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `prestasi_lembaga`
 --
 ALTER TABLE `prestasi_lembaga`
-  MODIFY `prestasi_lembaga_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `prestasi_lembaga_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sejarah`
 --
 ALTER TABLE `sejarah`
-  MODIFY `sejarah_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `sejarah_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `visi`
 --
 ALTER TABLE `visi`
-  MODIFY `visi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `visi_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
@@ -41070,7 +41042,10 @@ ALTER TABLE `pendaftar`
   ADD CONSTRAINT `pendaftar_ibfk_3` FOREIGN KEY (`regency_id`) REFERENCES `regencies` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `pendaftar_ibfk_4` FOREIGN KEY (`district_id`) REFERENCES `districts` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `pendaftar_ibfk_5` FOREIGN KEY (`village_id`) REFERENCES `villages` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pendaftar_ibfk_6` FOREIGN KEY (`jadwal_pendaftaran_id`) REFERENCES `jadwal_pendaftaran` (`jadwal_pendaftaran_id`);
+  ADD CONSTRAINT `pendaftar_ibfk_6` FOREIGN KEY (`jadwal_pendaftaran_id`) REFERENCES `jadwal_pendaftaran` (`jadwal_pendaftaran_id`),
+  ADD CONSTRAINT `pendaftar_ibfk_7` FOREIGN KEY (`orang_tua_wali_id`) REFERENCES `orang_tua_wali` (`orang_tua_wali_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pendaftar_ibfk_8` FOREIGN KEY (`asal_sekolah_id`) REFERENCES `asal_sekolah` (`asal_sekolah_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pendaftar_ibfk_9` FOREIGN KEY (`berkas_pendaftaran_id`) REFERENCES `berkas_pendaftaran` (`berkas_pendaftaran_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `prestasi_lembaga`
