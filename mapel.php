@@ -67,8 +67,8 @@ $result = $conn->query($sql);
         </nav>
     </div>
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
-            <h3 class="display-3 font-weight-bold text-white">Mata Pelajaran</h3>
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h3 class="display-3 font-weight-bold text-white">Mata Pelajaran Lembaga Nurul Karomah</h3>
         </div>
     </div>
     <div class="container-fluid pt-5">

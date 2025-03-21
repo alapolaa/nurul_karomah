@@ -122,9 +122,9 @@ $result = $conn->query($sql);
     </div>
     <!-- Navbar End -->
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 200px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Halaman admin</span>
+                <span class="text-white">Data Pendaftaran</span>
             </a>
 
         </div>
@@ -133,7 +133,7 @@ $result = $conn->query($sql);
         <div class="container pb-3">
             <div class="text-center pb-2">
 
-                <h3>Data Pendaftaran</h3>
+
                 <table>
                     <thead>
                         <tr>
