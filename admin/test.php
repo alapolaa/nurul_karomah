@@ -1,8 +1,3 @@
-<?php
-include '../../koneksi.php';
-?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -118,61 +113,41 @@ include '../../koneksi.php';
         </div>
     </div>
     <div class="container-fluid pt-5">
-        <div class="container mt-5">
-            <h2 class="mb-4">Data Visi & Misi</h2>
+        <a href="../../admin/fasilitas/tambah.php">Tambah Fasilitas</a>
+        <table border="1">
+            <tr>
+                <th>ID</th>
+                <th>Gambar</th>
+                <th>Nama Fasilitas</th>
+                <th>Keterangan</th>
 
-            <a href="../../admin/visi_misi/tambah_visi.php" class="btn btn-primary">Tambah Visi</a>
-            <a href="../../admin/visi_misi/tambah_misi.php" class="btn btn-primary">Tambah Misi</a>
+                <th>Aksi</th>
+            </tr>
+            <?php
+            include '../../koneksi.php';
+            $sql = "SELECT * FROM fasilitas";
+            $result = $conn->query($sql);
 
-            <h3 class="mt-4">Visi</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th>No</th>
-                    <th>Deskripsi</th>
-                    <th>Aksi</th>
-                </tr>
-                <?php
-                $result = $conn->query("SELECT * FROM visi");
-                $no = 1;
+            if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                <td>{$no}</td>
-                <td>{$row['deskripsi']}</td>
-                <td>
-                    <a href='edit_visi.php?id={$row['visi_id']}' class='btn btn-warning btn-sm'>Edit</a>
-                    <a href='hapus_visi.php?id={$row['visi_id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
-                </td>
-            </tr>";
-                    $no++;
-                }
-                ?>
-            </table>
+                    echo "<tr>";
+                    echo "<td>" . $row['fasilitas_id'] . "</td>";
+                    echo "<td><img src='" . $row['gambar'] . "' width='100'></td>";
+                    echo "<td>" . $row['nama_fasilitas'] . "</td>";
+                    echo "<td>" . $row['keterangan'] . "</td>";
 
-            <h3 class="mt-4">Misi</h3>
-            <table class="table table-bordered">
-                <tr>
-                    <th>No</th>
-                    <th>Deskripsi</th>
-                    <th>Aksi</th>
-                </tr>
-                <?php
-                $result = $conn->query("SELECT * FROM misi");
-                $no = 1;
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                <td>{$no}</td>
-                <td>{$row['deskripsi']}</td>
-                <td>
-                    <a href='edit_misi.php?id={$row['misi_id']}' class='btn btn-warning btn-sm'>Edit</a>
-                    <a href='hapus_misi.php?id={$row['misi_id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
-                </td>
-            </tr>";
-                    $no++;
+                    echo "<td>
+                        <a href='../../admin/fasilitas/edit.php?id=" . $row['fasilitas_id'] . "'>Edit</a> | 
+                        <a href='../../admin/fasilitas/hapus.php?id=" . $row['fasilitas_id'] . "' onclick='return confirm(\"Apakah Anda yakin?\")'>Hapus</a>
+                      </td>";
+                    echo "</tr>";
                 }
-                ?>
-            </table>
-
-        </div>
+            } else {
+                echo "<tr><td colspan='6'>Tidak ada data</td></tr>";
+            }
+            $conn->close();
+            ?>
+        </table>
     </div>
 
 
