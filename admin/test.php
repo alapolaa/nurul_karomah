@@ -1,16 +1,7 @@
 <?php
-session_start();
-if (!isset($_SESSION['admin_id']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
-    exit();
-}
-
-include '../config/config.php'; // Sesuaikan dengan path config.php Anda
-
-// Ambil data pendaftaran yang statusnya 'Pending'
-$sql = "SELECT p.*, u.username AS nama_user FROM pendaftar p JOIN users u ON p.user_id = u.user_id WHERE p.status = 'Pending'";
-$result = $conn->query($sql);
+include '../../koneksi.php';
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +25,7 @@ $result = $conn->query($sql);
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -69,10 +60,11 @@ $result = $conn->query($sql);
 </style>
 
 <body>
+    <!-- Navbar Start -->
     <div class="container-fluid bg-light position-relative shadow">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px; display: inline-flex; align-items: center;">
-                <img src="../../img/nurul.png" alt="Logo" style="height: 60px; margin-right: 10px;">
+                <img src="../img/nurul.png" alt="Logo" style="height: 60px; margin-right: 10px;">
                 <span class="text-primary">Nurul Karomah</span>
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
@@ -80,111 +72,127 @@ $result = $conn->query($sql);
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
-                    <a href="../../user/dashboard.php" class="nav-item nav-link">Home</a>
-                    <a href="../../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link active">Pendaftaran</a>
-                    <a href="../../user/profile.php" class="nav-item nav-link ">Profile</a>
+                    <a href="../admin/dashboard.php" class="nav-item nav-link active">Home</a>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Profile Lembaga</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="../admin/sejarah/sejarah.php" class="dropdown-item">Sejarah</a>
+                            <a href="../admin/visi_misi/visi_misi.php" class="dropdown-item">Visi Misi</a>
+                            <a href="../admin/fasilitas/fasilitas.php" class="dropdown-item">Fasilitas</a>
+                            <a href="../admin/prestasi/prestasi.php" class="dropdown-item">Prestasi</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Akademik</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="../admin/mi/mi.php" class="dropdown-item">MI</a>
+                            <a href="../admin/mts/mts.php" class="dropdown-item">MTS</a>
+                            <a href="../admin/ma/ma.php" class="dropdown-item">MA</a>
+                        </div>
+                    </div>
+                    <div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Informasi</a>
+                        <div class="dropdown-menu rounded-0 m-0">
+                            <a href="../admin/jadwal/jadwal.php" class="dropdown-item">Jadwal Pendaftaran</a>
+                            <a href="../admin/mapel/mapel.php" class="dropdown-item">Mata Pelajaran</a>
+                            <a href="../admin/guru/guru.php" class="dropdown-item">Guru</a>
+                            <a href="../admin/kegiatan/kegiatan.php" class="dropdown-item">Kegiatan</a>
+                            <a href="../admin/galeri/galeri.php" class="dropdown-item">Galeri</a>
+                        </div>
+                    </div>
+                    <a href="../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link">Kotak Masuk</a>
+                    <!-- <a href="../admin/profile.php" class="nav-item nav-link">Profile</a> -->
+                    <a href="../auth/login.php" class="nav-item nav-link">Profile</a>
                 </div>
+
             </div>
         </nav>
     </div>
+    <!-- Navbar End -->
     <div class="container-fluid bg-primary mb-5">
-        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Halaaman admin</span>
+                <span class="text-white">Halaman admin</span>
             </a>
-            <br>
-            <h4>ini adalah halaman admin</h4>
+
         </div>
     </div>
     <div class="container-fluid pt-5">
-        <div class="container pb-3">
-            <div class="text-center pb-2">
-                <div class="row">
-                    <div class="col-md-8 mx-auto">
-                        <div class="card shadow-sm">
-                            <h3>Data Pendaftaran Pending</h3>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Nama Pendaftar</th>
-                                        <th>NISN</th>
-                                        <th>NIK</th>
-                                        <th>Jenis Kelamin</th>
-                                        <th>Tempat Lahir</th>
-                                        <th>Tanggal Lahir</th>
-                                        <th>Alamat</th>
-                                        <th>Agama</th>
-                                        <th>No. Telp</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php
-                                    if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<tr id='row_" . $row['pendaftar_id'] . "'>";
-                                            echo "<td>" . $row['nama_user'] . "</td>";
-                                            echo "<td>" . $row['nisn'] . "</td>";
-                                            echo "<td>" . $row['nik'] . "</td>";
-                                            echo "<td>" . $row['jenis_kelamin'] . "</td>";
-                                            echo "<td>" . $row['tempat_lahir'] . "</td>";
-                                            echo "<td>" . $row['tanggal_lahir'] . "</td>";
-                                            echo "<td>" . $row['alamat_lengkap'] . "</td>";
-                                            echo "<td>" . $row['agama'] . "</td>";
-                                            echo "<td>" . $row['no_telp'] . "</td>";
-                                            echo "<td>
-                            <button onclick='terimaPendaftaran(" . $row['pendaftar_id'] . ")'>Terima</button>
-                            <button onclick='tolakPendaftaran(" . $row['pendaftar_id'] . ")'>Tolak</button>
-                          </td>";
-                                            echo "</tr>";
-                                        }
-                                    } else {
-                                        echo "<tr><td colspan='10'>Tidak ada data pendaftaran pending.</td></tr>";
-                                    }
-                                    $conn->close();
-                                    ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="container mt-5">
+            <h2 class="mb-4">Data Visi & Misi</h2>
+
+            <a href="../../admin/visi_misi/tambah_visi.php" class="btn btn-primary">Tambah Visi</a>
+            <a href="../../admin/visi_misi/tambah_misi.php" class="btn btn-primary">Tambah Misi</a>
+
+            <h3 class="mt-4">Visi</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th>No</th>
+                    <th>Deskripsi</th>
+                    <th>Aksi</th>
+                </tr>
+                <?php
+                $result = $conn->query("SELECT * FROM visi");
+                $no = 1;
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                <td>{$no}</td>
+                <td>{$row['deskripsi']}</td>
+                <td>
+                    <a href='edit_visi.php?id={$row['visi_id']}' class='btn btn-warning btn-sm'>Edit</a>
+                    <a href='hapus_visi.php?id={$row['visi_id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
+                </td>
+            </tr>";
+                    $no++;
+                }
+                ?>
+            </table>
+
+            <h3 class="mt-4">Misi</h3>
+            <table class="table table-bordered">
+                <tr>
+                    <th>No</th>
+                    <th>Deskripsi</th>
+                    <th>Aksi</th>
+                </tr>
+                <?php
+                $result = $conn->query("SELECT * FROM misi");
+                $no = 1;
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>
+                <td>{$no}</td>
+                <td>{$row['deskripsi']}</td>
+                <td>
+                    <a href='edit_misi.php?id={$row['misi_id']}' class='btn btn-warning btn-sm'>Edit</a>
+                    <a href='hapus_misi.php?id={$row['misi_id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
+                </td>
+            </tr>";
+                    $no++;
+                }
+                ?>
+            </table>
+
         </div>
     </div>
+
 
 
     <?php include '../../footer.html'; ?>
 
-    <script>
-        function terimaPendaftaran(pendaftarId) {
-            updateStatus(pendaftarId, 'Diterima');
-        }
 
-        function tolakPendaftaran(pendaftarId) {
-            updateStatus(pendaftarId, 'Ditolak');
-        }
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="lib/isotope/isotope.pkgd.min.js"></script>
+    <script src="lib/lightbox/js/lightbox.min.js"></script>
 
-        function updateStatus(pendaftarId, status) {
-            fetch('update_status.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded',
-                    },
-                    body: 'pendaftar_id=' + pendaftarId + '&status=' + status,
-                })
-                .then(response => {
-                    if (response.ok) {
-                        document.getElementById('row_' + pendaftarId).classList.add('hidden');
-                    } else {
-                        alert('Gagal memperbarui status.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Terjadi kesalahan.');
-                });
-        }
-    </script>
+    <!-- Contact Javascript File -->
+    <script src="../../mail/jqBootstrapValidation.min.js"></script>
+    <script src="../../mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="../../js/main.js"></script>
 </body>
 
 </html>
