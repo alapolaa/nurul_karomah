@@ -100,6 +100,7 @@ $result = $conn->query($sql);
                             <a href="../../admin/galeri/galeri.php" class="dropdown-item">Galeri</a>
                         </div>
                     </div>
+                    <a href="../../admin/kelola_admin.php" class="nav-item nav-link">Kelola Admin</a>
                     <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link">Kotak Masuk</a>
                     <!-- <a href="../../admin/profile.php" class="nav-item nav-link">Profile</a> -->
                     <a href="../../admin/profile/profile.php" class="nav-item nav-link">Profile</a>
