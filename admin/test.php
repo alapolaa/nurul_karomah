@@ -107,49 +107,39 @@
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Jadwal Pendaftaran Lembaga Nurul Karomah</span>
+                <span class="text-white">Mata Pelajaran Lembaga Nurul Karomah</span>
             </a>
 
         </div>
     </div>
     <div class="container mt-5">
-        <a href="tambah.php" class="btn btn-primary mb-3">Tambah Jadwal</a>
+        <a href="../../admin/mapel/tambah.php" class="btn btn-primary mb-3">Tambah Mata Pelajaran</a>
         <table border="1">
             <tr>
                 <th>ID</th>
-                <th>Jenjang</th>
-                <th>Tanggal Mulai</th>
-                <th>Tanggal Selesai</th>
-                <th>Tahun Ajaran</th>
-                <th>Jumlah Pendaftar</th>
-                <th>Jumlah Diterima</th>
-                <th>Jumlah Ditolak</th>
+                <th>Nama Mata Pelajaran</th>
+                <th>Guru ID</th>
+
                 <th>Aksi</th>
             </tr>
             <?php
             include '../../config/config.php';
-
-            $sql = "SELECT * FROM jadwal_pendaftaran";
+            $sql = "SELECT * FROM mata_pelajaran";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
                     echo "<tr>";
-                    echo "<td>" . $row['jadwal_pendaftaran_id'] . "</td>";
-                    echo "<td>" . $row['jenjang'] . "</td>";
-                    echo "<td>" . $row['tanggal_mulai'] . "</td>";
-                    echo "<td>" . $row['tanggal_selesai'] . "</td>";
-                    echo "<td>" . $row['tahun_ajaran'] . "</td>";
-                    echo "<td>" . $row['jumlah_pendaftar'] . "</td>";
-                    echo "<td>" . $row['jumlah_diterima'] . "</td>";
-                    echo "<td>" . $row['jumlah_ditolak'] . "</td>";
-                    echo "<td><a href='edit.php?id=" . $row['jadwal_pendaftaran_id'] . "'>Edit</a> | <a href='hapus.php?id=" . $row['jadwal_pendaftaran_id'] . "'>Hapus</a></td>";
+                    echo "<td>" . $row["mata_pelajaran_id"] . "</td>";
+                    echo "<td>" . $row["nama_mapel"] . "</td>";
+                    echo "<td>" . $row["guru_id"] . "</td>";
+
+                    echo "<td><a href='edit.php?id=" . $row["mata_pelajaran_id"] . "'>Edit</a> | <a href='hapus.php?id=" . $row["mata_pelajaran_id"] . "'>Hapus</a></td>";
                     echo "</tr>";
                 }
             } else {
-                echo "<tr><td colspan='9'>Tidak ada data</td></tr>";
+                echo "<tr><td colspan='5'>Tidak ada data</td></tr>";
             }
-
             $conn->close();
             ?>
         </table>

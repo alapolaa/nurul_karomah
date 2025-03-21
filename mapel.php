@@ -1,7 +1,7 @@
 <?php
 include 'config/config.php';
 
-$sql = "SELECT mata_pelajaran.mata_pelajaran_id, mata_pelajaran.nama_mapel, guru.nama AS nama_guru
+$sql = "SELECT mata_pelajaran.mata_pelajaran_id, mata_pelajaran.nama_mapel, guru.nama AS nama_guru, guru.foto AS foto_guru
         FROM mata_pelajaran
         INNER JOIN guru ON mata_pelajaran.guru_id = guru.guru_id";
 $result = $conn->query($sql);
@@ -17,29 +17,22 @@ $result = $conn->query($sql);
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Nunito&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Flaticon Font -->
     <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <!-- Navbar Start -->
     <div class="container-fluid bg-light position-relative shadow">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px; display: inline-flex; align-items: center;">
@@ -73,19 +66,11 @@ $result = $conn->query($sql);
             </div>
         </nav>
     </div>
-    <!-- Navbar End -->
-
-
-    <!-- Header Start -->
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
             <h3 class="display-3 font-weight-bold text-white">Mata Pelajaran</h3>
         </div>
     </div>
-    <!-- Header End -->
-
-
-    <!-- About Start -->
     <div class="container-fluid pt-5">
         <div class="container pb-3">
             <div class="text-center pb-2">
@@ -97,8 +82,9 @@ $result = $conn->query($sql);
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Mata Pelajaran</th>
-                                <th>Nama Guru</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Guru Pengajar</th>
+                                <th>Foto Guru</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -110,11 +96,12 @@ $result = $conn->query($sql);
                                     echo "<td>" . $nomor . "</td>";
                                     echo "<td>" . $row["nama_mapel"] . "</td>";
                                     echo "<td>" . $row["nama_guru"] . "</td>";
+                                    echo "<td><img src='uploads/" . $row["foto_guru"] . "' width='100'></td>";
                                     echo "</tr>";
                                     $nomor++;
                                 }
                             } else {
-                                echo "<tr><td colspan='3'>Tidak ada data mata pelajaran.</td></tr>";
+                                echo "<tr><td colspan='4'>Tidak ada data mata pelajaran.</td></tr>";
                             }
                             ?>
                         </tbody>
@@ -125,17 +112,9 @@ $result = $conn->query($sql);
     </div>
 
     </div>
-    <!-- About End -->
-    <!-- Footer Start -->
     <?php include 'footer.html'; ?>
-    <!-- Footer End -->
-
-
-    <!-- Back to Top -->
     <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
@@ -143,11 +122,9 @@ $result = $conn->query($sql);
     <script src="lib/isotope/isotope.pkgd.min.js"></script>
     <script src="lib/lightbox/js/lightbox.min.js"></script>
 
-    <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 
