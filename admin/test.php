@@ -1,7 +1,8 @@
 <?php
 include '../../config/config.php';
-$sql = "SELECT * FROM guru";
-$result = $conn->query($sql);
+
+$query = "SELECT * FROM kegiatan_lembaga";
+$result = $conn->query($query);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -112,39 +113,39 @@ $result = $conn->query($sql);
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Guru Lembaga Nurul Karomah</span>
+                <span class="text-white">Kegiatan Lembaga Nurul Karomah</span>
             </a>
 
         </div>
     </div>
     <div class="container mt-5">
-        <a href="../../admin/guru/tambah.php" class="btn btn-primary mb-3">Tambah Guru</a>
+        <a href="../../admin/kegiatan/tambah.php" class="btn btn-primary mb-3">Tambah Kegiatan</a>
         <table class="table table-bordered">
-            <thead class="table-dark">
+            <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nama</th>
-                    <th>Jabatan</th>
+                    <th>No</th>
+                    <th>Nama Kegiatan</th>
+                    <th>Tanggal</th>
+                    <th>Deskripsi</th>
                     <th>Foto</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                <?php
-                $result = $conn->query("SELECT * FROM guru");
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>
-                        <td>{$row['guru_id']}</td>
-                        <td>{$row['nama']}</td>
-                        <td>{$row['jabatan']}</td>
-                        <td><img src='../../uploads/{$row['foto']}' width='80'></td>
+                <?php $no = 1;
+                while ($row = $result->fetch_assoc()) { ?>
+                    <tr>
+                        <td><?= $no++; ?></td>
+                        <td><?= $row['nama_kegiatan']; ?></td>
+                        <td><?= $row['tanggal']; ?></td>
+                        <td><?= $row['deskripsi']; ?></td>
+                        <td><img src="../../uploads/<?= $row['foto']; ?>" width="100"></td>
                         <td>
-                            <a href='edit.php?id={$row['guru_id']}' class='btn btn-warning btn-sm'>Edit</a>
-                            <a href='hapus.php?id={$row['guru_id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
+                            <a href="../../admin/kegiatan/edit.php?id=<?= $row['kegiatan_lembaga_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="../../admin/kegiatan/hapus.php?id=<?= $row['kegiatan_lembaga_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
                         </td>
-                    </tr>";
-                }
-                ?>
+                    </tr>
+                <?php } ?>
             </tbody>
         </table>
     </div>

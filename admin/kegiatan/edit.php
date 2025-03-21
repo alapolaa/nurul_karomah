@@ -35,22 +35,37 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Edit Kegiatan</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 
 <body>
-    <h2>Edit Kegiatan</h2>
-    <form action="" method="POST" enctype="multipart/form-data">
-        <label>Nama Kegiatan:</label>
-        <input type="text" name="nama_kegiatan" value="<?= $data['nama_kegiatan']; ?>" required>
-        <label>Tanggal:</label>
-        <input type="date" name="tanggal" value="<?= $data['tanggal']; ?>" required>
-        <label>Deskripsi:</label>
-        <textarea name="deskripsi" required><?= $data['deskripsi']; ?></textarea>
-        <label>Foto:</label>
-        <input type="file" name="foto">
-        <button type="submit">Simpan</button>
-        <a href="../../admin/kegiatan/kegiatan.php">kembali</a>
-    </form>
+    <div class="container mt-5">
+        <h2>Edit Kegiatan</h2>
+        <form action="" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Nama Kegiatan:</label>
+                <input type="text" name="nama_kegiatan" value="<?= $data['nama_kegiatan']; ?>" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Tanggal:</label>
+                <input type="date" name="tanggal" value="<?= $data['tanggal']; ?>" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Deskripsi:</label>
+                <textarea name="deskripsi" class="form-control" required><?= $data['deskripsi']; ?></textarea>
+            </div>
+            <div class="form-group">
+                <label>Foto:</label>
+                <input type="file" name="foto" class="form-control-file">
+            </div>
+            <button type="submit" class="btn btn-primary">Simpan</button>
+            <a href="../../admin/kegiatan/kegiatan.php" class="btn btn-secondary">Kembali</a>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>
