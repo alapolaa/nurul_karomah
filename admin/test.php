@@ -1,3 +1,8 @@
+<?php
+include '../../config/config.php';
+$sql = "SELECT * FROM guru";
+$result = $conn->query($sql);
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -107,41 +112,40 @@
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Mata Pelajaran Lembaga Nurul Karomah</span>
+                <span class="text-white">Guru Lembaga Nurul Karomah</span>
             </a>
 
         </div>
     </div>
     <div class="container mt-5">
-        <a href="../../admin/mapel/tambah.php" class="btn btn-primary mb-3">Tambah Mata Pelajaran</a>
-        <table border="1">
-            <tr>
-                <th>ID</th>
-                <th>Nama Mata Pelajaran</th>
-                <th>Guru ID</th>
-
-                <th>Aksi</th>
-            </tr>
-            <?php
-            include '../../config/config.php';
-            $sql = "SELECT * FROM mata_pelajaran";
-            $result = $conn->query($sql);
-
-            if ($result->num_rows > 0) {
+        <a href="../../admin/guru/tambah.php" class="btn btn-primary mb-3">Tambah Guru</a>
+        <table class="table table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Jabatan</th>
+                    <th>Foto</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $result = $conn->query("SELECT * FROM guru");
                 while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $row["mata_pelajaran_id"] . "</td>";
-                    echo "<td>" . $row["nama_mapel"] . "</td>";
-                    echo "<td>" . $row["guru_id"] . "</td>";
-
-                    echo "<td><a href='edit.php?id=" . $row["mata_pelajaran_id"] . "'>Edit</a> | <a href='hapus.php?id=" . $row["mata_pelajaran_id"] . "'>Hapus</a></td>";
-                    echo "</tr>";
+                    echo "<tr>
+                        <td>{$row['guru_id']}</td>
+                        <td>{$row['nama']}</td>
+                        <td>{$row['jabatan']}</td>
+                        <td><img src='../../uploads/{$row['foto']}' width='80'></td>
+                        <td>
+                            <a href='edit.php?id={$row['guru_id']}' class='btn btn-warning btn-sm'>Edit</a>
+                            <a href='hapus.php?id={$row['guru_id']}' class='btn btn-danger btn-sm' onclick='return confirm(\"Yakin ingin menghapus?\")'>Hapus</a>
+                        </td>
+                    </tr>";
                 }
-            } else {
-                echo "<tr><td colspan='5'>Tidak ada data</td></tr>";
-            }
-            $conn->close();
-            ?>
+                ?>
+            </tbody>
         </table>
     </div>
 
