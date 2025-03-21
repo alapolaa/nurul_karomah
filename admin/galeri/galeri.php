@@ -113,7 +113,7 @@ $result = $conn->query($sql);
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Kegiatan Lembaga Nurul Karomah</span>
+                <span class="text-white">Galeri Lembaga Nurul Karomah</span>
             </a>
 
         </div>

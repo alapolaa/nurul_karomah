@@ -1,7 +1,18 @@
 <?php
-include '../../config/config.php';
+include '../../koneksi.php'; // Pastikan file koneksi database tersedia
 
-$sql = "SELECT galeri_gambar_id, gambar, admin_id FROM galeri";
+// Proses hapus data
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $sql = "DELETE FROM kontak WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    header("Location: kotak_masuk.php"); // Redirect setelah hapus
+}
+
+// Ambil data dari tabel kontak
+$sql = "SELECT * FROM kontak ORDER BY id DESC";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -92,7 +103,7 @@ $result = $conn->query($sql);
                         </div>
                     </div>
                     <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle active" data-toggle="dropdown">Informasi</a>
+                        <a href="#" class="nav-link dropdown-toggle " data-toggle="dropdown">Informasi</a>
                         <div class="dropdown-menu rounded-0 m-0">
                             <a href="../../admin/jadwal/jadwal.php" class="dropdown-item">Jadwal Pendaftaran</a>
                             <a href="../../admin/mapel/mapel.php" class="dropdown-item">Mata Pelajaran</a>
@@ -101,7 +112,7 @@ $result = $conn->query($sql);
                             <a href="../../admin/galeri/galeri.php" class="dropdown-item">Galeri</a>
                         </div>
                     </div>
-                    <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link">Kotak Masuk</a>
+                    <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link active">Kotak Masuk</a>
                     <!-- <a href="../../admin/profile.php" class="nav-item nav-link">Profile</a> -->
                     <a href="../../auth/login.php" class="nav-item nav-link">Profile</a>
                 </div>
@@ -113,34 +124,40 @@ $result = $conn->query($sql);
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Kegiatan Lembaga Nurul Karomah</span>
+                <span class="text-white">Kotak Masuk</span>
             </a>
 
         </div>
     </div>
     <div class="container mt-5">
-        <a href="../../admin/galeri/tambah_galeri.php" class="btn btn-primary mb-3">Tambah Gambar</a>
-        <table border="1">
-            <tr>
-                <th>Nomor</th>
-                <th>Gambar</th>
-                <th>Aksi</th>
-            </tr>
-            <?php
-            if ($result->num_rows > 0) {
-                $nomor = 1; // Inisialisasi nomor urut
-                while ($row = $result->fetch_assoc()) {
-                    echo "<tr>";
-                    echo "<td>" . $nomor . "</td>"; // Menampilkan nomor urut
-                    echo "<td><img src='../../uploads/" . $row['gambar'] . "' width='100'></td>";
-                    echo "<td><a href='edit_galeri.php?id=" . $row['galeri_gambar_id'] . "'>Edit</a> | <a href='hapus_galeri.php?id=" . $row['galeri_gambar_id'] . "'>Hapus</a></td>";
-                    echo "</tr>";
-                    $nomor++; // Increment nomor urut
-                }
-            } else {
-                echo "<tr><td colspan='3'>Tidak ada gambar di galeri.</td></tr>";
-            }
-            ?>
+
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Subjek</th>
+                    <th>Pesan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $no = 1;
+                while ($row = $result->fetch_assoc()): ?>
+                    <tr>
+                        <td><?= $no++; ?></td>
+                        <td><?= htmlspecialchars($row['nama']); ?></td>
+                        <td><?= htmlspecialchars($row['email']); ?></td>
+                        <td><?= htmlspecialchars($row['subjek']); ?></td>
+                        <td><?= nl2br(htmlspecialchars($row['pesan'])); ?></td>
+                        <td>
+                            <a href="kotak_masuk.php?delete=<?= $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pesan ini?');">Hapus</a>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
         </table>
     </div>
 
