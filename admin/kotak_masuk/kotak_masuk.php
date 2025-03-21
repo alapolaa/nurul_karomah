@@ -114,7 +114,7 @@ $result = $conn->query($sql);
                     </div>
                     <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link active">Kotak Masuk</a>
                     <!-- <a href="../../admin/profile.php" class="nav-item nav-link">Profile</a> -->
-                    <a href="../../auth/login.php" class="nav-item nav-link">Profile</a>
+                    <a href="../../admin/profile/profile.php" class="nav-item nav-link">Profile</a>
                 </div>
 
             </div>

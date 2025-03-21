@@ -102,7 +102,7 @@ $result = $conn->query("SELECT * FROM prestasi_lembaga");
                     </div>
                     <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link">Kotak Masuk</a>
                     <!-- <a href="../../admin/profile.php" class="nav-item nav-link">Profile</a> -->
-                    <a href="../../auth/login.php" class="nav-item nav-link">Profile</a>
+                    <a href="../../admin/profile/profile.php" class="nav-item nav-link">Profile</a>
                 </div>
 
             </div>

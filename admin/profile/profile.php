@@ -1,19 +1,29 @@
 <?php
-include '../../koneksi.php'; // Pastikan file koneksi database tersedia
+session_start();
+include '../../config/config.php';
 
-// Proses hapus data
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $sql = "DELETE FROM kontak WHERE id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    header("Location: kotak_masuk.php"); // Redirect setelah hapus
+// Cek apakah admin sudah login
+if (!isset($_SESSION['admin_id'])) {
+    header("Location: auth/login.php"); // Redirect ke halaman login jika belum login
+    exit();
 }
 
-// Ambil data dari tabel kontak
-$sql = "SELECT * FROM kontak ORDER BY id DESC";
-$result = $conn->query($sql);
+$admin_id = $_SESSION['admin_id'];
+
+// Ambil data admin dari database
+$stmt = $conn->prepare("SELECT admin_id, nama, email FROM admin WHERE admin_id = ?");
+$stmt->bind_param("i", $admin_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $admin = $result->fetch_assoc();
+} else {
+    // Handle jika admin tidak ditemukan (misalnya, redirect ke halaman error)
+    echo "Admin tidak ditemukan.";
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,6 +52,16 @@ $result = $conn->query($sql);
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <style>
+    .profile-card {
+        max-width: 500px;
+        margin: 20px auto;
+    }
+
+    .profile-list-item strong {
+        width: 100px;
+        display: inline-block;
+    }
+
     table {
         width: 100%;
         border-collapse: collapse;
@@ -112,9 +132,9 @@ $result = $conn->query($sql);
                             <a href="../../admin/galeri/galeri.php" class="dropdown-item">Galeri</a>
                         </div>
                     </div>
-                    <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link active">Kotak Masuk</a>
+                    <a href="../../admin/kotak_masuk/kotak_masuk.php" class="nav-item nav-link ">Kotak Masuk</a>
                     <!-- <a href="../../admin/profile.php" class="nav-item nav-link">Profile</a> -->
-                    <a href="../../auth/login.php" class="nav-item nav-link">Profile</a>
+                    <a href="../../admin/profile/profile.php" class="nav-item nav-link active">Profile</a>
                 </div>
 
             </div>
@@ -124,41 +144,31 @@ $result = $conn->query($sql);
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Kotak Masuk</span>
+                <span class="text-white">Profile</span>
             </a>
 
         </div>
     </div>
     <div class="container mt-5">
+        <div class="card profile-card">
 
-
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama</th>
-                    <th>Email</th>
-                    <th>Subjek</th>
-                    <th>Pesan</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no = 1;
-                while ($row = $result->fetch_assoc()): ?>
-                    <tr>
-                        <td><?= $no++; ?></td>
-                        <td><?= htmlspecialchars($row['nama']); ?></td>
-                        <td><?= htmlspecialchars($row['email']); ?></td>
-                        <td><?= htmlspecialchars($row['subjek']); ?></td>
-                        <td><?= nl2br(htmlspecialchars($row['pesan'])); ?></td>
-                        <td>
-                            <a href="kotak_masuk.php?delete=<?= $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus pesan ini?');">Hapus</a>
-                        </td>
-                    </tr>
-                <?php endwhile; ?>
-            </tbody>
-        </table>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item profile-list-item">
+                    <strong>Nama:</strong> <span><?php echo htmlspecialchars($admin['nama']); ?></span>
+                </li>
+                <li class="list-group-item profile-list-item">
+                    <strong>Email:</strong> <span><?php echo htmlspecialchars($admin['email']); ?></span>
+                </li>
+            </ul>
+            <div class="card-body text-center">
+                <a href="../../admin/profile/edit_profile.php" class="btn btn-primary">
+                    <i class="fas fa-edit"></i> Edit Profil
+                </a>
+                <a href="../../index.php" class="btn btn-secondary">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        </div>
     </div>
 
 
