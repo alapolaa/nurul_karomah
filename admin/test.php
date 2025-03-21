@@ -1,8 +1,8 @@
 <?php
 include '../../config/config.php';
 
-$query = "SELECT * FROM kegiatan_lembaga";
-$result = $conn->query($query);
+$sql = "SELECT galeri_gambar_id, gambar, admin_id FROM galeri";
+$result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -119,34 +119,28 @@ $result = $conn->query($query);
         </div>
     </div>
     <div class="container mt-5">
-        <a href="../../admin/kegiatan/tambah.php" class="btn btn-primary mb-3">Tambah Kegiatan</a>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>No</th>
-                    <th>Nama Kegiatan</th>
-                    <th>Tanggal</th>
-                    <th>Deskripsi</th>
-                    <th>Foto</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $no = 1;
-                while ($row = $result->fetch_assoc()) { ?>
-                    <tr>
-                        <td><?= $no++; ?></td>
-                        <td><?= $row['nama_kegiatan']; ?></td>
-                        <td><?= $row['tanggal']; ?></td>
-                        <td><?= $row['deskripsi']; ?></td>
-                        <td><img src="../../uploads/<?= $row['foto']; ?>" width="100"></td>
-                        <td>
-                            <a href="../../admin/kegiatan/edit.php?id=<?= $row['kegiatan_lembaga_id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                            <a href="../../admin/kegiatan/hapus.php?id=<?= $row['kegiatan_lembaga_id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus?')">Hapus</a>
-                        </td>
-                    </tr>
-                <?php } ?>
-            </tbody>
+        <a href="../../admin/galeri/tambah_galeri.php" class="btn btn-primary mb-3">Tambah Gambar</a>
+        <table border="1">
+            <tr>
+                <th>Nomor</th>
+                <th>Gambar</th>
+                <th>Aksi</th>
+            </tr>
+            <?php
+            if ($result->num_rows > 0) {
+                $nomor = 1; // Inisialisasi nomor urut
+                while ($row = $result->fetch_assoc()) {
+                    echo "<tr>";
+                    echo "<td>" . $nomor . "</td>"; // Menampilkan nomor urut
+                    echo "<td><img src='../../uploads/" . $row['gambar'] . "' width='100'></td>";
+                    echo "<td><a href='edit_galeri.php?id=" . $row['galeri_gambar_id'] . "'>Edit</a> | <a href='hapus_galeri.php?id=" . $row['galeri_gambar_id'] . "'>Hapus</a></td>";
+                    echo "</tr>";
+                    $nomor++; // Increment nomor urut
+                }
+            } else {
+                echo "<tr><td colspan='3'>Tidak ada gambar di galeri.</td></tr>";
+            }
+            ?>
         </table>
     </div>
 
