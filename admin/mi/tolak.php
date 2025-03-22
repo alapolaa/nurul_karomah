@@ -15,7 +15,7 @@ if ($conn->connect_error) {
 $cari = isset($_GET['cari']) ? $_GET['cari'] : '';
 $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
 $jenjang = 'MI';
-$status = 'Diterima'; // Menambahkan filter status diterima
+$status = 'Ditolak'; // Menambahkan filter status diterima
 
 $sql = "SELECT 
             p.nama_lengkap, 
@@ -154,7 +154,7 @@ $result = $conn->query($sql);
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 250px">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-                <span class="text-white">Data Pendaftar MI Diterima</span>
+                <span class="text-white">Data Pendaftar MI Ditolak</span>
             </a>
 
         </div>
@@ -191,8 +191,8 @@ $result = $conn->query($sql);
             <form method="POST" action="../../export_pdf.php?jenjang=MI">
                 <button type="submit" style="background-color: #008CBA; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Ekspor PDF</button>
             </form>
-            <form method="GET" action="../../admin/mi/tolak.php">
-                <button type="submit" style="background-color: #d9534f; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Siswa Ditolak</button>
+            <form method="GET" action="../../admin/mi/mi.php">
+                <button type="submit" style="background-color:rgb(46, 160, 80); color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer;">Siswa Diterima</button>
             </form>
         </div>
 
