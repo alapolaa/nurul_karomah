@@ -53,7 +53,7 @@ if (isset($_GET['id'])) {
             <div class="container mt-5">
                 <div class="d-flex justify-content-between align-items-center">
                     <h1>Detail Pendaftar</h1>
-                    <a href="../admin/dashboard.php" class="btn btn-sm btn-secondary">
+                    <a href="../user/index.php" class="btn btn-sm btn-secondary">
                         <i class="fas fa-times"></i>
                     </a>
                 </div>

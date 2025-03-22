@@ -2,12 +2,6 @@
 session_start();
 include '../config/config.php';
 
-// Cek apakah pengguna sudah login
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../auth/login.php");
-    exit();
-}
-
 $user_id = $_SESSION['user_id'];
 
 // Cek apakah pengguna sudah mendaftar
@@ -22,8 +16,8 @@ $stmt_check->close();
 $sudah_daftar = ($count > 0);
 
 if ($sudah_daftar) {
-    // Ambil status pendaftaran dari database
-    $sql = "SELECT status FROM pendaftar WHERE user_id = ?";
+    // Ambil status dan pendaftar_id dari database
+    $sql = "SELECT status, pendaftar_id FROM pendaftar WHERE user_id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $user_id);
     $stmt->execute();
@@ -32,8 +26,10 @@ if ($sudah_daftar) {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $status = $row['status'];
+        $pendaftar_id = $row['pendaftar_id']; // Ambil pendaftar_id
     } else {
         $status = ''; // Status kosong jika tidak ditemukan
+        $pendaftar_id = null; // pendaftar_id null jika tidak ditemukan
     }
 
     $stmt->close();
@@ -158,7 +154,16 @@ $conn->close();
         <?php if (isset($status) && $sudah_daftar) : ?>
             <div class="alert <?php echo ($status == 'Diterima') ? 'alert-success' : (($status == 'Ditolak') ? 'alert-danger' : 'alert-warning'); ?>">
                 <h4 class="mb-0">
-                    <?php echo ($status == 'Diterima') ? 'Selamat! Pendaftaran Anda diterima.' : (($status == 'Ditolak') ? 'Maaf, pendaftaran Anda ditolak.' : 'Pendaftaran Anda sedang kami proses.'); ?>
+                    <?php
+                    if ($status == 'Diterima') {
+                        echo 'Selamat! Pendaftaran Anda diterima.';
+                    } elseif ($status == 'Ditolak') {
+                        echo 'Maaf, pendaftaran Anda ditolak.';
+                    } else {
+                        // Gunakan $pendaftar_id
+                        echo 'Pendaftaran Anda sedang kami proses. <a href="detail_pendaftaran.php?id=' . $pendaftar_id . '" class="btn btn-sm btn-info">Detail</a>';
+                    }
+                    ?>
                 </h4>
             </div>
             <?php if ($status == 'Diterima') : ?>
