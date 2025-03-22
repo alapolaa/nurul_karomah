@@ -1,4 +1,5 @@
 <?php
+
 require_once('vendor/autoload.php');
 
 session_start();
@@ -12,7 +13,7 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = $_SESSION['user_id'];
 $status = isset($_GET['status']) ? $_GET['status'] : '';
 
-$sql = "SELECT * FROM pendaftar WHERE user_id = ?";
+$sql = "SELECT p.*, j.jenjang FROM pendaftar p JOIN jadwal_pendaftaran j ON p.jadwal_pendaftaran_id = j.jadwal_pendaftaran_id WHERE p.user_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
@@ -36,30 +37,31 @@ if ($result->num_rows > 0) {
 
     if ($status == 'Diterima') {
         $html = '
-        <h1>Biodata Pendaftaran Sekolah - Diterima</h1>
-        <p>Selamat, pendaftaran Anda diterima!</p>
-        <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
-        <p>NISN: ' . $pendaftar['nisn'] . '</p>
-        <p>NIK: ' . $pendaftar['nik'] . '</p>
-        <p>Tempat, Tanggal Lahir: ' . $pendaftar['tempat_lahir'] . ', ' . $pendaftar['tanggal_lahir'] . '</p>
-        <p>Alamat: ' . $pendaftar['alamat_lengkap'] . '</p>
-        <p>Agama: ' . $pendaftar['agama'] . '</p>
-        <p>No. Telp: ' . $pendaftar['no_telp'] . '</p>
-        <p>Status: Diterima</p>
+            <h1>Biodata Pendaftaran Sekolah - Diterima</h1>
+            <p>Selamat, pendaftaran Anda diterima!</p>
+            <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
+            <p>NISN: ' . $pendaftar['nisn'] . '</p>
+            <p>NIK: ' . $pendaftar['nik'] . '</p>
+            <p>Tempat, Tanggal Lahir: ' . $pendaftar['tempat_lahir'] . ', ' . $pendaftar['tanggal_lahir'] . '</p>
+            <p>Alamat: ' . $pendaftar['alamat_lengkap'] . '</p>
+            <p>Agama: ' . $pendaftar['agama'] . '</p>
+            <p>No. Telp: ' . $pendaftar['no_telp'] . '</p>
+            <p>Jenjang Pendaftaran: ' . $pendaftar['jenjang'] . '</p>
+            <p>Status: Diterima</p>
         ';
     } elseif ($status == 'Ditolak') {
         $html = '
-        <h1>Biodata Pendaftaran Sekolah - Ditolak</h1>
-        <p>Mohon maaf, pendaftaran Anda ditolak.</p>
-        <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
-        <p>NISN: ' . $pendaftar['nisn'] . '</p>
-        <p>NIK: ' . $pendaftar['nik'] . '</p>
-        <p>Tempat, Tanggal Lahir: ' . $pendaftar['tempat_lahir'] . ', ' . $pendaftar['tanggal_lahir'] . '</p>
-        <p>Alamat: ' . $pendaftar['alamat_lengkap'] . '</p>
-        <p>Agama: ' . $pendaftar['agama'] . '</p>
-        <p>No. Telp: ' . $pendaftar['no_telp'] . '</p>
-        <p>Status: Ditolak</p>
-        <p>Alasan: [Alasan Penolakan]</p>
+            <h1>Biodata Pendaftaran Sekolah - Ditolak</h1>
+            <p>Mohon maaf, pendaftaran Anda ditolak.</p>
+            <p>Nama Lengkap: ' . $pendaftar['nama_lengkap'] . '</p>
+            <p>NISN: ' . $pendaftar['nisn'] . '</p>
+            <p>NIK: ' . $pendaftar['nik'] . '</p>
+            <p>Tempat, Tanggal Lahir: ' . $pendaftar['tempat_lahir'] . ', ' . $pendaftar['tanggal_lahir'] . '</p>
+            <p>Alamat: ' . $pendaftar['alamat_lengkap'] . '</p>
+            <p>Agama: ' . $pendaftar['agama'] . '</p>
+            <p>No. Telp: ' . $pendaftar['no_telp'] . '</p>
+            <p>Status: Ditolak</p>
+            <p>Alasan: [Alasan Penolakan]</p>
         ';
     } else {
         echo "Status tidak valid.";
