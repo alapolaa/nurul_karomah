@@ -1,16 +1,5 @@
 <?php
-// Koneksi Database
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "coba";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-if ($conn->connect_error) {
-    die("Koneksi gagal: " . $conn->connect_error);
-}
-
+include '../../config/config.php';
 // Pencarian dan Filter
 $cari = isset($_GET['cari']) ? $_GET['cari'] : '';
 $tahun = isset($_GET['tahun']) ? $_GET['tahun'] : '';
