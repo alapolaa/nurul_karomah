@@ -1,36 +1,36 @@
 <?php
 session_start();
 
-
+// Pastikan pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-
 $user_id = $_SESSION['user_id'];
-
 
 $jadwal_pendaftaran_id = null;
 
-
+// Cek apakah jadwal_id diterima dari URL
 if (isset($_GET['jadwal_id']) && !empty($_GET['jadwal_id']) && !isset($_GET['id'])) {
-
     $jadwal_pendaftaran_id = $_GET['jadwal_id'];
 } elseif (isset($_GET['jadwal_id']) && empty($_GET['jadwal_id']) && !isset($_GET['id'])) {
     echo '<div class="error-message">ID Jadwal Pendaftaran tidak valid.</div>';
     exit();
-} elseif (isset($_GET['jadwal_id']) && isset($_GET['id'])) {
-} elseif (!isset($_GET['jadwal_id']) && !isset($_GET['id'])) {
 }
+// Bagian ini menangani AJAX request untuk dropdown wilayah, jadi tidak perlu diexit jika ada jadwal_id dan id
+// elseif (isset($_GET['jadwal_id']) && isset($_GET['id'])) {
+// } elseif (!isset($_GET['jadwal_id']) && !isset($_GET['id'])) {
+// }
 
 
+// Konfigurasi database
 $dbhost = 'localhost';
 $dbuser = 'root';
 $dbpass = 'root';
 $dbname = 'ppdb';
 $dbdsn = "mysql:dbname={$dbname};host={$dbhost}";
-$db = null;
+$db = null; // Inisialisasi $db sebagai null
 try {
     $db = new PDO($dbdsn, $dbuser, $dbpass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -42,7 +42,31 @@ try {
 $success_message = "";
 $error_message = "";
 
+// --- Bagian Penting: Mengambil Jenjang dari Database ---
+$jenjang = null;
+if ($jadwal_pendaftaran_id) {
+    try {
+        // PERHATIAN: Pastikan nama kolom di database adalah 'jadwal_pendaftaran_id'
+        $stmt_jenjang = $db->prepare("SELECT jenjang FROM jadwal_pendaftaran WHERE jadwal_pendaftaran_id = ?");
+        $stmt_jenjang->execute([$jadwal_pendaftaran_id]);
+        $result_jenjang = $stmt_jenjang->fetch(PDO::FETCH_ASSOC);
+        if ($result_jenjang) {
+            $jenjang = $result_jenjang['jenjang'];
+        } else {
+            $error_message = "<div class='error-message'>Jadwal Pendaftaran tidak ditemukan.</div>";
+        }
+    } catch (PDOException $e) {
+        $error_message = "<div class='error-message'>Error saat mengambil data jenjang: " . $e->getMessage() . "</div>";
+    }
+} else {
+    // Jika jadwal_id tidak ada, mungkin perlu penanganan khusus atau redirect
+    // Misalnya: header("Location: ../jadwal/jadwal_pendaftaran.php"); exit();
+    // Untuk saat ini, kita biarkan saja agar halaman bisa diakses tanpa jadwal_id untuk AJAX wilayah
+}
+// --- Akhir Bagian Penting ---
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Ambil data dari form
     $nisn = $_POST["nisn"];
     $nik = $_POST["nik"];
     $nama_lengkap = $_POST["nama_lengkap"];
@@ -57,7 +81,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $wilayah_kecamatan_kode = $_POST["wilayah_kecamatan_kode"];
     $wilayah_dusun_kode = $_POST["wilayah_dusun_kode"];
 
+    // --- LOGIKA PENTING UNTUK NISN ---
+    // Jika jenjang bukan MTS atau MA DAN NISN yang diterima kosong, set NISN menjadi NULL
+    if (empty($nisn) && ($jenjang !== 'MTS' && $jenjang !== 'MA')) {
+        $nisn = null; // Ini akan disimpan sebagai NULL di database
+    } elseif (empty($nisn) && ($jenjang === 'MTS' || $jenjang === 'MA')) {
+        // Ini adalah kasus di mana NISN seharusnya diisi tapi kosong
+        $error_message = "<div class='error-message'>NISN wajib diisi untuk jenjang MTS dan MA.</div>";
+        // Anda bisa menambahkan 'exit()' di sini jika ingin menghentikan proses jika NISN kosong untuk MTS/MA
+        // atau biarkan kode berlanjut dan error akan ditangkap oleh database (jika NISN NOT NULL)
+    }
+    // --- AKHIR LOGIKA NISN ---
 
+    // Ambil nama wilayah berdasarkan kode
     $wilayah_provinsi_nama = "";
     if (!empty($wilayah_provinsi_kode)) {
         $stmt_provinsi = $db->prepare("SELECT nama FROM wilayah WHERE kode = ?");
@@ -98,47 +134,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
-    $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telpon, wilayah_provinsi_kode, wilayah_provinsi_nama, wilayah_kabupaten_kode, wilayah_kabupaten_nama, wilayah_kecamatan_kode, wilayah_kecamatan_nama, wilayah_dusun_kode, wilayah_dusun_nama, jadwal_pendaftaran_id)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    // Hanya lanjutkan penyimpanan jika tidak ada error NISN
+    if (empty($error_message)) {
+        // Query untuk menyimpan data pendaftar
+        $sql = "INSERT INTO pendaftar (user_id, nisn, nik, nama_lengkap, jenis_kelamin, tempat_lahir, tanggal_lahir, alamat_lengkap, agama, no_telpon, wilayah_provinsi_kode, wilayah_provinsi_nama, wilayah_kabupaten_kode, wilayah_kabupaten_nama, wilayah_kecamatan_kode, wilayah_kecamatan_nama, wilayah_dusun_kode, wilayah_dusun_nama, jadwal_pendaftaran_id)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-    try {
-        $stmt = $db->prepare($sql);
-        $stmt->bindParam(1, $user_id);
-        $stmt->bindParam(2, $nisn);
-        $stmt->bindParam(3, $nik);
-        $stmt->bindParam(4, $nama_lengkap);
-        $stmt->bindParam(5, $jenis_kelamin);
-        $stmt->bindParam(6, $tempat_lahir);
-        $stmt->bindParam(7, $tanggal_lahir);
-        $stmt->bindParam(8, $alamat_lengkap);
-        $stmt->bindParam(9, $agama);
-        $stmt->bindParam(10, $no_telpon);
-        $stmt->bindParam(11, $wilayah_provinsi_kode);
-        $stmt->bindParam(12, $wilayah_provinsi_nama);
-        $stmt->bindParam(13, $wilayah_kabupaten_kode);
-        $stmt->bindParam(14, $wilayah_kabupaten_nama);
-        $stmt->bindParam(15, $wilayah_kecamatan_kode);
-        $stmt->bindParam(16, $wilayah_kecamatan_nama);
-        $stmt->bindParam(17, $wilayah_dusun_kode);
-        $stmt->bindParam(18, $wilayah_dusun_nama);
-        $stmt->bindParam(19, $jadwal_pendaftaran_id);
-        $stmt->execute();
+        try {
+            $stmt = $db->prepare($sql);
+            $stmt->bindParam(1, $user_id);
+            // Gunakan PDO::PARAM_STR agar PDO otomatis menangani NULL dengan benar
+            $stmt->bindParam(2, $nisn, PDO::PARAM_STR);
+            $stmt->bindParam(3, $nik);
+            $stmt->bindParam(4, $nama_lengkap);
+            $stmt->bindParam(5, $jenis_kelamin);
+            $stmt->bindParam(6, $tempat_lahir);
+            $stmt->bindParam(7, $tanggal_lahir);
+            $stmt->bindParam(8, $alamat_lengkap);
+            $stmt->bindParam(9, $agama);
+            $stmt->bindParam(10, $no_telpon);
+            $stmt->bindParam(11, $wilayah_provinsi_kode);
+            $stmt->bindParam(12, $wilayah_provinsi_nama);
+            $stmt->bindParam(13, $wilayah_kabupaten_kode);
+            $stmt->bindParam(14, $wilayah_kabupaten_nama);
+            $stmt->bindParam(15, $wilayah_kecamatan_kode);
+            $stmt->bindParam(16, $wilayah_kecamatan_nama);
+            $stmt->bindParam(17, $wilayah_dusun_kode);
+            $stmt->bindParam(18, $wilayah_dusun_nama);
+            $stmt->bindParam(19, $jadwal_pendaftaran_id);
+            $stmt->execute();
 
-        $pendaftar_id = $db->lastInsertId();
+            $pendaftar_id = $db->lastInsertId();
 
-        header("Location: ../../user/pendaftaran/orang_tua.php?pendaftar_id=" . $pendaftar_id);
-        exit();
-    } catch (PDOException $e) {
-        $error_message = "<div class='error-message'>Error saat menyimpan data: " . $e->getMessage() . "</div>";
+            // Redirect ke halaman selanjutnya
+            header("Location: ../../user/pendaftaran/orang_tua.php?pendaftar_id=" . $pendaftar_id);
+            exit();
+        } catch (PDOException $e) {
+            $error_message = "<div class='error-message'>Error saat menyimpan data: " . $e->getMessage() . "</div>";
+        }
     }
 }
 
+// Konfigurasi untuk dropdown wilayah dinamis (tidak diubah)
 $wil = array(
     2 => array(5, 'Kota/Kabupaten', 'kab'),
     5 => array(8, 'Kecamatan', 'kec'),
     8 => array(13, 'Kelurahan/Dusun', 'kel')
 );
 
+// Bagian ini hanya dieksekusi jika ada request AJAX untuk wilayah
 if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
     $n = strlen($_GET['id']);
     if (isset($wil[$n])) {
@@ -149,7 +193,7 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
             echo "<option value='{$d->kode}'>{$d->nama}</option>";
         }
     }
-    die();
+    die(); // Penting untuk menghentikan eksekusi setelah melayani AJAX request
 }
 ?>
 
@@ -224,17 +268,10 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
             cursor: pointer;
             text-decoration: none;
             display: flex;
-
             justify-content: center;
-
             align-items: center;
-
-
-
             width: calc(100% - 12px);
-
             box-sizing: border-box;
-
         }
 
         .kembali-button:hover {
@@ -271,7 +308,13 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
         function ajax(id, target_id) {
             if (id.length < 13) {
                 ids = id;
+                // Pastikan jadwal_id ikut terkirim di URL AJAX jika diperlukan untuk konteks
+                var jadwalId = new URLSearchParams(window.location.search).get('jadwal_id');
                 var url = "?id=" + id + "&target=" + target_id + "&sid=" + Math.random();
+                if (jadwalId) {
+                    url += "&jadwal_id=" + jadwalId; // Tambahkan jadwal_id ke URL AJAX
+                }
+
                 my_ajax.onreadystatechange = function() {
                     stateChanged(target_id);
                 };
@@ -293,8 +336,10 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
             }
         }
 
+        // Fungsi ini tidak melakukan apa-apa di kode Anda, bisa dihapus atau diisi jika ada inisialisasi dropdown awal
         function loadInitialDropdowns() {
-
+            // Contoh: Jika Anda ingin memuat provinsi secara otomatis saat halaman pertama kali dimuat
+            // ajax('', 'prov');
         }
 
         window.onload = loadInitialDropdowns;
@@ -309,11 +354,16 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
 
     <form method="POST">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
+        <input type="hidden" name="jadwal_pendaftaran_id" value="<?php echo htmlspecialchars($jadwal_pendaftaran_id); ?>">
 
-        <div>
-            <label for="nisn">NISN:</label>
-            <input type="text" id="nisn" name="nisn" required>
-        </div>
+        <?php if ($jenjang == 'MTS' || $jenjang == 'MA') : ?>
+            <div>
+                <label for="nisn">NISN:</label>
+                <input type="text" id="nisn" name="nisn" required>
+            </div>
+        <?php else : ?>
+            <input type="hidden" name="nisn" value="">
+        <?php endif; ?>
         <div>
             <label for="nik">NIK:</label>
             <input type="text" id="nik" name="nik" required>
@@ -363,6 +413,7 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
             <select id="prov" name="wilayah_provinsi_kode" onchange="ajax(this.value, 'kab')">
                 <option value="">Pilih Provinsi</option>
                 <?php
+                // Query untuk mengambil data provinsi
                 $query_provinsi = $db->prepare("SELECT kode,nama FROM wilayah WHERE CHAR_LENGTH(kode)=2 ORDER BY nama");
                 $query_provinsi->execute();
                 while ($data_provinsi = $query_provinsi->fetchObject()) {
