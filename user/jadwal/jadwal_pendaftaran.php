@@ -38,7 +38,8 @@ function updateJadwalPendaftaran($conn, $jadwal_id)
     $conn->query($update_sql);
 }
 
-$sql = "SELECT * FROM jadwal_pendaftaran";
+$sql = "SELECT * FROM jadwal_pendaftaran ORDER BY jadwal_pendaftaran_id DESC";
+
 $result = $conn->query($sql);
 
 if (!$result) {
@@ -155,8 +156,9 @@ if (!$result) {
                                             echo "<tr>";
                                             echo "<td>" . $no++ . "</td>";
                                             echo "<td>" . $row["jenjang"] . "</td>";
-                                            echo "<td>" . $row["tanggal_mulai"] . "</td>";
-                                            echo "<td>" . $row["tanggal_selesai"] . "</td>";
+                                            echo "<td>" . date('d-m-Y', strtotime($row['tanggal_mulai'])) . "</td>";
+                                            echo "<td>" . date('d-m-Y', strtotime($row['tanggal_selesai'])) . "</td>";
+
                                             echo "<td>" . $row["tahun_ajaran"] . "</td>";
 
                                             echo "<td>";

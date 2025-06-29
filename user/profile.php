@@ -97,7 +97,7 @@ if (isset($_SESSION['user_id'])) {
                     <div class="card-body">
                         <p><strong>Username:</strong> <?php echo htmlspecialchars($username); ?></p>
                         <p><strong>Email:</strong> <?php echo htmlspecialchars($email); ?></p>
-                        <a href="../auth/login.php" class="btn btn-danger">Logout</a>
+                        <a href="../index.php" class="btn btn-danger">Logout</a>
                     </div>
                 </div>
             </div>
