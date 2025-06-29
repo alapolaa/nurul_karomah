@@ -70,6 +70,16 @@ $conn->close();
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <style>
+    .alert-success {
+        background-color: rgb(15, 243, 91) !important;
+        color: white !important;
+    }
+
+    .alert-danger {
+        background-color: #ff4d4d !important;
+        color: white !important;
+    }
+
     .fixed-image {
         width: 100%;
         /* Sesuaikan dengan lebar card */
