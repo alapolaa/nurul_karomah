@@ -356,7 +356,7 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
         <input type="hidden" name="jadwal_pendaftaran_id" value="<?php echo htmlspecialchars($jadwal_pendaftaran_id); ?>">
 
-        <?php if ($jenjang == 'MTS' || $jenjang == 'MA') : ?>
+        <?php if ($jenjang == 'MTs' || $jenjang == 'MA') : ?>
             <div>
                 <label for="nisn">NISN:</label>
                 <input type="text" id="nisn" name="nisn" required>

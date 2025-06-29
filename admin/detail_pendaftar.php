@@ -87,7 +87,7 @@ if (isset($_GET['id'])) {
                         </div>
                         <?php
                         // --- Bagian Penting: Kondisi untuk menampilkan NISN ---
-                        if (isset($row['jenjang_pendaftaran']) && ($row['jenjang_pendaftaran'] == 'MTS' || $row['jenjang_pendaftaran'] == 'MA')) {
+                        if (isset($row['jenjang_pendaftaran']) && ($row['jenjang_pendaftaran'] == 'MTs' || $row['jenjang_pendaftaran'] == 'MA')) {
                         ?>
                             <div class="detail-row">
                                 <div class="detail-label">NISN:</div>
