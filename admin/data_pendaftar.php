@@ -85,7 +85,7 @@ $result = $conn->query($sql);
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
                     <a href="../admin/dashboard.php" class="nav-item nav-link ">Home</a>
-                    <a href="../admin/dashboard.php" class="nav-item nav-link active">Data Pendaftar</a>
+                    <a href="../admin/data_pendaftar.php" class="nav-item nav-link active">Data Pendaftar</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Profile Lembaga</a>
                         <div class="dropdown-menu rounded-0 m-0">

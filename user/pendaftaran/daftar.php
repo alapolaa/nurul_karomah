@@ -15,7 +15,8 @@ $jadwal_pendaftaran_id = null;
 if (isset($_GET['jadwal_id']) && !empty($_GET['jadwal_id']) && !isset($_GET['id'])) {
     $jadwal_pendaftaran_id = $_GET['jadwal_id'];
 } elseif (isset($_GET['jadwal_id']) && empty($_GET['jadwal_id']) && !isset($_GET['id'])) {
-    echo '<div class="error-message">ID Jadwal Pendaftaran tidak valid.</div>'; // Ini akan tetap tampil sebagai div
+    // Pesan ini akan ditampilkan sebagai div, tapi kita juga akan menampilkannya di modal nanti
+    echo '<div class="error-message">ID Jadwal Pendaftaran tidak valid.</div>';
     exit();
 }
 
@@ -30,7 +31,7 @@ try {
     $db = new PDO($dbdsn, $dbuser, $dbpass);
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 } catch (PDOException $e) {
-    echo '<div class="error-message">Koneksi database gagal: ' . $e->getMessage() . '</div>'; // Ini akan tetap tampil sebagai div
+    echo '<div class="error-message">Koneksi database gagal: ' . $e->getMessage() . '</div>';
     die();
 }
 
@@ -57,7 +58,7 @@ if ($jadwal_pendaftaran_id) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ambil data dari form
-    $nisn = $_POST["nisn"];
+    $nisn = isset($_POST["nisn"]) ? $_POST["nisn"] : ''; // Tangani jika nisn tidak dikirim
     $nik = $_POST["nik"];
     $nama_lengkap = $_POST["nama_lengkap"];
     $jenis_kelamin = $_POST["jenis_kelamin"];
@@ -71,13 +72,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $wilayah_kecamatan_kode = $_POST["wilayah_kecamatan_kode"];
     $wilayah_dusun_kode = $_POST["wilayah_dusun_kode"];
 
-    // --- LOGIKA PENTING UNTUK NISN ---
-    if (empty($nisn) && ($jenjang !== 'MTs' && $jenjang !== 'MA')) {
+    // --- LOGIKA PENTING UNTUK VALIDASI NISN (SERVER-SIDE) ---
+    $nisn = trim($nisn); // Hapus spasi di awal/akhir
+    if ($jenjang === 'MTs' || $jenjang === 'MA') {
+        if (empty($nisn)) {
+            $error_message = "NISN wajib diisi untuk jenjang MTs dan MA.";
+        } elseif (!preg_match('/^\d{10}$/', $nisn)) {
+            $error_message = "NISN harus berupa 10 digit angka.";
+        }
+    } else {
+        // Jika NISN tidak wajib (termasuk MI), pastikan NISN adalah NULL
         $nisn = null;
-    } elseif (empty($nisn) && ($jenjang === 'MTs' || $jenjang === 'MA')) {
-        $error_message = "NISN wajib diisi untuk jenjang MTs dan MA.";
     }
     // --- AKHIR LOGIKA NISN ---
+
+    // --- LOGIKA PENTING UNTUK VALIDASI NIK (SERVER-SIDE) ---
+    // Pastikan tidak ada error sebelumnya agar pesan tidak tertimpa
+    if (empty($error_message)) {
+        $nik = trim($nik); // Hapus spasi di awal/akhir
+        if (empty($nik)) {
+            $error_message = "NIK wajib diisi.";
+        } elseif (!preg_match('/^\d{16}$/', $nik)) {
+            $error_message = "NIK harus berupa 16 digit angka.";
+        }
+    }
+    // --- AKHIR LOGIKA NIK ---
 
     // --- PEMERIKSAAN DUPLIKAT NISN DAN NIK ---
     if (empty($error_message)) { // Hanya lanjutkan jika tidak ada error sebelumnya
@@ -153,7 +172,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         try {
             $stmt = $db->prepare($sql);
             $stmt->bindParam(1, $user_id);
-            $stmt->bindParam(2, $nisn, PDO::PARAM_STR);
+            $stmt->bindParam(2, $nisn, PDO::PARAM_STR); // Menggunakan PARAM_STR karena NISN bisa null
             $stmt->bindParam(3, $nik);
             $stmt->bindParam(4, $nama_lengkap);
             $stmt->bindParam(5, $jenis_kelamin);
@@ -359,6 +378,21 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
             text-decoration: none;
             cursor: pointer;
         }
+
+        /* Styles for inline error messages */
+        .error-input {
+            border: 1px solid red !important;
+        }
+
+        .error-message-inline {
+            color: red;
+            font-size: 0.85em;
+            margin-top: -8px;
+            /* Mengurangi jarak dengan input di atasnya */
+            margin-bottom: 10px;
+            display: block;
+            /* Memastikan pesan error berada di baris baru */
+        }
     </style>
     <script>
         var my_ajax = do_ajax();
@@ -405,39 +439,128 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
             }
         }
 
-        window.onload = function() {
+        // Fungsi untuk menampilkan modal error
+        function showModal(message) {
             var modal = document.getElementById("myModal");
-            var span = document.getElementsByClassName("close-button")[0];
             var modalMessage = document.getElementById("modal-message");
+            modalMessage.innerHTML = message;
+            modal.style.display = "flex"; // Gunakan flex untuk memusatkan konten modal
 
-            // Display modal if error message exists
-            <?php if (!empty($error_message)): ?>
-                modal.style.display = "flex"; // Use flex to center the modal content
-                modalMessage.innerHTML = "<?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?>";
+            var span = document.getElementsByClassName("close-button")[0];
+            span.onclick = function() {
+                modal.style.display = "none";
+            }
 
-                // When the user clicks on <span> (x), close the modal
-                span.onclick = function() {
+            // Saat pengguna mengklik di luar modal, tutup modal
+            window.onclick = function(event) {
+                if (event.target == modal) {
                     modal.style.display = "none";
                 }
+            }
+        }
 
-                // When the user clicks anywhere outside of the modal, close it
-                window.onclick = function(event) {
-                    if (event.target == modal) {
-                        modal.style.display = "none";
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            var form = document.querySelector('form');
+            var nisnInput = document.getElementById('nisn');
+            var nikInput = document.getElementById('nik');
+            // Dapatkan jenjang dari PHP, karena validasi NISN bergantung padanya
+            var jenjang = "<?php echo $jenjang; ?>";
+
+            // Fungsi untuk validasi NIK
+            function validateNik() {
+                var nik = nikInput.value.trim();
+                var nikError = document.getElementById('nik-error');
+                if (nik.length === 0) {
+                    nikInput.classList.add('error-input');
+                    nikError.textContent = "NIK wajib diisi.";
+                    return false;
+                } else if (!/^\d{16}$/.test(nik)) {
+                    nikInput.classList.add('error-input');
+                    nikError.textContent = "NIK harus berupa 16 digit angka.";
+                    return false;
+                } else {
+                    nikInput.classList.remove('error-input');
+                    nikError.textContent = "";
+                    return true;
                 }
+            }
+
+            // Fungsi untuk validasi NISN
+            function validateNisn() {
+                // Periksa apakah elemen nisnInput ada di DOM
+                if (!nisnInput) {
+                    return true; // Jika bidang NISN tidak ada, anggap valid (tidak ada yang perlu divalidasi)
+                }
+
+                var nisn = nisnInput.value.trim();
+                var nisnError = document.getElementById('nisn-error');
+
+                if (jenjang === 'MTs' || jenjang === 'MA') {
+                    // NISN wajib untuk jenjang MTs dan MA
+                    if (nisn.length === 0) {
+                        nisnInput.classList.add('error-input');
+                        nisnError.textContent = "NISN wajib diisi untuk jenjang MTs dan MA.";
+                        return false;
+                    } else if (!/^\d{10}$/.test(nisn)) {
+                        nisnInput.classList.add('error-input');
+                        nisnError.textContent = "NISN harus berupa 10 digit angka.";
+                        return false;
+                    } else {
+                        nisnInput.classList.remove('error-input');
+                        nisnError.textContent = "";
+                        return true;
+                    }
+                } else {
+                    // Untuk jenjang selain MTs dan MA (termasuk MI), NISN tidak akan ditampilkan,
+                    // sehingga validasi ini tidak akan pernah terpanggil untuk input field NISN
+                    // jika elemennya tidak ada. Namun, jika ada kasus di mana input disembunyikan
+                    // tapi masih ada di DOM dan diisi secara programatis (misal untuk testing),
+                    // validasi ini tetap memastikan input yang tidak diharapkan tidak lewat.
+                    if (nisn.length > 0) { // Jika ada nilai meskipun seharusnya tidak ditampilkan
+                        nisnInput.classList.add('error-input');
+                        nisnError.textContent = "NISN tidak diperlukan untuk jenjang ini.";
+                        return false;
+                    }
+                    return true;
+                }
+            }
+
+            // Tambahkan event listener untuk validasi real-time saat mengetik
+            // Cek keberadaan nisnInput sebelum menambahkan event listener
+            if (nisnInput) {
+                nisnInput.addEventListener('input', validateNisn);
+            }
+            nikInput.addEventListener('input', validateNik);
+
+            // Tambahkan event listener untuk validasi saat submit form
+            form.addEventListener('submit', function(event) {
+                var isNisnValid = true; // Default true jika bidang NISN tidak ada
+                if (nisnInput) { // Hanya validasi jika elemen NISN ada
+                    isNisnValid = validateNisn();
+                } else {
+                    // Jika NISN input tidak ada (misal jenjang MI), pastikan tidak ada data NISN yang dikirim
+                    // atau anggap sudah valid karena tidak ada fieldnya.
+                    isNisnValid = true;
+                }
+
+                var isNikValid = validateNik();
+
+                if (!isNisnValid || !isNikValid) {
+                    event.preventDefault(); // Mencegah pengiriman formulir
+                    showModal("Mohon perbaiki kesalahan pada formulir sebelum melanjutkan.");
+                }
+            });
+
+            // Tampilkan modal jika ada pesan error dari PHP saat halaman dimuat
+            <?php if (!empty($error_message)) : ?>
+                showModal("<?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?>");
             <?php endif; ?>
-        };
+        });
     </script>
 </head>
 
 <body>
     <h1 style="text-align: center;">Form Pendaftaran</h1>
-
-    <?php // echo $success_message; // Opsional: tampilkan sukses message di halaman jika diperlukan 
-    ?>
-    <?php // echo $error_message; // Komentar baris ini jika hanya ingin modal 
-    ?>
 
     <form method="POST">
         <input type="hidden" name="user_id" value="<?php echo $user_id; ?>">
@@ -446,14 +569,19 @@ if (isset($_GET['id']) && !empty($_GET['id']) && isset($_GET['target'])) {
         <?php if ($jenjang == 'MTs' || $jenjang == 'MA') : ?>
             <div>
                 <label for="nisn">NISN:</label>
-                <input type="text" id="nisn" name="nisn" required>
+                <input type="text" id="nisn" name="nisn" inputmode="numeric" pattern="\d{10}" title="NISN harus 10 digit angka" maxlength="10">
+                <span id="nisn-error" class="error-message-inline"></span>
             </div>
-        <?php else : ?>
-            <input type="hidden" name="nisn" value="">
+            <?php
+            // Untuk jenjang MI, NISN tidak ditampilkan, dan juga tidak ada hidden input untuk NISN
+            // karena kita ingin nilai NISN menjadi NULL di database jika tidak diperlukan
+            // Biarkan kosong saja di sini
+            ?>
         <?php endif; ?>
         <div>
             <label for="nik">NIK:</label>
-            <input type="text" id="nik" name="nik" required>
+            <input type="text" id="nik" name="nik" inputmode="numeric" pattern="\d{16}" title="NIK harus 16 digit angka" maxlength="16" required>
+            <span id="nik-error" class="error-message-inline"></span>
         </div>
         <div>
             <label for="nama_lengkap">Nama Lengkap:</label>
