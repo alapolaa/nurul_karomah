@@ -123,7 +123,8 @@ $result_misi = $conn->query($sql_misi);
     <!-- Navbar Start -->
     <div class="container-fluid bg-light position-relative shadow">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
-            <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px; display: inline-flex; align-items: center;">
+            <a href="" class="navbar-brand font-weight-bold text-secondary"
+                style="font-size: 50px; display: inline-flex; align-items: center;">
                 <img src="img/nurul.png" alt="Logo" style="height: 60px; margin-right: 10px;">
                 <span class="text-primary">Nurul Karomah</span>
             </a>
@@ -133,6 +134,7 @@ $result_misi = $conn->query($sql_misi);
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
                     <a href="index.php" class="nav-item nav-link active">Home</a>
+                    <a href="home.php" class="nav-item nav-link">Grafik Pendaftaran</a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Akademik</a>
                         <div class="dropdown-menu rounded-0 m-0">

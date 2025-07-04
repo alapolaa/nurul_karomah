@@ -99,9 +99,10 @@ if (!$result) {
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
-                    <a href="../../user/dashboard.php" class="nav-item nav-link">Home</a>
-                    <a href="../../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link active">Pendaftaran</a>
-                    <a href="../../user/profile.php" class="nav-item nav-link ">Profile</a>
+                    <a href="../../user/index.php" class="nav-item nav-link">Home</a>
+                    <a href="../../user/grafik.php" class="nav-item nav-link">Grafik Pendaftaran</a>
+                    <a href="../../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link active">Jadwal Pendaftaran</a>
+                    <a href="../../user/profile.php" class="nav-item nav-link">Profile</a>
                 </div>
             </div>
         </nav>

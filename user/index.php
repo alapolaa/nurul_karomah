@@ -38,7 +38,6 @@ if ($sudah_daftar) {
 $conn->close();
 ?>
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -49,24 +48,18 @@ $conn->close();
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
 
-    <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
 
-    <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Handlee&family=Nunito&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
 
-    <!-- Flaticon Font -->
-    <link href="lib/flaticon/font/flaticon.css" rel="stylesheet">
+    <link href="lib/flaticon/font/flaticon.flaticon.css" rel="stylesheet">
 
-    <!-- Libraries Stylesheet -->
     <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
     <link href="lib/lightbox/css/lightbox.min.css" rel="stylesheet">
 
-    <!-- Customized Bootstrap Stylesheet -->
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <style>
@@ -82,19 +75,36 @@ $conn->close();
 
     .fixed-image {
         width: 100%;
-        /* Sesuaikan dengan lebar card */
         height: 250px;
-        /* Atur tinggi gambar agar seragam */
         object-fit: cover;
-        /* Pangkas gambar agar tetap proporsional */
         border-top-left-radius: 8px;
-        /* Bikin sudut atas gambar melengkung sesuai card */
         border-top-right-radius: 8px;
+    }
+
+    /* Custom style for the "Pendaftaran GRATIS" list item */
+    .list-group-item.highlight-free {
+        background-color: #d4edda;
+        /* Light green background */
+        color: #155724;
+        /* Dark green text */
+        font-weight: bold;
+        font-size: 1.1rem;
+        border-left: 5px solid #28a745;
+        /* Green border on the left */
+        padding: 15px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .list-group-item.highlight-free:hover {
+        background-color: #c3e6cb;
+        /* Slightly darker green on hover */
+        transform: translateY(-2px);
+        /* Slight lift effect */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     }
 </style>
 
 <body>
-    <!-- Navbar Start -->
     <div class="container-fluid bg-light position-relative shadow">
         <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0 px-lg-5">
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 50px; display: inline-flex; align-items: center;">
@@ -106,34 +116,22 @@ $conn->close();
             </button>
             <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                 <div class="navbar-nav font-weight-bold mx-auto py-0">
-                    <a href="../user/dashboard.php" class="nav-item nav-link active">Home</a>
-
-                    <a href="../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link">Pendaftaran</a>
+                    <a href="../user/index.php" class="nav-item nav-link active">Home</a>
+                    <a href="../user/grafik.php" class="nav-item nav-link">Grafik Pendaftaran</a>
+                    <a href="../user/jadwal/jadwal_pendaftaran.php" class="nav-item nav-link">Jadwal Pendaftaran</a>
                     <a href="../user/profile.php" class="nav-item nav-link">Profile</a>
                 </div>
-
             </div>
         </nav>
     </div>
-    <!-- Navbar End -->
-
-
-    <!-- Header Start -->
     <div class="container-fluid bg-primary mb-5">
         <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 400px">
-
-
             <a href="" class="navbar-brand font-weight-bold text-secondary" style="font-size: 60px; display: inline-flex; align-items: center;">
-
                 <span class="text-white">Selamat Datang di PPDB Online</span>
             </a>
-            <h4>Sistem Informasi Penerimaan Peserta Didik Baru Lembaga Nurul Karomah</h4>
+            <h4 class="text-white mb-4">Sistem Informasi Penerimaan Peserta Didik Baru Lembaga Nurul Karomah</h4>
         </div>
     </div>
-    <!-- Header End -->
-
-
-    <!-- About Start -->
     <div class="container-fluid pt-5">
         <div class="container pb-3">
             <div class="text-center pb-2">
@@ -145,21 +143,21 @@ $conn->close();
                             </div>
                             <div class="card-body">
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item">1. Klik menu <strong>Pendaftaran</strong></li>
+                                    <li class="list-group-item">1. Klik menu **Pendaftaran**</li>
                                     <li class="list-group-item">2. Isi seluruh formulir, pastikan tidak ada data yang salah.</li>
-                                    <li class="list-group-item">3. Klik <strong>Selanjutnya</strong>, untuk mengisi form berikutnya.</li>
+                                    <li class="list-group-item">3. Klik **Selanjutnya**, untuk mengisi form berikutnya.</li>
                                     <li class="list-group-item">4. Hasil pendaftaran akan ditampilkan di website dan bisa diunduh dalam format PDF.</li>
+                                    <li class="list-group-item highlight-free">
+                                        <i class=""></i> **Pendaftaran GRATIS!** <br>Tidak ada biaya pendaftaran.
+                                    </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
             </div>
         </div>
     </div>
-    <!-- About End -->
     <section class="container text-center my-5">
         <?php if (isset($status) && $sudah_daftar) : ?>
             <div class="alert <?php echo ($status == 'Diterima') ? 'alert-success' : (($status == 'Ditolak') ? 'alert-danger' : 'alert-warning'); ?>">
@@ -181,16 +179,10 @@ $conn->close();
             <?php endif; ?>
         <?php endif; ?>
     </section>
-    <!-- Footer Start -->
+
     <?php include '../footer.html'; ?>
-    <!-- Footer End -->
-
-
-    <!-- Back to Top -->
     <a href="#" class="btn btn-primary p-3 back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
-
-    <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
     <script src="lib/easing/easing.min.js"></script>
@@ -198,11 +190,9 @@ $conn->close();
     <script src="lib/isotope/isotope.pkgd.min.js"></script>
     <script src="lib/lightbox/js/lightbox.min.js"></script>
 
-    <!-- Contact Javascript File -->
     <script src="mail/jqBootstrapValidation.min.js"></script>
     <script src="mail/contact.js"></script>
 
-    <!-- Template Javascript -->
     <script src="js/main.js"></script>
 </body>
 
